@@ -11,7 +11,7 @@ import { Error404Page } from './features/auth/error404-page/error404-page';
 export const routes: Routes = [
     {
         path: '',
-        redirectTo: 'home',
+        redirectTo: 'auth/login',
         pathMatch: 'full',
     },
     {
