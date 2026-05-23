@@ -1,0 +1,17 @@
+{
+  "name": "financial-copilot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+   "private": true,
+  "scripts": {
+    "dev:frontend": "npm run start --prefix frontend",
+    "dev:backend": "npm run dev --prefix backend",
+    "build:frontend": "npm run build --prefix frontend",
+    "build:backend": "npm run build --prefix backend"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
+}
