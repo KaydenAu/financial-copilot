@@ -5,8 +5,8 @@ import { ForgotPasswordPage } from './features/auth/forgot-password-page/forgot-
 import { ResetPasswordPage } from './features/auth/reset-password-page/reset-password-page';
 import { TermsOfServicesPage } from './features/auth/terms-of-services-page/terms-of-services-page';
 import { PrivacyPolicyPage } from './features/auth/privacy-policy-page/privacy-policy-page';
-import { ContactSupportPage } from './features/auth/contact-support-page/contact-support-page';
-import { Error404Page } from './features/auth/error404-page/error404-page';
+import { ContactSupportPage } from './features/support/contact-support-page/contact-support-page';
+import { NotFoundPage } from './features/error/not-found-page/not-found-page';
 
 export const routes: Routes = [
     {
@@ -16,38 +16,52 @@ export const routes: Routes = [
     },
     {
         path: 'auth',
-        children:[
+        children: [
             {
-                path: 'login', 
+                path: 'login',
                 component: LoginPage,
             },
             {
-                path: 'register', 
+                path: 'register',
                 component: RegisterPage,
             },
             {
-                path: 'forgot-password', 
+                path: 'forgot-password',
                 component: ForgotPasswordPage,
             },
             {
-                path: 'reset-password', 
+                path: 'reset-password',
                 component: ResetPasswordPage,
             },
             {
-                path: 'terms-of-services', 
+                path: 'terms-of-services',
                 component: TermsOfServicesPage,
             },
             {
-                path: 'privacy-policy', 
+                path: 'privacy-policy',
                 component: PrivacyPolicyPage,
-            },
+            }
+        ],
+    },
+
+    // Support routes
+    {
+        path: 'support',
+        children: [
             {
                 path: 'contact-support',
                 component: ContactSupportPage,
-            },
+            }
+        ],
+    },
+
+    // Error routes
+    {
+        path: 'error',
+        children: [
             {
-                path: 'errors',
-                component: Error404Page,
+                path: '404',
+                component: NotFoundPage,
             },
         ],
     },
