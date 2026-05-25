@@ -1,1 +1,37 @@
-<p>error404-page works!</p>
+<div class="container">
+
+    <mat-icon class="error-icon">error_outline</mat-icon>
+
+    <h1>404: Page Not Found</h1>
+
+    <div class="message">
+        <p>
+            We have hit a brief patch of turbulence. While your financial data is
+            perfectly safe, this link you are looking for has been relocated or no
+            longer exists.
+        </p>
+
+        <p>Let’s adjust your path and get you back on track.</p>
+
+        <button mat-raised-button color="primary" routerLink="/auth/dashboard">
+            Return to Dashboard
+        </button>
+    </div>
+
+    <div class="links">
+        <p>Need an alternative path?</p>
+
+        <div class="link-group">
+            <a mat-button color="primary" routerLink="/support/contact-support">
+                Contact Support
+            </a>
+
+            <span>|</span>
+
+            <a mat-button color="primary" routerLink="/auth/login">
+                Log In
+            </a>
+        </div>
+    </div>
+
+</div>

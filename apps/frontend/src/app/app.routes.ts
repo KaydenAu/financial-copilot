@@ -65,4 +65,10 @@ export const routes: Routes = [
             },
         ],
     },
+
+    // Fallback route
+    {
+        path: '**',
+        redirectTo: 'error/404',
+    },
 ];
