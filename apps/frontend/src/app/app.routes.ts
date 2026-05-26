@@ -49,7 +49,7 @@ export const routes: Routes = [
         path: 'support',
         children: [
             {
-                path: 'contact-support',
+                path: 'contact',
                 component: ContactSupportPage,
             }
         ],
