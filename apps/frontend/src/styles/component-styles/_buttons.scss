@@ -5,6 +5,8 @@
 // Modifiers:   .btn--sm, .btn--md, .btn--lg
 //              .btn--primary, .btn--secondary, .btn--ghost
 // ==========================================================================
+@use '../semantics' as *;
+@use '../component-tokens/buttons';
 
 .btn {
     // --------------------------------------------------------------------------

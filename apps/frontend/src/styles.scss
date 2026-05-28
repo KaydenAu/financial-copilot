@@ -7,8 +7,8 @@
 
 @use './styles/primitives';
 @use './styles/semantics';
-@use './styles/component-tokens/_buttons.scss';
-@use './styles/component-styles/_buttons.scss';
+@use './styles/component-tokens/buttons' as tokenButtons;
+@use './styles/component-styles/buttons' as styleButtons;
 
 html, body {
     height: 100%;

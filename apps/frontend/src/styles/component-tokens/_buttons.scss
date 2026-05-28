@@ -3,7 +3,7 @@
 // Description: Component-specific overrides mapped EXCLUSIVELY to semantic tokens
 // ==========================================================================
 
-@use './_semantics.scss' as *;
+@use '../semantics' as *;
 
 .root{
   // ------------------------------------------------------------------------
