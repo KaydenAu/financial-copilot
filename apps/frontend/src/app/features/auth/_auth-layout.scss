@@ -1,0 +1,550 @@
+// ==========================================================================
+// AUTH PAGE LAYOUT (BEM Architecture)
+// ==========================================================================
+
+.auth-layout {
+  // --------------------------------------------------------------------------
+  // 1. LOCAL COMPONENT TOKENS
+  // --------------------------------------------------------------------------
+  // Brand & Accent Tokens mapped to System Semantics
+  // --auth-accent-color:   var(--brand-primary, #6c5ce7);
+  // --auth-accent-hover:   var(--brand-primary-hover);
+  // --auth-accent-glow:  rgba(108, 92, 231, 0.4);
+  --auth-accent-color:              var(--color-purple-500);
+  --auth-accent-hover:              var(--color-purple-600);
+  --auth-accent-glow:               var(--color-purple-400);
+
+  --auth-gradient-bg: linear-gradient(
+      135deg, 
+      var(--color-darkblue-950) 0%, 
+      var(--color-darkblue-900) 35%,
+      var(--color-darkblue-800) 70%, 
+      var(--color-darkblue-600) 100%
+    );
+  
+  --auth-gradient-glow: radial-gradient(
+    circle, 
+    var(--auth-accent-color) 0%, 
+    transparent 100%
+  );
+
+  // Typography & Color Constants
+  --auth-text-primary:              var(--color-neutral-0);
+  --auth-text-muted:                var(--color-neutral-400);
+  --auth-text-disabled:             var(--color-neutral-300);
+  --auth-error-bg:                  var(--color-light-red-50);
+  --auth-error-border:              var(--color-light-red-100);
+  --auth-error-text:                var(--color-light-red-200);
+  
+  // Layout Spacing & Dimension
+  --auth-input-height:              var(--space-48);
+  --auth-gap-form:                  var(--space-20);
+  --auth-gap-elements:              var(--space-16);
+  --auth-padding-desktop-x:         var(--space-96);
+  --auth-padding-desktop-y:         var(--space-64);
+  --auth-padding-mobile-x:          var(--space-16);
+  --auth-padding-mobile-y:          var(--space-32);
+  
+  // Typography Scale
+  --auth-font-family:               var(--font-family-sans);
+  --auth-font-size-title:           var(--font-size-44);
+  --auth-font-size-subtitle:        var(--font-size-18);
+  --auth-font-size-card-title:      var(--font-size-28);
+  --auth-font-size-body:            var(--font-size-14);
+  --auth-font-size-footer-link:     var(--font-size-12);
+  --auth-font-size-card-link:       var(--font-size-14);
+  
+  --auth-font-weight-regular:       var(--font-weight-400);
+  --auth-font-weight-medium:        var(--font-weight-500);
+  --auth-font-weight-semibold:      var(--font-weight-600);
+  --auth-font-weight-bold:          var(--font-weight-700);
+
+  --auth-line-height-tight:         var(--line-height-110); 
+  --auth-line-height-relaxed:       var(--line-height-160);
+
+  --auth-line-spacing-tight:        var(--letter-spacing-tight);
+  --auth-line-spacing-wide:         var(--letter-spacing-wide);
+
+  // Opacity Scale
+  --auth-opacity-high:              var(--opacity-85);
+  --auth-opacity-muted:             var(--opacity-65);
+  --auth-opacity-subtle:            var(--opacity-70);
+  --auth-opacity-disabled:          var(--opacity-50);
+
+  // Structural Borders & Shapes
+  --auth-border-width:              var(--border-width-1);
+  --auth-border-style:              var(--border-style-solid);
+  --auth-card-radius:               var(--radius-24); 
+  --auth-input-radius:              var(--radius-14);  
+  --auth-alert-radius:              var(--radius-8);  
+
+  // Motions
+  --auth-transition-speed:          var(--motion-duration-200);
+  --auth-transition-easing:         var(--motion-ease-in-out);
+
+  // --------------------------------------------------------------------------
+  // 2. BEM ELEMENTS & EXECUTION
+  // Protected layouts rules. Do not edit unless modifying structural behavior.
+  // --------------------------------------------------------------------------
+  // Host Element Styling
+  font-family:    var(--auth-font-family);
+  background:     var(--auth-gradient-bg);
+  height:         100vh;
+  display:        flex;
+  flex-direction: column;
+  overflow:       hidden;
+  
+  // Dual-panel structural container
+  &__container {
+      display: flex;
+      min-height: 100vh;
+      width: 100%;
+  }
+
+  // Left sidebar panel
+  &__left {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: var(--auth-padding-desktop-y) var(--auth-padding-desktop-x);
+      color: var(--auth-text-primary);
+
+      @media (max-width: var(--breakpoint-lg)) {
+      display: none; // Managed via modifiers below for mobile structural collapses
+      }
+  }
+
+  // Wrapper context for header typography text
+  &__header-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      flex-grow: 1;
+  }
+
+  // Big bold catchphrase title
+  &__title {
+      font-size:     var(--auth-font-size-title);
+      font-weight:   var(--auth-font-weight-bold);
+      line-height:   var(--auth-line-height-tight);
+      margin-bottom: var(--space-32);
+  }
+
+  // Supporting descriptive body text
+  &__subtitle {
+      font-size:   var(--auth-font-size-subtitle);
+      opacity:     var(--auth-opacity-high);
+      line-height: var(--auth-line-height-relaxed);
+      max-width:   32rem;
+  }
+
+  // Footer bar sitting on the left side
+  &__footer {
+      flex-shrink: 0;
+      padding: var(--space-14) var(--space-24);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      backdrop-filter: blur(var(--space-10));
+      background: var(--color-black-2);
+      border-top: var(--auth-border-width) var(--auth-border-style) var(--color-black-3);
+  }
+
+  // Inline styling box for alignment anchors
+  &__footer-links {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap; // Wraps on tiny phone screens
+      gap: var(--space-8);
+      font-size: var(--auth-font-size-footer-link);
+      color: var(--auth-text-primary);
+
+      a {
+          color: var(--auth-text-primary);
+          opacity: var(--auth-opacity-muted);
+          text-decoration: none;
+          transition: 
+            opacity var(--auth-transition-speed) var(--auth-transition-easing), 
+            color var(--auth-transition-speed) var(--auth-transition-easing);
+          font-weight: var(--auth-font-weight-regular);
+
+          &:hover {
+              color: var(--auth-accent-color);
+              opacity: var(--opacity-100);
+              text-decoration: underline;
+          }
+      }
+  }
+
+  &__footer-copyright {
+      opacity: var(--auth-opacity-disabled);
+  }
+
+  &__footer-divider {
+      opacity: var(--opacity-30);
+      padding: 0 var(--space-4);
+  }
+
+  // Right interaction panel
+  &__right {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: var(--space-32);
+      position: relative; // Absolute boundary for glow ring context hooks
+
+      // Dynamic radial glow ambient ring background element
+      &::before {
+          content: "";
+          position: absolute;
+          width: 26rem;
+          height: 26rem;
+          filter: blur(var(--space-32));
+          z-index: var(--z-index-0);
+          background: var(--auth-gradient-glow);
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          pointer-events: none; // Clicks pass right through to controls
+      }
+  }
+
+  // Glassmorphic processing card container
+  &__card {
+      position: relative;
+      margin-top: auto;
+      margin-bottom: auto;
+      width: 100%;
+      max-width: 26rem;
+      padding: var(--auth-gap-elements);
+      border-radius: var(--auth-card-radius) !important;
+      z-index: var(--z-index-10);
+      border: var(--auth-border-width) var(--auth-border-style) var(--color-black-10) !important;
+      background: var(--color-white-10) !important;
+      box-shadow: var(--elevation-3) !important;
+      backdrop-filter: blur(var(--space-10));
+      -webkit-backdrop-filter: blur(--space-10);
+  }
+
+  &__card-content{
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: var(--space-16) var(--space-0) var(--space-0) var(--space-0) !important; // Let the layout shell handle the card framing
+    display: flex;
+    flex-direction: column;
+    gap: var(--auth-gap-elements);
+  }
+
+  &__card-link{
+    // opacity: var(--auth-opacity-muted);
+    opacity:0.85;
+    // color: var(--auth-text-primary);  
+    color: var(--color-neutral-300);
+    font-size: var(--auth-font-size-card-link);
+    font-weight: var(--auth-font-weight-medium);
+    text-decoration: none;
+    transition: 
+      opacity var(--auth-transition-speed) var(--auth-transition-easing), 
+      text-decoration var(--auth-transition-speed) var(--auth-transition-easing);
+
+    &:hover {
+      opacity: var(--opacity-100);  
+      // color: var(--auth-accent-color);
+      color: var(--auth-text-primary);  
+      text-decoration: underline;
+      text-underline-offset: 4px; 
+    }
+    
+  }
+
+  // Inner form structural system
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--auth-gap-form); // Clean uniform distribution gaps for any field size
+  }
+
+  // Action / Checkbox auxiliary items bar layout
+  &__options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: var(--auth-font-size-body);
+    margin-top: calc(var(--space-8) * var(--z-index-negative));
+    margin-bottom: var(--space-2);
+  }
+
+  // Inline custom validation message container
+  &__error-alert {
+    background-color: var(--auth-error-bg);
+    border: var(--auth-border-width) var(--auth-border-style) var(--auth-error-border);
+    color: var(--auth-error-text);
+    padding: var(--space-12) var(--space-16);
+    border-radius: var(--auth-alert-radius);
+    font-size: var(--auth-font-size-body);
+    font-weight: var(--auth-font-weight-medium);
+    animation: authFadeIn var(--auth-transition-speed) var(--auth-transition-easing);
+  }
+
+  // MODIFIERS & RESPONSIVE STATES
+  // Responsive state rule overrides
+  @media (max-width: var(--breakpoint-lg)) {
+    min-height: 100vh;
+    height: auto; // Re-allow scrolling on mobile / tablet because elements need stack space
+    overflow: auto;
+
+    &__container {
+      flex-direction: column;
+      gap: var(--auth-gap-elements);
+    }
+
+    &__left {
+      display: flex; // Keep visible, stack cleanly on tablets/mobile viewports
+      padding: var(--auth-padding-desktop-y) var(--auth-padding-mobile-y) var(--space-0) var(--auth-padding-mobile-y);;
+      align-items: center;
+      text-align: center;
+      flex: none;
+    }
+
+    &__right {
+      display: flex;        
+      flex-direction: column;
+      align-items: center;
+      padding: var(--auth-padding-mobile-y) var(--auth-padding-mobile-x) var(--auth-padding-desktop-y) var(--auth-padding-mobile-x);
+      flex: none;
+    }
+
+    &__card {
+      margin-top: var(--space-0);
+      margin-bottom: var(--space-0);
+    }
+  }
+}
+
+// ANGULAR MATERIAL INTERNALS ENCAPSULATION
+.auth-layout ::ng-deep {
+  // Make sure the checkbox text adapts to your auth screen color scheme
+  mat-checkbox {
+    color: var(--auth-text-primary);
+    opacity: var(--auth-opacity-high);
+    --mdc-checkbox-selected-icon-color: var(--auth-accent-color);
+  }
+
+  // Shared submit button standard styles
+  mat-card-actions button[mat-raised-button] {
+    width: 100%;
+    height: var(--auth-input-height);
+    border-radius:var(--auth-input-radius);
+    font-size: var(--font-size-16);
+    font-weight: var(--auth-font-weight-semibold);
+    background-color: var(--auth-accent-color) !important;
+    color: var(--text-inverse) !important;
+
+    &:not(:disabled):hover {
+      filter: brightness(1.1);
+      background-color: var(--auth-accent-hover) !important;
+      box-shadow: 0 0 var(--space-20) var(--auth-accent-glow);
+    }
+    &:disabled { 
+      opacity: var(--auth-opacity-disabled);
+    }
+  }
+
+  mat-card-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;      
+    text-align: center;
+    padding: var(--space-0) var(--space-0) var(--space-8) var(--space-0) !important;
+
+    .mat-mdc-card-header-text {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    mat-card-title {
+      font-size: var(--auth-font-size-card-title);
+      font-weight: var(--auth-font-weight-bold);
+      letter-spacing: var(--letter-spacing-tight);
+      color: var(--auth-text-primary);
+      margin-bottom: var(--space-8) !important;
+    }
+
+    mat-card-subtitle {
+      font-size: var(--auth-font-size-body);
+      color: var(--auth-text-primary);
+      opacity: var(--auth-opacity-subtle);
+      margin: var(--space-0) !important;
+    }
+  }
+
+  mat-form-field {
+    --mdc-outlined-text-field-container-shape: var(--auth-input-radius);
+    width: 100%;
+    --mdc-outlined-text-field-input-text-color: var(--auth-text-primary);
+    --mdc-outlined-text-field-focus-input-text-color: var(--auth-text-primary);
+
+    input.mat-mdc-input-element {
+      color: var(--auth-text-primary) !important;
+      -webkit-text-fill-color: var(--auth-text-primary) !important;
+      caret-color: var(--auth-text-primary) !important; // Absolute lifesaver for dark themes
+
+      &::placeholder {
+        color: var(--auth-text-muted) !important;
+      }
+
+      &:focus {
+        color: var(--auth-text-primary) !important;
+        -webkit-text-fill-color: var(--auth-text-primary) !important;
+      }
+    }
+
+    // 1. ELIMINATE THE RECTANGULAR BACKGROUND LEAK
+    .mat-mdc-text-field-wrapper {
+      background-color: transparent !important; 
+      box-shadow: none !important;
+    }
+
+    // TARGET THE SPECIFIC INTERNAL INPUT WRAPPER CELLS (MDC RESTRICTIONS)
+    .mat-mdc-form-field-flex,
+    .mat-mdc-text-field-wrapper,
+    .mat-mdc-form-field-infix {
+      background: transparent !important;
+      background-color: transparent !important;
+      display: flex !important;
+      align-items: center !important;
+      min-height: var(--auth-input-height) !important;
+      padding: var(--space-0) var(--space-8) !important;
+    }
+
+    // 2. APPLY THE GLASS TINT TO THE CORNER SPANS DIRECTLY
+    .mdc-notched-outline__leading,
+    .mdc-notched-outline__notch,
+    .mdc-notched-outline__trailing {
+      background-color: var(--color-white-10) !important; 
+      border-color: var(--color-white-20) !important;
+      border-width: var(--auth-border-width) !important;
+      transition: border-color var(--auth-transition-speed) var(--auth-transition-easing), 
+                  background-color var(--auth-transition-speed) var(--auth-transition-easing);
+    }
+
+    // Hover state transitions
+    &:hover {
+      .mdc-notched-outline__leading,
+      .mdc-notched-outline__notch,
+      .mdc-notched-outline__trailing {
+        border-color: var(--color-neutral-400) !important;
+        background-color: var(--color-white-20) !important;
+      }
+    }
+
+    // Active typed focus state transitions
+    &.mat-focused {
+      .mdc-notched-outline__leading,
+      .mdc-notched-outline__notch,
+      .mdc-notched-outline__trailing {
+        border-color: var(--auth-accent-color) !important; 
+        border-width: var(--border-width-2) !important;
+      }
+    }
+        
+    // 3. FIX INTERNAL TEXT INPUT HEIGHT & CENTER ALIGNMENT
+    input.mat-mdc-form-field-input {
+      color: var(--auth-text-primary) !important;
+      -webkit-text-fill-color: var(--auth-text-primary) !important;
+      background: transparent !important; 
+      box-shadow: none !important;
+      font-size: var(--auth-font-size-body);
+      line-height: normal !important; 
+      height: auto !important;
+      width: 100%;
+        
+      &:focus {
+        color: var(--auth-text-primary) !important;
+        -webkit-text-fill-color: var(--auth-text-primary) !important;
+      }
+
+      // FIXES THE CHROMIUM / SAFARI BLACK BOX WHEN TYPING / AUTOFILLING
+      &:-webkit-autofill,
+      &:-webkit-autofill:hover, 
+      &:-webkit-autofill:focus,
+      &:-webkit-autofill:active {
+        color: var(--auth-text-primary) !important;
+        -webkit-text-fill-color: var(--auth-text-primary) !important;
+        -webkit-box-shadow: 0 0 0px 1000px transparent inset !important;
+        box-shadow: 0 0 0px 1000px transparent inset !important;
+        transition: background-color 5000s var(--auth-transition-easing) 0s;
+
+        &::placeholder {
+          color: var(--auth-text-muted) !important;
+          opacity: var(--opacity-100) !important;
+          line-height: normal !important; 
+        }
+      }
+    }
+
+    // Muted frosted glass placeholder text configuration
+    input::placeholder {
+      color: var(--auth-text-muted) !important;
+      opacity: var(--opacity-100) !important;
+    }
+
+    // 4. PREVENT BROWSER AUTOFILL FROM BREAKING CORES
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover, 
+    input:-webkit-autofill:focus {
+      -webkit-text-fill-color: var(--auth-text-primary) !important;
+      -webkit-box-shadow: 0 0 0px 1000px var(--color-black-40) inset !important; 
+      transition: background-color 5000s var(--auth-transition-easing) 0s;
+    }
+
+    // 5. FLOATING LABELS (Now correctly structured under mat-form-field context)
+    .mdc-floating-label {
+      color: var(--color-white-60) !important;
+      font-size: var(--font-size-16);
+    }
+
+    &.mat-focused .mdc-floating-label {
+      color: var(--auth-accent-color) !important;
+    }
+
+    &.mat-form-field-invalid .mdc-floating-label {
+      color: var(--auth-error-text) !important; 
+    }
+
+    // 6. SUFFIX BUTTON IMPLEMENTATION
+    button[mat-icon-button][matSuffix] {
+      color: var(--auth-text-muted);
+      margin-right: calc(var(--space-4) * var(--z-index-negative));
+
+      &:hover {
+        color: var(--auth-text-primary);
+        background-color: var(--color-white-10);
+      }
+    }
+
+    // 7. ERROR STATE CLEANUP
+    mat-error {
+      color: var(--auth-error-text) !important;   
+      font-size: var(--auth-font-size-body);      
+      font-weight: var(--auth-font-weight-medium);
+      letter-spacing: var(--letter-spacing-wide);
+      margin-top: var(--space-6);      
+      padding-left: var(--space-4);     
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);   
+    }
+  }
+}
+
+@keyframes authFadeIn {
+  from { opacity: var(--opacity-0); transform: translateY(-4px); }
+  to { opacity: var(--opacity-100); transform: translateY(0); }
+}
