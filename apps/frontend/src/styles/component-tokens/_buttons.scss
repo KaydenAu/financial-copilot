@@ -1,0 +1,164 @@
+// ==========================================================================
+// DESIGN SYSTEM BUTTON COMPONENT TOKENS
+// Description: Component-specific overrides mapped EXCLUSIVELY to semantic tokens
+// ==========================================================================
+
+@use '../semantics' as *;
+
+.root{
+  // ------------------------------------------------------------------------
+  // 1. BUTTON STRUCTURAL & SPECIFICITY TOKENS
+  // ------------------------------------------------------------------------
+  // Core Geometry & Typography
+  --btn-font-family:                 var(--font-family-default);
+  --btn-font-weight:                 var(--font-label-weight);
+  --btn-line-height:                 var(--font-label-line-height);
+  --btn-border-width:                var(--border-width-component);
+  --btn-border-style:                var(--border-style-default);
+  --btn-radius:                      var(--radius-interactive-element);
+
+  // Behaviors & States
+  --btn-transition:                  var(--motion-hover-transition);
+  --btn-disabled-opacity:            var(--interaction-disabled-opacity);
+  --btn-focus-ring-color:            var(--focus-ring-color);
+  --btn-focus-ring-width:            var(--focus-ring-width);
+  --btn-icon-gap:                    var(--space-inline-sm);
+
+  // --------------------------------------------------------------------------
+  // 2. BUTTON SIZE TIERS (Multi-Axis Sizing Matrix)
+  // --------------------------------------------------------------------------
+  // Small (sm) Tier - 32px Touch Target
+  --btn-sm-height:                   var(--size-dimension-sm); 
+  --btn-sm-padding-x:                var(--space-component-sm);
+  --btn-sm-padding-y:                var(--space-component-xs);
+  --btn-sm-font-size:                var(--font-caption-size);
+
+  // Medium (md) Tier - 40px Default Touch Target
+  --btn-md-height:                   var(--size-dimension-md); 
+  --btn-md-padding-x:                var(--space-component-lg);
+  --btn-md-padding-y:                var(--space-component-sm);
+  --btn-md-font-size:                var(--font-label-size);
+
+  // Large (lg) - 48px Touch Target
+  --btn-lg-height:                   var(--size-dimension-lg); 
+  --btn-lg-padding-x:                var(--space-component-xl);
+  --btn-lg-padding-y:                var(--space-component-md);
+  --btn-lg-font-size:                var(--font-body-size);
+
+  // --------------------------------------------------------------------------
+  // 3. VARIANT: PRIMARY (Solid Brand Action)
+  // --------------------------------------------------------------------------
+  --btn-primary-bg:                  var(--brand-primary);
+  --btn-primary-text:                var(--text-inverse);
+  --btn-primary-border:              var(--brand-primary);
+
+  // Interactive States
+  --btn-primary-bg-hover:            var(--brand-primary-hover);
+  --btn-primary-text-hover:          var(--text-inverse);
+  --btn-primary-border-hover:        var(--brand-primary-hover);
+  
+  --btn-primary-bg-active:           var(--brand-primary-active);
+  --btn-primary-text-active:         var(--text-inverse);
+  --btn-primary-border-active:       var(--brand-primary-active);
+  
+  --btn-primary-bg-disabled:         var(--brand-primary-disabled);
+  --btn-primary-text-disabled:       var(--text-subtle);
+  --btn-primary-border-disabled:     var(--brand-primary-disabled);
+
+  // --------------------------------------------------------------------------
+  // 4. VARIANT: SECONDARY (Outline / Neutral Action)
+  // --------------------------------------------------------------------------
+  --btn-secondary-bg:                var(--surface-primary);
+  --btn-secondary-text:              var(--text-primary);
+  --btn-secondary-border:            var(--border-secondary);
+
+  // Interactive States
+  --btn-secondary-bg-hover:          var(--surface-secondary);
+  --btn-secondary-text-hover:        var(--text-primary);
+  --btn-secondary-border-hover:      var(--border-interactive);
+  
+  --btn-secondary-bg-active:         var(--surface-muted);
+  --btn-secondary-text-active:       var(--text-primary);
+  --btn-secondary-border-active:     var(--border-focus);
+  
+  --btn-secondary-bg-disabled:       var(--surface-disabled);
+  --btn-secondary-text-disabled:     var(--text-disabled);
+  --btn-secondary-border-disabled:   var(--border-disabled);
+
+// --------------------------------------------------------------------------
+  // 6. VARIANT: TERTIARY (Subtle Neutral Container)
+  // --------------------------------------------------------------------------
+  --btn-tertiary-bg:                 var(--surface-secondary);
+  --btn-tertiary-text:               var(--text-secondary);
+  --btn-tertiary-border:             transparent;
+
+  // Interactive States
+  --btn-tertiary-bg-hover:           var(--surface-muted);
+  --btn-tertiary-text-hover:         var(--text-primary);
+  --btn-tertiary-border-hover:       transparent;
+  
+  --btn-tertiary-bg-active:          var(--border-muted);
+  --btn-tertiary-text-active:        var(--text-primary);
+  --btn-tertiary-border-active:      transparent;
+  
+  --btn-tertiary-bg-disabled:        var(--surface-disabled);
+  --btn-tertiary-text-disabled:      var(--text-disabled);
+  --btn-tertiary-border-disabled:    transparent;
+
+  // --------------------------------------------------------------------------
+  // 7. VARIANT: QUATERNARY (Stripped Inline Text Action)
+  // --------------------------------------------------------------------------
+  --btn-quaternary-bg:               transparent;
+  --btn-quaternary-text:             var(--text-muted);
+  --btn-quaternary-border:           transparent;
+
+  --btn-quaternary-bg-hover:         var(--surface-subtle);
+  --btn-quaternary-text-hover:       var(--text-secondary);
+  --btn-quaternary-border-hover:     transparent;
+  
+  --btn-quaternary-bg-active:        var(--surface-secondary);
+  --btn-quaternary-text-active:      var(--text-primary);
+  --btn-quaternary-border-active:    transparent;
+  
+  --btn-quaternary-bg-disabled:      transparent;
+  --btn-quaternary-text-disabled:    var(--text-disabled);
+  --btn-quaternary-border-disabled:  transparent;
+
+  // --------------------------------------------------------------------------
+  // 8. VARIANT: GHOST (Interactive Brand Link Action)
+  // --------------------------------------------------------------------------
+  --btn-ghost-bg:                    transparent;
+  --btn-ghost-text:                  var(--text-link);
+  --btn-ghost-border:                transparent;
+
+  --btn-ghost-bg-hover:              var(--surface-secondary);
+  --btn-ghost-text-hover:            var(--text-link-hover);
+  --btn-ghost-border-hover:          transparent;
+  
+  --btn-ghost-bg-active:             var(--surface-muted);
+  --btn-ghost-text-active:           var(--text-link-hover);
+  --btn-ghost-border-active:         transparent;
+  
+  --btn-ghost-bg-disabled:           transparent;
+  --btn-ghost-text-disabled:         var(--text-disabled);
+  --btn-ghost-border-disabled:       transparent;
+
+  // --------------------------------------------------------------------------
+  // 9. VARIANT: TONAL (Low-Contrast Premium Brand Fill)
+  // --------------------------------------------------------------------------
+  --btn-tonal-bg:                    var(--surface-brand-subtle); 
+  --btn-tonal-text:                  var(--brand-primary);                
+  --btn-tonal-border:                transparent;
+
+  --btn-tonal-bg-hover:              var(--surface-brand-subtle-hover); 
+  --btn-tonal-text-hover:            var(--brand-primary-hover);          
+  --btn-tonal-border-hover:          transparent;
+  
+  --btn-tonal-bg-active:             var(--surface-brand-subtle-active); 
+  --btn-tonal-text-active:           var(--brand-primary-active);
+  --btn-tonal-border-active:         transparent;
+  
+  --btn-tonal-bg-disabled:           var(--surface-disabled);
+  --btn-tonal-text-disabled:         var(--text-disabled);
+  --btn-tonal-border-disabled:       transparent;
+}
