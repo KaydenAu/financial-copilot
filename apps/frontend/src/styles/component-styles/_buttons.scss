@@ -1,0 +1,256 @@
+// ==========================================================================
+// COMPONENT STYLES: BUTTONS (BEM ARCHITECTURE)
+// Block:       .btn
+// Elements:    .btn__label, .btn__icon
+// Modifiers:   .btn--sm, .btn--md, .btn--lg
+//              .btn--primary, .btn--secondary, .btn--ghost
+// ==========================================================================
+@use '../semantics' as *;
+@use '../component-tokens/buttons';
+
+.btn {
+    // --------------------------------------------------------------------------
+    // 1. THE BLOCK (.btn) - Core Structural Reset & Layout Base
+    // --------------------------------------------------------------------------
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  
+    // Design Token Reset Maps
+    font-family: var(--btn-font-family);
+    font-weight: var(--btn-font-weight);
+    line-height: var(--btn-line-height);
+    border: var(--btn-border-width) var(--btn-border-style) transparent;
+    border-radius: var(--btn-radius);
+    transition: var(--btn-transition);
+
+    // Interactive Defaults
+    cursor: pointer;
+    user-select: none;
+    text-decoration: none;
+    white-space: nowrap;
+
+    // Global Interactive Behaviors
+    &:focus-visible {
+        outline: none;
+        box-shadow: 0 0 0 var(--btn-focus-ring-width) var(--btn-focus-ring-color);
+    }
+
+    &:disabled {
+        cursor: not-allowed;
+        opacity: var(--btn-disabled-opacity);
+    }
+
+    // --------------------------------------------------------------------------
+    // 2. THE ELEMENTS - Internal Structural Components
+    // --------------------------------------------------------------------------
+
+    // Text content element (.btn__label)
+    &__label {
+        display: inline-block;
+        font-size: inherit;     // Force size inheritance from parent sizing modifier
+        line-height: inherit;   // Force line-height inheritance from block core
+    }
+
+    // Graphical context element (.btn__icon)
+    &__icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;         // Prevent icons from compressing under tight parent dimensions
+
+        // Explicit positioning variants
+        // &--left {
+        //   //Inherits global layout but can be hooked for specialized positioning
+        // }
+        
+        // &--right {
+        //   //Inherits global layout but can be hooked for specialized positioning
+        // }
+    }
+
+    // --------------------------------------------------------------------------
+    // 3. SIZES MODIFIERS (Handles Height, Width Padding & Structural Typography)
+    // --------------------------------------------------------------------------
+  
+    // Small Variant (.btn--sm)
+    &--sm {
+        height: var(--btn-sm-height);
+        padding-left: var(--btn-sm-padding-x);
+        padding-right: var(--btn-sm-padding-x);
+        font-size: var(--btn-sm-font-size);
+        gap: var(--space-inline-xs); // Ties cleanly into semantic gap variables
+
+        .btn__icon {
+            width: var(--space-component-xs); // Set micro boundary limits for nested icons
+            height: var(--space-component-xs);
+        }
+    }
+
+    // Medium Variant (.btn--md)
+    &--md {
+        height: var(--btn-md-height);
+        padding-left: var(--btn-md-padding-x);
+        padding-right: var(--btn-md-padding-x);
+        font-size: var(--btn-md-font-size);
+        gap: var(--space-inline-sm);
+
+        .btn__icon {
+            width: var(--space-component-sm);
+            height: var(--space-component-sm);
+        }
+    }
+
+    // Large Variant (.btn--lg)
+    &--lg {
+        height: var(--btn-lg-height);
+        padding-left: var(--btn-lg-padding-x);
+        padding-right: var(--btn-lg-padding-x);
+        font-size: var(--btn-lg-font-size);
+        gap: var(--space-inline-primary);
+
+        .btn__icon {
+            width: var(--space-component-primary);
+            height: var(--space-component-primary);
+        }
+    }
+
+    // --------------------------------------------------------------------------
+    // 4. VISUAL VARIATIONS MODIFIERS (Color, Borders, Surface Maps)
+    // --------------------------------------------------------------------------
+  
+    // Solid Brand Variant (.btn--primary)
+    &--primary {
+        background-color: var(--btn-primary-bg);
+        color: var(--btn-primary-text);
+        border-color: var(--btn-primary-border);
+
+        &:hover:not(:disabled) {
+            background-color: var(--btn-primary-bg-hover);
+            border-color: var(--btn-primary-border-hover);
+        }
+
+        &:active:not(:disabled) {
+            background-color: var(--btn-primary-bg-active);
+            border-color: var(--btn-primary-border-active);
+        }
+
+        &:disabled {
+            background-color: var(--btn-primary-bg-disabled);
+            color: var(--btn-primary-text-disabled);
+            border-color: var(--btn-primary-border-disabled);
+        }
+    }
+
+    // Outline / Neutral Variant (.btn--secondary)
+    &--secondary {
+        background-color: var(--btn-secondary-bg);
+        color: var(--btn-secondary-text);
+        border-color: var(--btn-secondary-border);
+
+        &:hover:not(:disabled) {
+            background-color: var(--btn-secondary-bg-hover);
+            border-color: var(--btn-secondary-border-hover);
+        }
+
+        &:active:not(:disabled) {
+            background-color: var(--btn-secondary-bg-active);
+            border-color: var(--btn-secondary-border-active);
+        }
+
+        &:disabled {
+            background-color: var(--btn-secondary-bg-disabled);
+            color: var(--btn-secondary-text-disabled);
+            border-color: var(--btn-secondary-border-disabled);
+        }
+    }
+  
+    // Neutral Low-Impact Variant (.btn--tertiary)
+    &--tertiary {
+        background-color: var(--btn-tertiary-bg);
+        color: var(--btn-tertiary-text);
+        border-color: var(--btn-tertiary-border);
+
+        &:hover:not(:disabled) {
+            background-color: var(--btn-tertiary-bg-hover);
+            color: var(--btn-tertiary-text-hover);
+        }
+
+        &:active:not(:disabled) {
+            background-color: var(--btn-tertiary-bg-active);
+            color: var(--btn-tertiary-text-active);
+        }
+
+        &:disabled {
+            background-color: var(--btn-tertiary-bg-disabled);
+            color: var(--btn-tertiary-text-disabled);
+        }
+    }
+
+    // Borderless Text Variant (.btn--quaternary)
+    &--quaternary {
+        background-color: var(--btn-quaternary-bg);
+        color: var(--btn-quaternary-text);
+        border-color: var(--btn-quaternary-border);
+
+        &:hover:not(:disabled) {
+            background-color: var(--btn-quaternary-bg-hover);
+            color: var(--btn-quaternary-text-hover);
+        }
+
+        &:active:not(:disabled) {
+            background-color: var(--btn-quaternary-bg-active);
+            color: var(--btn-quaternary-text-active);
+        }
+
+        &:disabled {
+            background-color: var(--btn-quaternary-bg-disabled);
+            color: var(--btn-quaternary-text-disabled);
+        }
+    }
+
+    // Tinted Brand Variant (.btn--tonal)
+    &--tonal {
+        background-color: var(--btn-tonal-bg);
+        color: var(--btn-tonal-text);
+        border-color: var(--btn-tonal-border);
+
+        &:hover:not(:disabled) {
+            background-color: var(--btn-tonal-bg-hover);
+            color: var(--btn-tonal-text-hover);
+        }
+
+        &:active:not(:disabled) {
+            background-color: var(--btn-tonal-bg-active);
+            color: var(--btn-tonal-text-active);
+        }
+
+        &:disabled {
+            background-color: var(--btn-tonal-bg-disabled);
+            color: var(--btn-tonal-text-disabled);
+        }
+    }
+
+    // Ghost / Minimal Variant (.btn--ghost)
+    &--ghost {
+        background-color: var(--btn-ghost-bg);
+        color: var(--btn-ghost-text);
+        border-color: var(--btn-ghost-border);
+
+        &:hover:not(:disabled) {
+            background-color: var(--btn-ghost-bg-hover);
+            color: var(--btn-ghost-text-hover);
+        }
+
+        &:active:not(:disabled) {
+            background-color: var(--btn-ghost-bg-active);
+            color: var(--btn-ghost-text-active);
+        }
+
+        &:disabled {
+            background-color: var(--btn-ghost-bg-disabled);
+            color: var(--btn-ghost-text-disabled);
+        }
+    }
+}

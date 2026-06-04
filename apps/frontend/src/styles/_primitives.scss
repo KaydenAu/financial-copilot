@@ -1,0 +1,332 @@
+// ============================================================================
+// DESIGN SYSTEM PRIMITIVE TOKENS
+// 
+// Description: The single source of truth for raw visual values.
+// Characteristics: Immutable, scale-based, non-semantic, zero intent / context.
+// ============================================================================
+
+:root{
+  // --------------------------------------------------------------------------
+  // 1. COLOR PALETTES
+  // --------------------------------------------------------------------------
+  // BASE NEUTRALS
+  --color-white:           #ffffff;
+  --color-black:           #000000;
+
+  --color-white-10:        rgba(255, 255, 255, 0.1);
+  --color-white-20:        rgba(255, 255, 255, 0.2);
+  --color-white-60:        rgba(255,255,255,0.6) ;
+
+  --color-black-1:         rgba(0, 0, 0, 0.01);
+  --color-black-2:         rgba(0, 0, 0, 0.02);
+  --color-black-3:         rgba(0, 0, 0, 0.03);
+  --color-black-4:         rgba(0, 0, 0, 0.04);
+  --color-black-5:         rgba(0, 0, 0, 0.05);
+  --color-black-10:        rgba(0, 0, 0, 0.1);
+  --color-black-20:        rgba(0, 0, 0, 0.2);
+  --color-black-40:        rgba(0, 0, 0, 0.4);
+
+  // GRAY SCALE
+  --color-neutral-0:       #ffffff;
+  --color-neutral-50:      #f9fafb;
+  --color-neutral-100:     #f3f4f6;
+  --color-neutral-200:     #e5e7eb;
+  --color-neutral-300:     #d1d5db;
+  --color-neutral-400:     #9ca3af;
+  --color-neutral-500:     #6b7280;
+  --color-neutral-600:     #4b5563;
+  --color-neutral-700:     #374151;
+  --color-neutral-800:     #1f2937;
+  --color-neutral-900:     #111827;
+
+  // BLUE SCALE
+  --color-blue-50:         #eff6ff;
+  --color-blue-100:        #dbeafe;
+  --color-blue-200:        #bfdbfe;
+  --color-blue-300:        #93c5fd;
+  --color-blue-400:        #60a5fa;
+  --color-blue-500:        #3b82f6;
+  --color-blue-600:        #2563eb;
+  --color-blue-700:        #1d4ed8;
+  --color-blue-800:        #1e40af;
+  --color-blue-900:        #1e3a8a;
+
+  // DARK BLUE SCALE FOR AUTH LAYOUT
+  --color-darkblue-600:        #1b3fa6;  // 100% stop - Vibrant mid-point anchor
+  --color-darkblue-800:        #142a6b;  // 70% stop  - Deep structural blue
+  --color-darkblue-900:        #0b1b3f;  // 35% stop  - Dark background base
+  --color-darkblue-950:        #060a18;  // 0% stop   - Extreme near-black shadow
+
+  // LIGHT RED SCALE FOR AUTH LAYOUT
+  --color-light-red-50: #ff80801a;
+  --color-light-red-100: #ff80804d;
+  --color-light-red-200:#ff8080;
+  
+  // RED SCALE
+  --color-red-50:          #fef2f2;
+  --color-red-100:         #fee2e2;
+  --color-red-200:         #fecaca;
+  --color-red-300:         #fca5a5;
+  --color-red-400:         #f87171;
+  --color-red-500:         #ef4444;
+  --color-red-600:         #dc2626;
+  --color-red-700:         #b91c1c;
+  --color-red-800:         #991b1b;
+  --color-red-900:         #7f1d1d;
+
+  // GREEN SCALE
+  --color-green-50:        #ecfdf5;
+  --color-green-100:       #d1fae5;
+  --color-green-200:       #a7f3d0;
+  --color-green-300:       #6ee7b7;
+  --color-green-400:       #34d399;
+  --color-green-500:       #10b981;
+  --color-green-600:       #059669;
+  --color-green-700:       #047857;
+  --color-green-800:       #065f46;
+  --color-green-900:       #064e3b;
+
+  // YELLOW SCALE
+  --color-yellow-50:       #fffbeb;
+  --color-yellow-100:      #fef3c7;
+  --color-yellow-200:      #fde68a;
+  --color-yellow-300:      #fcd34d;
+  --color-yellow-400:      #fbbf24;
+  --color-yellow-500:      #f59e0b;
+  --color-yellow-600:      #d97706;
+  --color-yellow-700:      #b45309;
+  --color-yellow-800:      #92400e;
+  --color-yellow-900:      #78350f;
+
+  // INDIGO SCALE
+  --color-indigo-50:       #fceafc;
+  --color-indigo-100:      #f9d5f9;
+  --color-indigo-200:      #f6c0f6;
+  --color-indigo-300:      #f3abf3;
+  --color-indigo-400:      #f096f0;
+  --color-indigo-500:      #ee82ee;
+	--color-indigo-600:      #c66cc6;
+	--color-indigo-700:      #9e569e;
+  --color-indigo-800:      #774177;
+  --color-indigo-900:      #4f2b4f;
+  --color-indigo-950:      #271527;
+
+  // MEDIUM PURPLE SCALE
+  --color-purple-50:       #ede7f9; 
+  --color-purple-100:      #dbcff3;
+  --color-purple-200:      #c9b7ed;
+  --color-purple-300:      #b79fe7;
+  --color-purple-400:      #a587e1;
+  --color-purple-500:      #9370db;
+  --color-purple-600:      #7a5db6;
+  --color-purple-700:      #624a92;
+  --color-purple-800:      #49386d;
+  --color-purple-900:      #312549;
+  --color-purple-950:      #181224;
+
+  // --------------------------------------------------------------------------
+  // 2. SPACING SCALES
+  // --------------------------------------------------------------------------
+  --space-0:                 0rem;      // 0px
+  --space-2:                 0.125rem;  // 2px
+  --space-4:                 0.250rem;  // 4px
+  --space-6:                 0.375rem;  // 6px
+  --space-8:                 0.500rem;  // 8px
+  --space-10:                0.625rem;  // 10px
+  --space-12:                0.750rem;  // 12px
+  --space-14:                0.875rem;  // 14px
+  --space-16:                1rem;      // 16px
+  --space-20:                1.250rem;  // 20px
+  --space-24:                1.500rem;  // 24px
+  --space-32:                2rem;      // 32px
+  --space-40:                2.500rem;  // 40px
+  --space-48:                3rem;      // 48px
+  --space-64:                4rem;      // 64px
+  --space-80:                5rem;      // 80px
+  --space-96:                6rem;      // 96px
+  --space-112:               7rem;      // 112px
+  --space-128:               8rem;      // 128px
+
+  // --------------------------------------------------------------------------
+  // 3. TYPOGRAPHY SCALE
+  // --------------------------------------------------------------------------
+  // FONT FAMILIES
+  --font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  --font-family-sans: 'Inter', -apple-system, 'Segoe UI', Roboto, Arial, ui-sans-serif;
+  --font-family-serif: Georgia, "Times New Roman", serif;
+  --font-family-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  // FONT SIZES
+  --font-size-10:            0.625rem;    // 10px
+  --font-size-12:            0.750rem;    // 12px
+  --font-size-14:            0.875rem;    // 14px
+  --font-size-16:            1rem;        // 16px
+  --font-size-18:            1.125rem;    // 18px
+  --font-size-20:            1.250rem;    // 20px
+  --font-size-24:            1.500rem;    // 24px
+  --font-size-28:            1.750rem;    // 28px
+  --font-size-30:            1.875rem;    // 30px
+  --font-size-36:            2.250rem;    // 36px
+  --font-size-44:            2.750rem;    // 44px
+  --font-size-48:            3rem;        // 48px
+  --font-size-60:            3.750rem;    // 60px
+  --font-size-72:            4.500rem;    // 72px
+
+  // FONT WEIGHTS
+  --font-weight-100:         100;
+  --font-weight-200:         200;
+  --font-weight-300:         300;
+  --font-weight-400:         400;
+  --font-weight-500:         500;
+  --font-weight-600:         600;
+  --font-weight-700:         700;
+  --font-weight-800:         800;
+  --font-weight-900:         900;
+
+  // LINE HEIGHTS
+  --line-height-100:         1;
+  --line-height-110:         1.1;
+  --line-height-120:         1.2;
+  --line-height-130:         1.3;
+  --line-height-140:         1.4;
+  --line-height-150:         1.5;
+  --line-height-160:         1.6;
+  --line-height-170:         1.7;
+  --line-height-180:         1.8;
+
+  // LETTER SPACING
+  --letter-spacing-tight:   -0.02em;
+  --letter-spacing-normal:   0rem;
+  --letter-spacing-wide:     0.02em;
+  --letter-spacing-wider:    0.05em;
+
+  // --------------------------------------------------------------------------
+  // 4. ELEVATION SCALE (Box Shadows)
+  // --------------------------------------------------------------------------
+  --elevation-0: none;
+
+  --elevation-1:
+    0 1px 2px rgba(0, 0, 0, 0.05);
+
+  --elevation-2:
+    0 1px 3px rgba(0, 0, 0, 0.1),
+    0 1px 2px rgba(0, 0, 0, 0.06);
+
+  --elevation-3:
+    0 4px 6px rgba(0, 0, 0, 0.1),
+    0 2px 4px rgba(0, 0, 0, 0.06);
+
+  --elevation-4:
+    0 10px 15px rgba(0, 0, 0, 0.1),
+    0 4px 6px rgba(0, 0, 0, 0.05);
+
+  --elevation-5:
+    0 20px 25px rgba(0, 0, 0, 0.1),
+    0 10px 10px rgba(0, 0, 0, 0.04);
+
+  // --------------------------------------------------------------------------
+  // 5. RADIUS SCALE
+  // --------------------------------------------------------------------------
+  --radius-0:                0rem;         // 0px
+  --radius-2:                0.125rem;     // 2px
+  --radius-4:                0.250rem;     // 4px
+  --radius-6:                0.375rem;     // 6px
+  --radius-8:                0.500rem;     // 8px
+  --radius-12:               0.750rem;     // 12px
+  --radius-16:               1rem;         // 16px
+  --radius-24:               1.500rem;     // 24px
+  --radius-9999:             9999px;       // Circular / Pill
+
+  // --------------------------------------------------------------------------
+  // 6. OPACITY SCALES
+  // --------------------------------------------------------------------------
+  --opacity-0:               0;
+  --opacity-5:               0.05;
+  --opacity-10:              0.10;
+  --opacity-15:              0.15;
+  --opacity-20:              0.20;
+  --opacity-30:              0.30;
+  --opacity-40:              0.40;
+  --opacity-50:              0.50;
+  --opacity-60:              0.60;
+  --opacity-65:              0.65;
+  --opacity-70:              0.70;
+  --opacity-80:              0.80;
+  --opacity-85:              0.85;
+  --opacity-90:              0.90;
+  --opacity-100:             1;
+
+  //---------------------------------------------------------------------------
+  // 7. Z-INDEX SCALE
+  // --------------------------------------------------------------------------
+  --z-index-negative:       -1;
+  --z-index-0:               0;
+  --z-index-10:              10;
+  --z-index-20:              20;
+  --z-index-30:              30;
+  --z-index-40:              40;
+  --z-index-50:              50;
+  --z-index-60:              60;
+  --z-index-70:              70;
+  --z-index-80:              80;
+  --z-index-90:              90;
+  --z-index-100:             100;
+
+  // --------------------------------------------------------------------------
+  // 8. BORDER WIDTHS
+  // --------------------------------------------------------------------------
+  --border-width-0:          0;
+  --border-width-1:          1px;
+  --border-width-2:          2px;
+  --border-width-4:          4px;
+  --border-width-8:          8px;
+
+  // --------------------------------------------------------------------------
+  // 9. BORDER STYLES
+  // --------------------------------------------------------------------------
+  --border-style-solid:      solid;
+  --border-style-dashed:     dashed;
+  --border-style-dotted:     dotted;
+
+  // --------------------------------------------------------------------------
+  // 10. MOTION DURATION SCALE
+  // --------------------------------------------------------------------------
+  --motion-duration-0:       0ms;
+  --motion-duration-50:      50ms;
+  --motion-duration-100:     100ms;
+  --motion-duration-150:     150ms;
+  --motion-duration-200:     200ms;
+  --motion-duration-300:     300ms;
+  --motion-duration-500:     500ms;
+  --motion-duration-700:     700ms;
+  --motion-duration-1000:    1000ms;
+
+  // -------------------------------------------------------------------------- 
+  // 11. MOTION DELAY SCALE
+  // --------------------------------------------------------------------------
+  --motion-delay-0:          0ms;
+  --motion-delay-50:         50ms;
+  --motion-delay-100:        100ms;
+  --motion-delay-150:        150ms;
+  --motion-delay-200:        200ms;
+  --motion-delay-300:        300ms;
+  --motion-delay-500:        500ms;
+
+  // -------------------------------------------------------------------------- 
+  // 12. MOTION EASING
+  // --------------------------------------------------------------------------
+  --motion-ease-linear:      linear;
+  --motion-ease-in:          cubic-bezier(0.4, 0, 1, 1);
+  --motion-ease-out:         cubic-bezier(0, 0, 0.2, 1);
+  --motion-ease-in-out:      cubic-bezier(0.4, 0, 0.2, 1);
+  --motion-ease-emphasized:  cubic-bezier(0.2, 0, 0, 1);
+
+  // -------------------------------------------------------------------------- 
+  // 13. BREAKPOINTS FOR MEDIA QUERIES
+  // --------------------------------------------------------------------------
+  --breakpoint-sm:           480px;      // Mobile (Portrait)
+  --breakpoint-md:           768px;      // Mobile (Landscape) or Tablets (Portrait)
+  --breakpoint-lg:           1024px;     // Tablets (Landscape) or Laptops
+  --breakpoint-xl:           1280px;     // Desktops
+  --breakpoint-2xl:          1500px;     // Large Screens
+}
