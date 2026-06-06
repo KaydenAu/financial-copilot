@@ -1,0 +1,106 @@
+<mat-card appearance="outlined" class="auth-layout__card-content">
+    <mat-card-header>
+        <mat-card-title>Log In to Copilot</mat-card-title>
+        <mat-card-subtitle>
+            First time here?
+            <a routerLink="/auth/register/" class="auth-layout__card-link">
+                Create your account here
+            </a>
+        </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="auth-layout__form">
+            <!-- EMAIL -->
+            <mat-form-field appearance="outline" floatLabel="always">
+                <mat-label>Email Address</mat-label>
+                <input
+                    matInput
+                    placeholder="Enter your email address"
+                    formControlName="email"
+                    type="email"
+                />
+                @if (email.touched && email.invalid) {
+                    <mat-error>Please enter a valid email address.</mat-error>
+                }
+            </mat-form-field>
+
+            <!-- PASSWORD -->
+            <mat-form-field appearance="outline" floatLabel="always">
+                <mat-label>Password</mat-label>
+                <input
+                    matInput
+                    placeholder="Enter your password"
+                    formControlName="password"
+                    [type]="hidePassword ? 'password' : 'text'"
+                />
+                <button
+                    mat-icon-button
+                    matSuffix
+                    type="button"
+                    (click)="onShowPassword()"
+                    (mousedown)="$event.preventDefault()"
+                >
+                    <mat-icon>
+                        {{ hidePassword ? 'visibility' : 'visibility_off' }}
+                    </mat-icon>
+                </button>
+                @if (password.touched && password.invalid) {
+                    <mat-error>Please enter your password</mat-error>
+                }
+            </mat-form-field>
+
+            <!-- OPTIONS -->
+            <div class="auth-layout__options">
+                <mat-checkbox formControlName="rememberMe">
+                    Remember me
+                </mat-checkbox>
+                <a routerLink="/auth/forgot-password/" class="auth-layout__card-link">
+                    Forgot password?
+                </a>
+            </div>
+
+            <!-- ERROR -->
+            @if (errorMessage()) {
+                <div class="auth-layout__error-alert" role="alert">
+                    {{ errorMessage() }}
+                </div>
+            }
+
+            <!-- SUBMIT -->
+            <div class="auth-layout__submit-wrapper">
+                <button 
+                    mat-raised-button
+                    type="submit"
+                    class="auth-layout__submit-btn"
+                    [disabled]="loginForm.invalid || isLoading()"
+                >
+                    @if (isLoading()) {
+                        <span>Logging in...</span>
+                    } @else {
+                        <span>Log In</span>
+                    }
+                </button>
+            </div>
+        </form>
+
+        <!-- OR DIVIDER -->
+        <div class="auth-layout__divider">
+            <span>or</span>
+        </div>
+
+        <!-- SSO BUTTON -->
+        <button
+            mat-raised-button
+            type="submit"
+            class="auth-layout__google-btn"
+            (click)="onGoogleRegister()"
+        >
+            <img 
+                src="assets/google.svg" 
+                alt="Google Logo" 
+                class="auth-layout__google-icon"
+            />
+            <span>Continue with Google</span>
+        </button>
+    </mat-card-content>
+</mat-card>
