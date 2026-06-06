@@ -1,0 +1,30 @@
+<div class="auth-layout">
+  <div class="auth-layout__container">
+    <!-- LEFT PANEL -->
+    <div class="auth-layout__left">
+      <div class="auth-layout__header-content">
+        <h1 class="auth-layout__title">
+          YOUR MONEY IS ON AUTOPILOT.
+        </h1>
+        <p class="auth-layout__subtitle">
+          Watch your spending habits adapt, your savings compound and your biggest financial goals transition effortlessly from ideas into reality.
+        </p>
+      </div>
+      <footer class="auth-layout__footer">
+        <div class="auth-layout__footer-links">
+          <span class="auth-layout__footer-copyright">© 2026 Financial Copilot. All rights reserved.</span>
+          <span class="auth-layout__footer-divider">•</span>
+          <a routerLink="/auth/terms-of-services/">Terms of Services</a>
+          <span class="auth-layout__footer-divider">•</span>
+          <a routerLink="/auth/privacy-policy/">Privacy Policy</a>
+        </div>
+      </footer>
+    </div>
+    <!-- RIGHT PANEL -->
+    <section class="auth-layout__right">
+      <mat-card class="auth-layout__card">
+        <ng-content></ng-content>
+      </mat-card>
+    </section>
+  </div>
+</div>
