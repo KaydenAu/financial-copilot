@@ -18,12 +18,17 @@ dotenv.config();
 const jwtSecret = process.env.JWT_SECRET as string;
 const jwtExpiresIn = process.env.JWT_EXPIRES_IN as string;
 
-const generateAuthToken = (userId: number, email: string, rememberMe: boolean = false): string => {
+const generateAuthToken = (userId: number, email: string, userName: string, rememberMe: boolean = false): string => {
   // If rememberMe is true, token lasts 30 days. Otherwise, falls back to your short .env setting.
   const expiresIn = rememberMe ? '30d' : jwtExpiresIn;
+  const payload = {
+    id: userId, 
+    email: email, 
+    username: userName,
+  };
 
   return jwt.sign(
-    { id: userId, email: email }, 
+    payload, 
     jwtSecret, 
     { expiresIn: expiresIn } as SignOptions,
   );
@@ -86,6 +91,7 @@ router.post('/register/', async (req: Request, res: Response, next: NextFunction
         const token = generateAuthToken(
           newCustomUser.id, 
           newCustomUser.email, 
+          newCustomUser.userName,
           rememberMe === true || rememberMe === 'true'
         );
 
@@ -149,7 +155,7 @@ router.post('/login/', async (req: Request, res: Response, next: NextFunction): 
             return;
         }
 
-        const token = generateAuthToken(user.id, user.email);
+        const token = generateAuthToken(user.id, user.email, user.userName);
         res.status(200).json({ 
             success: true, 
             message: 'Login Successful', 
@@ -260,7 +266,7 @@ router.post('/reset-password', async (req: Request, res: Response, next: NextFun
     ]);
 
     // Matches your frontend's expectation ("Update Password & Log In") by returning a new JWT session
-    const freshToken = generateAuthToken(resetRecord.user.id, resetRecord.user.email);
+    const freshToken = generateAuthToken(resetRecord.user.id, resetRecord.user.email, resetRecord.user.userName);
     res.status(200).json({ 
       token: freshToken, 
       message: 'Password reset successfully. You are now logged in.' 

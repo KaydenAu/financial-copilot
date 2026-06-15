@@ -62,5 +62,9 @@ export const routes: Routes = [
         path: 'dashboard',
         canActivate:[authGuard],
         component: DashboardPage,
-    }
+    },
+    {
+        path: '**',
+        redirectTo: 'auth/errors'
+    },
 ];
