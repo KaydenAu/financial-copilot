@@ -90,12 +90,9 @@ export class AuthApi {
   // Unified Session State Persistence
   // Handles storage assignments and internal signal broadcasts on successful handshakes.
   private handleAuthenticationSuccess(authPayload: any): void {
-    console.log("authPayload:", authPayload);
     if (authPayload?.token) {
       this.storageService.setItem(this.tokenKey, authPayload.token);
       this.tokenSubject.next(authPayload.token);
-      console.log("authPayload.user:", authPayload.user);
-      console.log("this.decodeTokenClaims(authPayload.token):", this.decodeTokenClaims(authPayload.token))
       const profile = this.decodeTokenClaims(authPayload.token);
       this.currentUser.set(profile);
       this.router.navigate(['/', 'dashboard']);
