@@ -17,9 +17,9 @@
   // 1. BRAND TOKENS
   // Format: --brand-[role]-[state]
   // ------------------------------------------------------------------------
-  --brand-primary:                  var(--color-blue-600);
-  --brand-primary-hover:            var(--color-blue-700);
-  --brand-primary-active:           var(--color-blue-800);
+  --brand-primary:                  var(--color-purple-600);
+  --brand-primary-hover:            var(--color-purple-700);
+  --brand-primary-active:           var(--color-purple-800);
   --brand-primary-disabled:         var(--color-neutral-300);
 
   --brand-secondary:                var(--color-indigo-600);
@@ -27,9 +27,9 @@
   --brand-secondary-active:         var(--color-indigo-800);
   --brand-secondary-disabled:       var(--color-neutral-200);
 
-  --brand-accent:                   var(--color-purple-600);
-  --brand-accent-hover:             var(--color-purple-700);
-  --brand-accent-active:            var(--color-purple-800);
+  --brand-accent:                   var(--color-blue-600);
+  --brand-accent-hover:             var(--color-blue-700);
+  --brand-accent-active:            var(--color-blue-800);
   --brand-accent-disabled:          var(--color-neutral-200);
 
   // ------------------------------------------------------------------------
@@ -51,10 +51,10 @@
   --feedback-error-hover:           var(--color-red-700);
   --feedback-error-active:          var(--color-red-800);
 
-  --feedback-info:                  var(--color-blue-600);
-  --feedback-info-subtle:           var(--color-blue-50);
-  --feedback-info-hover:            var(--color-blue-700);
-  --feedback-info-active:           var(--color-blue-800);
+  --feedback-info:                  var(--color-purple-600);
+  --feedback-info-subtle:           var(--color-purple-50);
+  --feedback-info-hover:            var(--color-purple-700);
+  --feedback-info-active:           var(--color-purple-800);
 
   // ------------------------------------------------------------------------
   // 3. NEUTRAL TOKENS
@@ -66,7 +66,7 @@
   --neutral-subtle:                 var(--color-neutral-100);
   --neutral-inverse:                var(--color-neutral-0);
   --neutral-disabled:               var(--color-neutral-300);
-  --neutral-link:                   var(--color-blue-600);
+  --neutral-link:                   var(--color-purple-600);
 
 // ==========================================================================
 // UI SEMANTICS TOKENS
@@ -78,31 +78,31 @@
   // ------------------------------------------------------------------------
   --surface-overlay-backdrop:       var(--color-black-40);     // Primitive for modals
   
-  --surface-primary:                var(--color-neutral-0);    // Page / App canvas
-  --surface-secondary:              var(--color-neutral-50);   // Sidebars, navigation panels
-  --surface-muted:                  var(--color-neutral-100);  // Form inputs, empty states
+  --surface-primary:                var(--color-neutral-0);    // Card backgrounds, Headers, Main items
+  --surface-secondary:              var(--color-neutral-900);   // Command Center Dark Sidebar Frame
+  --surface-muted:                  var(--color-neutral-100);  // Grounded App Canvas Layout Track
   --surface-subtle:                 var(--color-neutral-50);   // Subtle banner / alert backdrops
   --surface-inverse:                var(--color-neutral-900);  // Tooltips, dark mode modals
   --surface-disabled:               var(--color-neutral-100);  // Disabled button / input backgrounds
 
   // INTERACTIVE SURFACES: BRAND SUBTLE (TONAL)
   // Purpose: Low-contrast, branded tints for interactive component containers
-  --surface-brand-subtle:           var(--color-blue-50);  // Base tint
-  --surface-brand-subtle-hover:     var(--color-blue-100); // Hover state transition
-  --surface-brand-subtle-active:    var(--color-blue-200); // Active/Pressed state transition
+  --surface-brand-subtle:           var(--color-purple-50);  // Base tint
+  --surface-brand-subtle-hover:     var(--color-purple-100); // Hover state transition
+  --surface-brand-subtle-active:    var(--color-purple-200); // Active / Pressed state transition
 
   // ------------------------------------------------------------------------
   // 2. TEXT COLOR TOKENS
   // Format: --text-[variant]
   // ------------------------------------------------------------------------
-  --text-primary:                   var(--color-neutral-900);  // Titles, body text
+  --text-primary:                   var(--color-neutral-900);  // Titles, main body text
   --text-secondary:                 var(--color-neutral-700);  // Subtitles, descriptions
   --text-muted:                     var(--color-neutral-500);  // Captions, placeholders
-  --text-subtle:                    var(--color-neutral-400);  // Metadata, de-emphasized info
+  --text-subtle:                    var(--color-neutral-300);  // Metadata, de-emphasized info
   --text-inverse:                   var(--color-neutral-0);    // Light text on dark elements
   --text-disabled:                  var(--color-neutral-300);  // Greyed out unclickable text
-  --text-link:                      var(--color-blue-600);     // Interactive links
-  --text-link-hover:                var(--color-blue-700);     // Hover state for links
+  --text-link:                      var(--color-purple-600);     // Interactive links
+  --text-link-hover:                var(--color-purple-700);     // Hover state for links
 
   // --------------------------------------------------------------------------
   // 3. BORDER COLOR TOKENS
@@ -118,6 +118,14 @@
   --border-disabled:                var(--color-neutral-200);  // Outlines on disabled components
   --border-interactive:             var(--color-blue-500);     // Hover states on components
   --border-focus:                   var(--color-blue-600);     // Active text fields/selects
+
+  // --------------------------------------------------------------------------
+  // 4. AI & COPILOT DOMAIN TOKENS (Added for Premium Assistant Layout Alignment)
+  // --------------------------------------------------------------------------
+  --ai-gradient-start:              var(--color-purple-600);
+  --ai-gradient-end:                var(--color-indigo-600);
+  --ai-surface-bubble:              var(--color-neutral-0);
+  --ai-surface-panel:               var(--color-neutral-0);
 
   // --------------------------------------------------------------------------
   // 7. GLOBAL SHAPE & GEOMETRY SEMANTICS
@@ -149,13 +157,13 @@
   --state-warning-text:             var(--color-yellow-800);
   --state-warning-border:           var(--color-yellow-300);
 
-  --state-error-surface:            var(--color-red-50);
-  --state-error-text:               var(--color-red-800);
-  --state-error-border:             var(--color-red-300);
+  --state-error-surface:            var(--color-light-red-50);
+  --state-error-text:               var(--color-light-red-200);
+  --state-error-border:             var(--color-light-red-100);
 
-  --state-info-surface:             var(--color-blue-50);
-  --state-info-text:                var(--color-blue-800);
-  --state-info-border:              var(--color-blue-300);
+  --state-info-surface:             var(--color-purple-50);
+  --state-info-text:                var(--color-purple-800);
+  --state-info-border:              var(--color-purple-300);
 
   // --------------------------------------------------------------------------
   // 5. ELEVATION TOKENS
@@ -170,10 +178,10 @@
   // --------------------------------------------------------------------------
   // 6. FOCUS TOKENS
   // --------------------------------------------------------------------------
-  --focus-ring-color:               var(--color-blue-500);
+  --focus-ring-color:               var(--color-purple-500);
   --focus-ring-width:               var(--border-width-4);
   --focus-ring-opacity:             var(--opacity-40);
-  --focus-outline-color:            var(--color-blue-600);
+  --focus-outline-color:            var(--color-purple-600);
   --focus-outline-width:            var(--border-width-2);
   --focus-offset:                   var(--space-4);
 
@@ -231,6 +239,7 @@
   --space-inline-md:                var(--space-12);
   --space-inline-lg:                var(--space-16);
   --space-inline-xl:                var(--space-24);
+  --space-inline-2xl:               var(--space-32);
 
   // Stack spacing
   --space-stack-xs:                 var(--space-8); 
@@ -264,7 +273,7 @@
   --font-heading-3-line-height:     var(--line-height-140);
 
   --font-heading-4-size:            var(--font-size-24);
-  --font-heading-4-weight:          var(--font-weight-600);
+  --font-heading-4-weight:          var(--font-weight-500);
   --font-heading-4-line-height:     var(--line-height-140);
 
   --font-body-size:                 var(--font-size-16);
