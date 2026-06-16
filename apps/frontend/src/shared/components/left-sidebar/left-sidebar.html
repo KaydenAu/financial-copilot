@@ -1,0 +1,51 @@
+<div class="sidebar" [class.sidebar--collapsed]="isCollapsed()">
+    <div class="sidebar__header"> 
+        <div class="sidebar__icon-box">
+            <button 
+                mat-icon-button 
+                class="sidebar__collapse-btn" 
+                type="button"
+                (click)="toggleSidebar()" 
+                [attr.aria-label]="isCollapsed() ? 'Expand sidebar' : 'Collapse sidebar'"
+            >
+                <mat-icon>{{ isCollapsed() ? 'chevron_right' : 'chevron_left' }}</mat-icon>
+            </button>
+        </div>
+        <span class="sidebar__brand-text">{{ brandText() }}</span>
+    </div>
+
+    <mat-divider class="sidebar__divider"></mat-divider>
+
+    <nav class="sidebar__nav">
+        @for(item of navigationItems(); track item.route){
+            <a
+                mat-button
+                class="sidebar__link"
+                routerLinkActive="sidebar__link--active"
+                [routerLinkActiveOptions]="item.exactOptions"
+                [routerLink]="item.route"
+                [attr.data-tooltip]="isCollapsed() ? item.label : ''"
+            >
+                <div class="sidebar__icon-box">
+                    <mat-icon class="sidebar__link-icon">{{ item.icon }}</mat-icon>
+                </div>
+                <span class="sidebar__link-text">{{ item.label }}</span>
+            </a>
+        }
+    </nav>
+
+    <div class="sidebar__footer">
+        <button
+            mat-button
+            class="sidebar__link sidebar__link--logout"
+            type="button"
+            [attr.data-tooltip]="isCollapsed() ? 'Log Out' : ''"
+            (click)="logout()"
+        >
+            <div class="sidebar__icon-box">
+                <mat-icon class="sidebar__link-icon">logout</mat-icon>
+            </div>
+            <span class="sidebar__link-text">Log Out</span>
+        </button>
+    </div>
+</div>
