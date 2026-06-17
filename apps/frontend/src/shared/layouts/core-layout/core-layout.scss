@@ -99,6 +99,33 @@
   }
 
   // --- COMPONENT BUTTON OVERRIDES ---
+  &__quick-add-btn{
+    background: var(--brand-primary) !important;
+    color: var(--text-inverse) !important;
+    font-weight: var(--font-label-weight) !important;
+    border: none !important;
+    border-radius: var(--radius-interactive-element) !important;
+    padding: 0 var(--space-component-md) !important;
+    transition: transform var(--motion-fast) var(--motion-ease-default), 
+                box-shadow var(--motion-fast) var(--motion-ease-default) !important;
+
+    mat-icon {
+      margin-right: var(--space-inline-sm);
+      font-size: 1.2rem;
+      width: 1.2rem;
+      height: 1.2rem;
+    }
+
+    &:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 var(--space-4) var(--space-12) var(--focus-ring-color);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+  }
+
   &__ai-btn {
     background: linear-gradient(135deg, var(--ai-gradient-start), var(--ai-gradient-end)) !important;
     color: var(--text-inverse) !important;

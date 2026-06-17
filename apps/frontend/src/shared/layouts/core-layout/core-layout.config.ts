@@ -76,13 +76,6 @@ export const APP_NAVIGATION_CONFIG: NavigationItem[] = [
 ]
 
 export const PROFILE_NAVIGATION_CONFIG: NavigationItem[] = [
-    { 
-      label: 'Back to Dashboard', 
-      route: '/dashboard', 
-      icon: 'arrow_back',
-      headerMessage: (username) => `Welcome Back, ${username}!`,
-      exactOptions: { exact: false }
-    },
     {
         label: 'Personal Info', 
         route: '/profile/personal-info', 
@@ -109,6 +102,13 @@ export const PROFILE_NAVIGATION_CONFIG: NavigationItem[] = [
       route: '/auth/contact-support', 
       icon: 'contact_support',
       headerMessage: () => ``,
+      exactOptions: { exact: false }
+    },
+    { 
+      label: 'Back to Dashboard', 
+      route: '/dashboard', 
+      icon: 'arrow_back',
+      headerMessage: (username) => `Welcome Back, ${username}!`,
       exactOptions: { exact: false }
     },
 ]

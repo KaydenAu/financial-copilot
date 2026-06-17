@@ -10,9 +10,9 @@
   --sidebar-bg:             var(--color-darkblue-950);
   --sidebar-border-color:   var(--color-darkblue-800);
 
-  --sidebar-accent-color:   var(--color-purple-500);
-  --sidebar-accent-hover:   var(--color-purple-600);
-  --sidebar-accent-glow:    var(--color-purple-400);
+  --sidebar-accent-color:   var(--brand-primary);
+  --sidebar-accent-hover:   var(--brand-primary-hover);
+  --sidebar-accent-glow:    var(--focus-ring-color);
 
   // Typography & Content Colors
   --sidebar-text-primary:           var(--color-neutral-0);
@@ -183,7 +183,6 @@
     &--active {
       background-color: var(--sidebar-accent-color) !important;
       color: var(--sidebar-text-active) !important;
-      box-shadow: var(--space-0) var(--space-4) var(--space-20) var(--sidebar-accent-glow);
 
       .sidebar__link-icon { color: var(--sidebar-text-active) !important; }
 
