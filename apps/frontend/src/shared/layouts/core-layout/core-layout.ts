@@ -19,4 +19,8 @@ export class CoreLayout {
   public toggleSidebar(): void { this.uiLayoutService.toggleSidebar(); }
   public toggleRightPanel(): void { this.uiLayoutService.toggleRightPanel(); }
   public onAskAI(): void { this.uiLayoutService.isAiPanelOpen.set(true); }
+  public onQuickAdd(): void {
+    console.log('Quick Add menu or dialog triggered!');
+    // Future expansion: open a dialog pane or launch an overlay menu here
+  }
 }
