@@ -45,7 +45,7 @@ passport.use(
               data: {
                 userId: newUser.id,
                 userName: newUser.userName,
-                preferredCurrency: 'RM',
+                preferredCurrency: 'MYR',
               },
             });
 
