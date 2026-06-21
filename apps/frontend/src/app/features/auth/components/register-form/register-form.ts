@@ -10,7 +10,7 @@ interface registerPayload {
   email: string;
   password: string;
   confirmPassword: string;
-  agreedToTerms: boolean;
+  rememberMe: boolean;
 }
 
 @Component({
@@ -37,7 +37,7 @@ export class RegisterForm {
       email: ['',[Validators.required, Validators.email]],
       password: ['',[Validators.required, passwordStrengthValidator()]],
       confirmPassword: ['', [Validators.required]],
-      agreedToTerms: [false, [Validators.requiredTrue]],
+      rememberMe: [false, [Validators.requiredTrue]],
     }, 
     {validators: this.passwordMatchValidator}
   );
