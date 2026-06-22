@@ -13,9 +13,14 @@ const jwtExpiresIn = process.env.JWT_EXPIRES_IN as string;
 const frontendUrl = process.env.FRONTEND_URL as string;
 
 // Keeps token distribution signatures aligned with native modules
-const generateAuthToken = (userId: number, email: string): string => {
+const generateAuthToken = (userId: number, email: string, userName: string): string => {
+  const payload = {
+    id: userId, 
+    email: email, 
+    username: userName,
+  };
   return jwt.sign(
-    { id: userId, email: email }, 
+    payload, 
     jwtSecret, 
     { expiresIn: jwtExpiresIn } as SignOptions,
   );
@@ -35,7 +40,7 @@ router.get(
       return res.status(403).json({ success: false, message: 'Account deactivated.' });
     }
 
-    const token = generateAuthToken(user.id, user.email);
+    const token = generateAuthToken(user.id, user.email, user.userName);
 
     // Handshakes tracking key to native Angular layout instance
     res.redirect(`${frontendUrl}/auth/oauth-callback?token=${token}`);

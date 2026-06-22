@@ -1,36 +1,19 @@
-import { PrismaClient, Prisma } from '@prisma/client';
 import bcrypt from 'bcrypt';
+import { PrismaClient, Prisma } from '@prisma/client';
 import { randomBytes } from 'crypto';
-import dotenv from 'dotenv';
 import { Router, Request, Response, NextFunction } from 'express';
-import jwt, { SignOptions } from 'jsonwebtoken';
 
-import { sendPasswordResetEmail } from './nodemailer.config';
-import passport from './integrations_google/google.passport';
 import googleAuthRouter from './integrations_google/google.api';
+import passport from './integrations_google/google.passport';
+import { sendPasswordResetEmail } from './nodemailer.config';
+import { generateAuthToken } from '../../utils/auth.utils';
 
-
-const router = Router();
 const prisma = new PrismaClient();
+const router = Router();
 
-// Configuration variables
-dotenv.config();
-const jwtSecret = process.env.JWT_SECRET as string;
-const jwtExpiresIn = process.env.JWT_EXPIRES_IN as string;
-
-const generateAuthToken = (userId: number, email: string, rememberMe: boolean = false): string => {
-  // If rememberMe is true, token lasts 30 days. Otherwise, falls back to your short .env setting.
-  const expiresIn = rememberMe ? '30d' : jwtExpiresIn;
-
-  return jwt.sign(
-    { id: userId, email: email }, 
-    jwtSecret, 
-    { expiresIn: expiresIn } as SignOptions,
-  );
-};
-
-// Mount core passport middleware stack onto authentication endpoints
+// Mount google passport middleware stack onto authentication endpoints
 router.use(passport.initialize());
+router.use('/google', googleAuthRouter);
 
 // POST api/v1/auth/register
 // Pipeline for user registration and transactional profile allocation
@@ -38,7 +21,6 @@ router.post('/register/', async (req: Request, res: Response, next: NextFunction
     try{
         const data = {...req.body, ...req.query} ;
         const { userName, email, password, rememberMe } = data;
-
         if (!email || !userName || !password || !rememberMe) {
             res.status(400).json({ 
                 success: false,
@@ -66,26 +48,26 @@ router.post('/register/', async (req: Request, res: Response, next: NextFunction
         // Enforce an atomic transaction: Create both security identity and personal workspace together
         const newCustomUser = await prisma.$transaction(async (tx: Prisma.TransactionClient) => {
             const user = await tx.customUser.create({
-                data: {
-                    email,
-                    userName,
-                    passwordHash,
-                    // Defaults: isUser: true, isAdmin: false, isActive: true
-                }
+              data: {
+                  email,
+                  userName,
+                  passwordHash,
+                  // Defaults: isUser: true, isAdmin: false, isActive: true
+              }
             });
-            await tx.userProfile.create({
-                data: {
-                    userId: user.id,
-                    userName: user.userName,
-                    preferredCurrency: 'RM' // Fallback configuration default
-                }
+            const profile = await tx.userProfile.create({
+              data: {
+                userId: user.id,
+                // Defaults: preferredCurrency: "MYR", timezone: "Asia/Kuala_Lumpur",
+                //           dateFormat: "DD/MM/YYYY", numberFormat: "comma-dot"
+              }
             });
-            return user;
+            return { ...user, profile };
         });
 
         const token = generateAuthToken(
-          newCustomUser.id, 
-          newCustomUser.email, 
+          newCustomUser, 
+          newCustomUser.profile,
           rememberMe === true || rememberMe === 'true'
         );
 
@@ -114,7 +96,11 @@ router.post('/login/', async (req: Request, res: Response, next: NextFunction): 
             return;
         }
 
-        const user = await prisma.customUser.findUnique({ where: { email } });
+        const user = await prisma.customUser.findUnique({ 
+          where: { email },
+          include: { profile: true } 
+        });
+
         if (!user) {
             res.status(401).json({ 
                 success: false, 
@@ -149,7 +135,7 @@ router.post('/login/', async (req: Request, res: Response, next: NextFunction): 
             return;
         }
 
-        const token = generateAuthToken(user.id, user.email);
+        const token = generateAuthToken(user, user.profile);
         res.status(200).json({ 
             success: true, 
             message: 'Login Successful', 
@@ -197,7 +183,7 @@ router.post('/forgot-password/', async (req: Request, res: Response, next: NextF
       update: { token: secureToken, expiredAt: expiresAt },
       create: { userId: user.id, token: secureToken, expiredAt: expiresAt }
     });
-    console.log("After You are here")
+
     await sendPasswordResetEmail(email, secureToken);
     res.status(200).json({ 
       message: 'If the account exists, a recovery link has been dispatched.' 
@@ -225,7 +211,7 @@ router.post('/reset-password', async (req: Request, res: Response, next: NextFun
     // Locate token context structure
     const resetRecord = await prisma.passwordReset.findUnique({
       where: { token },
-      include: { user: true }
+      include: { user: { include: { profile: true } } }
     });
 
     if (!resetRecord) {
@@ -260,7 +246,7 @@ router.post('/reset-password', async (req: Request, res: Response, next: NextFun
     ]);
 
     // Matches your frontend's expectation ("Update Password & Log In") by returning a new JWT session
-    const freshToken = generateAuthToken(resetRecord.user.id, resetRecord.user.email);
+    const freshToken = generateAuthToken(resetRecord.user, resetRecord.user.profile);
     res.status(200).json({ 
       token: freshToken, 
       message: 'Password reset successfully. You are now logged in.' 
@@ -269,7 +255,5 @@ router.post('/reset-password', async (req: Request, res: Response, next: NextFun
     next(error);
   }
 });
-
-router.use('/google', googleAuthRouter);
 
 export default router;

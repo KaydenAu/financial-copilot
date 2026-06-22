@@ -1,4 +1,7 @@
 import { Routes } from '@angular/router';
+import { authGuard } from './core/auth/guards/auth-guard';
+import { CoreLayout } from '../shared/layouts/core-layout/core-layout';
+
 import { LoginPage } from './features/auth/pages/login-page/login-page';
 import { RegisterPage } from './features/auth/pages/register-page/register-page';
 import { ForgotPasswordPage } from './features/auth/pages/forgot-password-page/forgot-password-page';
@@ -9,15 +12,12 @@ import { ContactSupportPage } from './features/auth/pages/contact-support-page/c
 import { Error404Page } from './features/auth/pages/error404-page/error404-page';
 import { DashboardPage } from './features/dashboard/pages/dashboard-page/dashboard-page';
 import { OauthCallbackPage } from './features/auth/pages/oauth-callback-page/oauth-callback-page';
-import { authGuard } from './core/auth/guards/auth-guard';
+import { PersonalInfoPage } from './features/profile/pages/personal-info-page/personal-info-page';
+import { SecurityPage } from './features/profile/pages/security-page/security-page';
 import { ReportPage } from './features/reports/report-page/report-page';
 
 export const routes: Routes = [
-    {
-        path: '',
-        redirectTo: 'auth/login',
-        pathMatch: 'full',
-    },
+    { path: '', redirectTo: 'auth/login', pathMatch: 'full' },
     {
         path: 'auth',
         children: [
@@ -57,10 +57,6 @@ export const routes: Routes = [
                 path: 'oauth-callback',
                 component: OauthCallbackPage,
             },
-            {
-                path: 'reports',
-                component: ReportPage,
-            },
         ],
     },
     {
@@ -68,4 +64,21 @@ export const routes: Routes = [
         canActivate: [authGuard],
         component: DashboardPage,
     }
+        path: '',
+    component: CoreLayout,
+    canActivate: [authGuard],
+    children: [
+        { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+        { path: 'dashboard', component: DashboardPage },
+        {
+            path: 'profile',
+            children: [
+                { path: '', redirectTo: 'personal-info', pathMatch: 'full' },
+                { path: 'personal-info', component: PersonalInfoPage },
+                { path: 'security', component: SecurityPage }
+            ]
+        }
+    ]
+    },
+{ path: '**', redirectTo: 'auth/errors' },
 ];

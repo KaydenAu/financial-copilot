@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { BehaviorSubject, catchError, Observable, tap, throwError } from 'rxjs';
 import { ApiService } from '../../../../shared/services/api-service';
@@ -20,11 +20,18 @@ export class AuthApi {
     this.storageService.getItem<string>(this.tokenKey)
   );
   public token: Observable<string | null> = this.tokenSubject.asObservable();
+  public currentUser = signal<any | null>(null);
+  public userProfile = signal<any | null>(null);
 
   // Cross-application state sync: Automatically adapts state if the token changes elsewhere
   constructor() {
+    const savedToken = this.storageService.getItem<string>(this.tokenKey);
+    if(savedToken){
+      this.syncStateFromToken(savedToken);
+    }
     this.storageService.observeKey<string>(this.tokenKey).subscribe(newToken => {
       this.tokenSubject.next(newToken);
+      this.syncStateFromToken(newToken);
     });
   }
   
@@ -73,12 +80,23 @@ export class AuthApi {
     );
   }
 
+  // Tear down the active session state and redirect to login
+  public logout(): void {
+    this.storageService.removeItem(this.tokenKey);
+    this.tokenSubject.next(null);
+    this.currentUser.set(null);
+    this.userProfile.set(null);
+    this.router.navigate(['/auth/login']);
+  }
+
   // Unified Session State Persistence
   // Handles storage assignments and internal signal broadcasts on successful handshakes.
-  private handleAuthenticationSuccess(authPayload: any): void {
+  public handleAuthenticationSuccess(authPayload: any): void {
     if (authPayload?.token) {
       this.storageService.setItem(this.tokenKey, authPayload.token);
       this.tokenSubject.next(authPayload.token);
+      const profile = this.decodeTokenClaims(authPayload.token);
+      this.currentUser.set(profile);
       this.router.navigate(['/', 'dashboard']);
     }
   }
@@ -90,10 +108,31 @@ export class AuthApi {
     return throwError(() => error);
   }
 
-  // Tear down the active session state and redirect to login
-  public logout(): void {
-    this.storageService.removeItem(this.tokenKey);
-    this.tokenSubject.next(null);
-    this.router.navigate(['/login']);
+  private decodeTokenClaims(token: string | null): any | null {
+    if (!token) return null;
+    try {
+      const payloadSegment = token.split('.')[1];
+      if (!payloadSegment) return null;
+      
+      // Clean up URL-safe base64 character mapping anomalies before evaluating
+      const standardizedBase64 = payloadSegment.replace(/-/g, '+').replace(/_/g, '/');
+      const decodedJsonString = atob(standardizedBase64);
+      
+      return JSON.parse(decodedJsonString);
+    } catch (error) {
+      console.error('Failed to translate secure authentication payload claims context:', error);
+      return null;
+    }
+  }
+
+  private syncStateFromToken(token: string | null): void {
+    const claims = this.decodeTokenClaims(token);
+    if (claims) {
+      this.currentUser.set(claims.user || null);
+      this.userProfile.set(claims.profile || null);
+    } else {
+      this.currentUser.set(null);
+      this.userProfile.set(null);
+    }
   }
 }

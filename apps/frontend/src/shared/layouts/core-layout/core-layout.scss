@@ -1,0 +1,260 @@
+// ==========================================================================
+// CORE PAGE LAYOUT (BEM Architecture)
+// ==========================================================================
+@use '../../../styles/component-styles/buttons' as *;
+@use '../../../styles/component-tokens/buttons' as *;
+
+.layout-grid {
+  // --------------------------------------------------------------------------
+  // 1. LOCAL COMPONENT TOKENS
+  // --------------------------------------------------------------------------
+  // Color & Surface Tokens mapped to System Semantics
+  --core-layout-bg-app:                      var(--surface-muted);
+  --core-layout-bg-sidebar:                  var(--surface-secondary);
+  --core-layout-bg-header:                   var(--surface-primary);
+  --core-layout-bg-right-panel:              var(--surface-primary);
+  --core-layout-bg-ai-gradient:              linear-gradient(135deg, var(--ai-gradient-start), var(--ai-gradient-end));
+
+  --core-layout-text-sidebar:                var(--text-inverse);
+  --core-layout-text-greeting:               var(--text-primary);
+
+  // Typography Scale
+  --core-layout-font-size-greeting:          var(--font-body-size);
+  --core-layout-font-weight-greeting:        var(--font-label-weight);
+  --core-layout-letter-spacing-greeting:     var(--font-letter-spacing-compressed);
+
+  --core-layout-font-weight-btn: var(--font-label-weight);
+
+  // Structural Layout Spacing & Dimensions
+  --core-layout-sidebar-width:               16.250rem;
+  --core-layout-sidebar-collapsed:           4.375rem;
+  --core-layout-right-panel-width:           23.750rem;
+  --core-layout-header-height:               4.000rem;
+
+  --core-layout-padding-page:                var(--space-layout-page);
+  --core-layout-padding-btn:                 var(--space-component-md);
+  --core-layout-gap-header-items:            var(--space-component-md);
+  --core-layout-gap-icon-margin:             var(--space-inline-sm);
+
+  // Structural Borders
+  --core-layout-border-width:                var(--border-width-1);
+  --core-layout-border-style:                var(--border-style-solid);
+  --core-layout-border-color-sidebar:        var(--color-white-10);
+  --core-layout-border-color-header:         var(--border-primary);
+  --core-layout-border-color-right-panel:    var(--border-primary);
+
+  // Component Overrides & Button Visuals
+  --core-layout-panel-shadow:                var(--elevation-medium);
+
+  // --------------------------------------------------------------------------
+  // 2. BEM ELEMENTS & EXECUTION
+  // Protected layouts rules. Do not edit unless modifying structural behavior.
+  // --------------------------------------------------------------------------
+  display: grid;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  background-color: var(--core-layout-bg-app);
+  
+  // Three core horizontal structural pillars
+  grid-template-rows: 1fr;
+  grid-template-columns: var(--core-layout-sidebar-width) 1fr 0rem;
+  grid-template-areas: "sidebar workspace panel";
+  
+  // Clean fluid transition adjustments when layouts or sidebars switch states
+  transition: grid-template-columns var(--motion-slow) var(--motion-ease-default);
+
+  // --- MODIFIERS (State Alterations) ---
+  &--sidebar-collapsed {
+    grid-template-columns: var(--core-layout-sidebar-collapsed) 1fr 0rem;
+
+    .layout-grid__sidebar {
+      overflow: visible !important;
+    }
+    
+    // Handles fluid composition boundaries when both panel states trigger simultaneously
+    &.layout-grid--right-panel-open {
+      grid-template-columns: var(--core-layout-sidebar-collapsed) 1fr var(--core-layout-right-panel-width);
+    }
+  }
+
+  &--right-panel-open {
+    grid-template-columns: var(--core-layout-sidebar-width) 1fr var(--core-layout-right-panel-width);
+  }
+
+  &__sidebar {
+    grid-area: sidebar;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    background-color: var(--core-layout-bg-sidebar); 
+    color: var(--core-layout-text-sidebar);                
+    border-right: var(--core-layout-border-width) var(--core-layout-border-style) var(--core-layout-border-color-sidebar);
+    z-index: var(--layer-sticky-nav);
+  }
+
+  &__workspace {
+    grid-area: workspace;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    height: 100%;
+    background-color: var(--core-layout-bg-app);
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: var(--core-layout-header-height);
+    min-height: var(--core-layout-header-height);
+    background-color: var(--core-layout-bg-header);
+    border-bottom: var(--core-layout-border-width) var(--core-layout-border-style) var(--core-layout-border-color-header);
+    padding: 0 var(--core-layout-padding-page);
+  }
+
+  &__header-left {
+    display: flex;
+    align-items: center;
+  }
+
+  &__header-right {
+    display: flex;
+    align-items: center;
+    gap: var(--core-layout-gap-header-items);
+  }
+
+  &__greeting {
+    color: var(--core-layout-text-greeting);
+    font-size: var(--core-layout-font-size-greeting);
+    font-weight: var(--core-layout-font-weight-greeting);
+    letter-spacing: var(--core-layout-letter-spacing-greeting);
+  }
+
+  &__content {
+    flex: 1;
+    overflow-y: auto;
+    padding: var(--core-layout-padding-page);
+  }
+
+  &__right-panel {
+    grid-area: panel;
+    overflow: hidden;
+    background-color: var(--core-layout-bg-right-panel);
+    border-left: var(--core-layout-border-width) var(--core-layout-border-style) var(--core-layout-border-color-panel);
+    box-shadow: var(--core-layout-panel-shadow);
+    z-index: var(--layer-sticky-nav);
+  }
+  
+  &__quick-add-btn {
+    @extend %btn-core;     // Injects structural layouts & Angular Material overrides
+    @extend .btn-primary;  // Injects Primary color token definitions
+    --_btn-width: auto;   
+    --_btn-font-weight: var(--font-weight-700); 
+  }
+
+  &__ai-btn {
+    @extend %btn-core;     // Injects structural layouts & Angular Material overrides
+    @extend .btn-ai;       // Injects AI gradient token definitions
+    --_btn-width: auto;  
+    --_btn-font-weight: var(--font-weight-700); 
+  }
+}
+
+// ==========================================================================
+// BLOCK: PANEL-CONTAINER (Right Context Floating Drawer Content)
+// ==========================================================================
+.panel-container {
+  // --------------------------------------------------------------------------
+  // 1. LOCAL COMPONENT TOKENS
+  // --------------------------------------------------------------------------
+  --core-panel-bg-main:                  var(--surface-primary);
+  --core-panel-bg-body:                  var(--surface-subtle);
+  --core-panel-bg-bubble:                var(--surface-primary);
+  
+  --core-panel-text-title:               var(--text-primary);
+  --core-panel-text-body:                var(--text-secondary);
+  --core-panel-accent-color:             var(--ai-gradient-start);
+  
+  --core-panel-btn-close-color:          var(--text-muted);
+  --core-panel-btn-close-hover-text:     var(--state-error-text);
+  --core-panel-btn-close-hover-bg:       var(--state-error-surface);
+
+  // Spacing & Dimensions
+  --core-panel-padding-header-y:         var(--space-10);
+  --core-panel-padding-header-x:         var(--space-component-lg);
+  --core-panel-padding-body:             var(--space-component-lg);
+  --core-panel-padding-bubble:           var(--space-component-md);
+
+  // Borders, Shapes & Shadows
+  --core-panel-border-width-accent:      var(--border-width-4);
+  --core-panel-border-width-standard:    var(--border-width-1);
+  --core-panel-border-style:             var(--border-style-solid);
+  --core-panel-border-color:             var(--border-primary);
+  
+  --core-panel-bubble-radius:            var(--radius-container-element);
+  --core-panel-bubble-shadow:            var(--elevation-low);
+
+  --core-panel-font-size-title: var(--font-heading-4-size);
+  --core-panel-font-weight-title: var(--font-label-weight);
+  --core-panel-letter-spacing-title: var(--font-letter-spacing-compressed);
+
+  --core-panel-font-size-body: var(--font-label-size);
+  --core-panel-line-height-body: var(--font-body-line-height);
+
+
+  // --------------------------------------------------------------------------
+  // 2. BEM ELEMENTS & EXECUTION
+  // Protected layouts rules. Do not edit unless modifying structural behavior.
+  // --------------------------------------------------------------------------
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: var(--core-panel-bg-main);
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--core-panel-padding-header-y) var(--core-panel-padding-header-x);
+    border-bottom: var(--core-panel-border-width-standard) var(--core-panel-border-style) var(--core-panel-border-color);
+    // Explicit top boundary accent line mapping directly to the login brand colors
+    border-top: var(--core-panel-border-width-accent) var(--core-panel-border-style) var(--core-panel-accent-color); 
+  }
+
+  &__title {
+    margin: 0;
+    font-size: var(--core-panel-font-size-title);
+    font-weight: var(--core-panel-font-weight-title);
+    color: var(--core-panel-text-title);
+    letter-spacing: var(--core-panel-letter-spacing-title);
+  }
+
+  &__close-btn {
+    color: var(--core-panel-btn-close-color) !important;
+    transition: var(--motion-hover-transition) !important;
+
+    &:hover {
+      color: var(--core-panel-btn-close-hover-text) !important;
+      background-color: var(--core-panel-btn-close-hover-bg) !important;
+    }
+  }
+
+  &__body {
+    flex: 1;
+    overflow-y: auto;
+    padding: var(--core-panel-padding-body);
+    background-color: var(--core-panel-bg-body);
+    color: var(--core-panel-text-body);
+    font-size: var(--core-panel-font-size-body);
+    line-height: var(--core-panel-line-height-body);
+  }
+    
+  &__message-bubble{
+      margin: 0;
+      background-color: var(--core-panel-bg-bubble);
+      padding: var(--core-panel-padding-bubble);
+      border-radius: var(--core-panel-bubble-radius);
+      border: var(--core-panel-border-width-standard) var(--core-panel-border-style) var(--core-panel-border-color);
+      box-shadow: var(--core-panel-bubble-shadow);
+    }
+}

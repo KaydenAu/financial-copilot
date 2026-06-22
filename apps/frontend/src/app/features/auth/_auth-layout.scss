@@ -1,15 +1,17 @@
 // ==========================================================================
 // AUTH PAGE LAYOUT (BEM Architecture)
 // ==========================================================================
+@use '../../../styles/component-styles/buttons' as *;
+@use '../../../styles/component-tokens/buttons' as *;
 
 .auth-layout {
   // --------------------------------------------------------------------------
   // 1. LOCAL COMPONENT TOKENS
   // --------------------------------------------------------------------------
   // Brand & Accent Tokens mapped to System Semantics
-  --auth-accent-color:              var(--color-purple-500);
-  --auth-accent-hover:              var(--color-purple-600);
-  --auth-accent-glow:               var(--color-purple-400);
+  --auth-accent-color:              var(--brand-primary);
+  --auth-accent-hover:              var(--brand-primary-hover);
+  --auth-accent-glow:               var(--focus-ring-color);
 
   --auth-gradient-bg: linear-gradient(
       135deg, 
@@ -26,41 +28,40 @@
   );
 
   // Typography & Color Constants
-  --auth-text-primary:              var(--color-neutral-0);
-  --auth-text-muted:                var(--color-neutral-400);
-  --auth-text-disabled:             var(--color-neutral-300);
-  --auth-error-bg:                  var(--color-light-red-50);
-  --auth-error-border:              var(--color-light-red-100);
-  --auth-error-text:                var(--color-light-red-200);
+  --auth-text-primary:              var(--text-inverse);
+  --auth-text-muted:                var(--text-subtle);
+  --auth-error-bg:                  var(--state-error-surface);
+  --auth-error-border:              var(--state-error-border);
+  --auth-error-text:                var(--state-error-text);
   
   // Layout Spacing & Dimension
-  --auth-input-height:              var(--space-48);
-  --auth-gap-form:                  var(--space-20);
-  --auth-gap-elements:              var(--space-16);
+  --auth-input-height:              var(--size-dimension-lg);
+  --auth-gap-elements:              var(--space-component-md);
+  --auth-gap-form:                  var(--space-component-card);
   --auth-padding-desktop-x:         var(--space-96);
-  --auth-padding-desktop-y:         var(--space-64);
-  --auth-padding-mobile-x:          var(--space-16);
-  --auth-padding-mobile-y:          var(--space-32);
+  --auth-padding-desktop-y:         var(--space-layout-section);
+  --auth-padding-mobile-x:          var(--space-component-md);
+  --auth-padding-mobile-y:          var(--space-component-xl);
   
   // Typography Scale
-  --auth-font-family:               var(--font-family-sans);
-  --auth-font-size-title:           var(--font-size-44);
-  --auth-font-size-subtitle:        var(--font-size-18);
-  --auth-font-size-card-title:      var(--font-size-28);
-  --auth-font-size-body:            var(--font-size-14);
-  --auth-font-size-footer-link:     var(--font-size-12);
-  --auth-font-size-card-link:       var(--font-size-14);
+  --auth-font-family:               var(--font-family-default);
+  --auth-font-size-title:           var(--font-heading-1-size);
+  --auth-font-size-card-title:      var(--font-heading-3-size);
+  --auth-font-size-subtitle:        var(--font-heading-4-size);
+  --auth-font-size-body:            var(--font-label-size);
+  --auth-font-size-card-link:       var(--font-label-size);
+  --auth-font-size-footer-link:     var(--font-caption-size);
   
-  --auth-font-weight-regular:       var(--font-weight-400);
-  --auth-font-weight-medium:        var(--font-weight-500);
-  --auth-font-weight-semibold:      var(--font-weight-600);
-  --auth-font-weight-bold:          var(--font-weight-700);
+  --auth-font-weight-bold:          var(--font-heading-1-weight);
+  --auth-font-weight-semibold:      var(--font-heading-3-weight);
+  --auth-font-weight-medium:        var(--font-heading-4-weight);
+  --auth-font-weight-regular:       var(--font-body-weight);
+  
+  --auth-line-height-tight:         var(--font-heading-1-line-height); 
+  --auth-line-height-relaxed:       var(--font-body-line-height);
 
-  --auth-line-height-tight:         var(--line-height-110); 
-  --auth-line-height-relaxed:       var(--line-height-160);
-
-  --auth-line-spacing-tight:        var(--letter-spacing-tight);
-  --auth-line-spacing-wide:         var(--letter-spacing-wide);
+  --auth-line-spacing-tight:        var(--font-letter-spacing-compressed);
+  --auth-line-spacing-wide:         var(--font-letter-spacing-relaxed);
 
   // Opacity Scale
   --auth-opacity-high:              var(--opacity-85);
@@ -69,15 +70,15 @@
   --auth-opacity-disabled:          var(--opacity-50);
 
   // Structural Borders & Shapes
-  --auth-border-width:              var(--border-width-1);
-  --auth-border-style:              var(--border-style-solid);
-  --auth-card-radius:               var(--radius-24); 
-  --auth-input-radius:              var(--radius-14);  
-  --auth-alert-radius:              var(--radius-8);  
+  --auth-border-width:              var(--border-width-component);
+  --auth-border-style:              var(--border-style-default);
+  --auth-card-radius:               var(--radius-overlay-element); 
+  --auth-input-radius:              var(--radius-container-element);  
+  --auth-alert-radius:              var(--radius-interactive-element);  
 
   // Motions
-  --auth-transition-speed:          var(--motion-duration-200);
-  --auth-transition-easing:         var(--motion-ease-in-out);
+  --auth-transition-speed:          var(--motion-base);
+  --auth-transition-easing:         var(--motion-ease-default);
 
   // --------------------------------------------------------------------------
   // 2. BEM ELEMENTS & EXECUTION
@@ -111,7 +112,7 @@
       padding: var(--auth-padding-desktop-y) var(--auth-padding-desktop-x);
       color: var(--auth-text-primary);
 
-      @media (max-width: var(--breakpoint-lg)) {
+      @media (max-width: var(--viewport-tablet)) {
         display: none; // Managed via modifiers below for mobile structural collapses
       }
   }
@@ -129,7 +130,7 @@
       font-size:     var(--auth-font-size-title);
       font-weight:   var(--auth-font-weight-bold);
       line-height:   var(--auth-line-height-tight);
-      margin-bottom: var(--space-32);
+      margin-bottom: var(--space-component-xl);
   }
 
   // Supporting descriptive body text
@@ -143,11 +144,11 @@
   // Footer bar sitting on the left side
   &__footer {
       flex-shrink: 0;
-      padding: var(--space-14) var(--space-24);
+      padding: var(--space-component-sm) var(--space-component-lg);
       display: flex;
       justify-content: center;
       align-items: center;
-      backdrop-filter: blur(var(--space-10));
+      backdrop-filter: blur(var(--space-component-xs));
       background: var(--color-black-2);
       border-top: var(--auth-border-width) var(--auth-border-style) var(--color-black-3);
   }
@@ -158,7 +159,7 @@
       align-items: center;
       justify-content: center;
       flex-wrap: wrap; // Wraps on tiny phone screens
-      gap: var(--space-8);
+      gap: var(--space-component-xs);
       font-size: var(--auth-font-size-footer-link);
       color: var(--auth-text-primary);
 
@@ -185,14 +186,14 @@
 
   &__footer-divider {
       opacity: var(--opacity-30);
-      padding: var(--space-0) var(--space-4);
+      padding: var(--space-0) var(--space-inline-xs);
   }
 
   // Right interaction panel
   &__right {
       flex: 1;
       height: 100vh;
-      padding: var(--space-0) var(--space-32);
+      padding: var(--space-0) var(--space-inline-2xl);
       position: relative; // Absolute boundary for glow ring context hooks
       display: flex;
       justify-content: flex-start;
@@ -201,9 +202,9 @@
       overflow-y: auto;
       border: var(--auth-border-width) var(--auth-border-style) var(--color-black-10) !important;
       background: var(--color-white-10) !important;
-      box-shadow: var(--elevation-3) !important;
-      backdrop-filter: blur(var(--space-10));
-      -webkit-backdrop-filter: blur(--space-10);
+      box-shadow: var(--elevation-high) !important;
+      backdrop-filter: blur(var(--space-component-sm));
+      -webkit-backdrop-filter: blur(var(--space-component-sm));
 
       // Dynamic radial glow ambient ring background element
       &::before {
@@ -211,8 +212,8 @@
           position: fixed; // Fixed prevents the glow asset from moving when scrolling content
           width: 26rem;
           height: 26rem;
-          filter: blur(var(--space-32));
-          z-index: var(--z-index-0);
+          filter: blur(var(--space-component-xl));
+          z-index: var(--layer-default);
           background: var(--auth-gradient-glow);
           top: 50%;
           left: 50%; 
@@ -229,7 +230,7 @@
       max-width: 26rem;
       padding: var(--auth-gap-elements);
       border-radius: var(--auth-card-radius) !important;
-      z-index: var(--z-index-10);
+      z-index: var(--layer-sticky-nav);
       color: var(--auth-text-primary);
   }
 
@@ -245,7 +246,7 @@
 
   &__card-link{
     opacity: var(--auth-opacity-high); 
-    color: var(--color-neutral-300);
+    color: var(--text-subtle);
     font-size: var(--auth-font-size-card-link);
     font-weight: var(--auth-font-weight-medium);
     text-decoration: none;
@@ -263,12 +264,12 @@
 
   &__description {
     color: var(--color-white-85); 
-    font-size: var(--font-size-16);
+    font-size: var(--font-body-size);
     line-height: var(--auth-line-height-relaxed);
     text-align: justify;
     
     // Reset browser defaults and establish a perfectly uniform spacer
-    margin: var(--space-0) var(--space-0) var(--space-32) var(--space-0); 
+    margin: var(--space-0) var(--space-0) var(--space-component-xl) var(--space-0); 
   }
 
 
@@ -282,7 +283,7 @@
   &__password-group {
     display: flex;
     flex-direction: column;
-    gap: var(--space-4);
+    gap: var(--space-inline-xs);
     width: 100%;
   }
 
@@ -293,15 +294,15 @@
     justify-content: space-between;
     text-align: justify;
     font-size: var(--auth-font-size-body);
-    margin-top: calc(var(--space-8) * var(--z-index-negative));
-    margin-bottom: var(--space-2);
+    margin-top: calc(var(--space-component-xs) * var(--z-index-negative));
+    margin-bottom: var(--space-inline-xs);
   }
 
   &__error-alert {
     background-color: var(--auth-error-bg);
     border: var(--auth-border-width) var(--auth-border-style) var(--auth-error-border);
     color: var(--auth-error-text);
-    padding: var(--space-12) var(--space-16);
+    padding: var(--space-component-sm) var(--space-component-md);
     border-radius: var(--auth-alert-radius);
     font-size: var(--auth-font-size-body);
     font-weight: var(--auth-font-weight-medium);
@@ -313,8 +314,8 @@
     align-items: center;
     text-align: center;
     text-transform: uppercase;
-    margin: var(--space-20) var(--space-0);
-    font-size: var(--font-size-14);
+    margin: var(--space-component-md) var(--space-0);
+    font-size: var(--font-label-size);
     font-weight: var(--auth-font-weight-bold);
     letter-spacing: var(--letter-spacing-wide);
     color: var(--auth-text-primary);
@@ -323,15 +324,15 @@
     &::after {
       content: '';
       flex: 1;
-      border-bottom: var(--border-width-2) var(--border-style-solid) var(--color-white-20);
+      border-bottom: var(--border-width-active) var(--auth-border-style) var(--color-white-20);
     }
 
     &:not(:empty)::before {
-      margin-right: var(--space-16);
+      margin-right: var(--space-component-md);
     }
 
     &:not(:empty)::after {
-      margin-left: var(--space-16);
+      margin-left: var(--space-component-md);
     }
   }
 
@@ -342,8 +343,8 @@
     color: var(--auth-text-primary);
     font-size: var(--font-size-18);
     font-weight: var(--auth-font-weight-bold);
-    letter-spacing: var(--letter-spacing-wide);
-    margin: var(--space-16) var(--space-0); // Uniform vertical spacing above and below the email
+    letter-spacing: var(--auth-line-spacing-wide);
+    margin: var(--space-component-md) var(--space-0); // Uniform vertical spacing above and below the email
   }
 
   &__instruction-list {
@@ -351,15 +352,15 @@
     padding-left: var(--space-14);
     display: flex;
     flex-direction: column;
-    gap: var(--space-6);
-    line-height: var(--line-height-150);
+    gap: var(--space-inline-sm);
+    line-height: var(--auth-line-height-relaxed);
   }
 
   &__action-stack {
     display: flex;
     flex-direction: column;
     width: 100%;
-    gap: var(--space-32); 
+    gap: var(--space-component-xl); 
 
     // Ensure Angular Material button overrides don't crush the margins
     button {
@@ -370,100 +371,31 @@
 
   &__submit-wrapper{
     width: 100%;
-    margin-top: var(--space-16);
+    margin-top: var(--space-component-md);
   }
 
-  &__submit-btn,
+  // Primary Submit Button Integration
+  &__submit-btn {
+    @extend %btn-core; 
+    @extend .btn-primary;  // Injects the Primary color token definitions
+  }
+
+  // Google SSO Button Integration
   &__google-btn {
-    &.mat-mdc-button,
-    &.mat-mdc-raised-button,
-    &.mat-mdc-unelevated-button,
-    &.mat-mdc-outlined-button {
-      // Force the corner radius on the host element container
-      border-radius: var(--auth-input-radius) !important;
-      overflow: hidden !important; // Clips internal states cleanly
-
-      // Match internal Angular material structural templates
-      --mdc-protected-button-container-shape: var(--auth-input-radius) !important;
-      --mdc-filled-button-container-shape: var(--auth-input-radius) !important;
-    }
-
-    // Inject design tokens into official Angular Material MDC variables
-    --mdc-protected-button-container-color: var(--auth-accent-color) !important;
-    --mdc-protected-button-label-text-color: var(--auth-text-primary) !important;
-    --mdc-filled-button-container-color: var(--auth-accent-color) !important;
-    --mdc-filled-button-label-text-color: var(--auth-text-primary) !important;
-
-    // Standard fallback properties for safety
-    background-color: var(--auth-accent-color) !important;
-    color: var(--auth-text-primary); 
-    border-radius: var(--auth-input-radius) !important;
-    overflow: hidden !important; // Prevents internal ripples from bleeding past rounded edges
-
-    width: 100% !important;
-    box-sizing: border-box !important;
-    height: var(--auth-input-height) !important;
-
-    display: inline-flex !important; 
-    align-items: center;
-    justify-content: center;
-    white-space: nowrap;
-    text-align: center;
-    line-height: var(--line-height-100) !important;
-
-    font-size: var(--font-size-16) !important;
-    font-weight: var(--auth-font-weight-semibold) !important;
-
-    transition: box-shadow var(--motion-duration-300) var(--auth-transition-easing), 
-                background-color var(--motion-duration-300) var(--auth-transition-easing) !important;
-    
-    // Hover & Active Interactive States
-    &:not(:disabled):not([disabled]):hover {
-      --mdc-protected-button-container-color: var(--auth-accent-hover) !important;
-      --mdc-filled-button-container-color: var(--auth-accent-hover) !important;
-
-      filter: brightness(1.1);
-      background-color: var(--auth-accent-hover) !important;
-      box-shadow: var(--space-0) var(--space-0) var(--space-20) var(--auth-accent-glow);
-    }
-
-    // Disabled State
-    &:disabled,
-    &[disabled] {
-      cursor: not-allowed;
-      filter: none !important;
-      box-shadow: none !important;
-      opacity: var(--auth-opacity-disabled) !important;
-
-      --mdc-protected-button-disabled-label-text-color: var(--auth-text-primary) !important;
-      --mdc-filled-button-disabled-label-text-color: var(--auth-text-primary) !important;
-      color: var(--auth-text-primary) !important;
-    }
-
-    span {
-      display: inline-block;
-      vertical-align: middle;
-    }
+    @extend %btn-core;    
+    @extend .btn-google;   // Injects the Google brand token definitions
   }
 
-  &__google-btn{
-    margin-top: var(--space-8);
-    margin-bottom: var(--space-16); 
-
-    .auth-layout__google-icon {
-        width: var(--space-18) !important;
-        height: var(--space-18) !important;
-        min-width: var(--space-18);
-        min-height: var(--space-18);
-        margin-right: var(--space-12);
-        object-fit: contain;
-        display: inline-block;
-      }
+  // Helper layout rules for the Google Icon alignment
+  &__google-icon{
+    width: var(--space-component-md);
+    height: var(--space-component-md);
+    display: inline-block;
   }
 
   // MODIFIERS & RESPONSIVE STATES
   // Responsive state rule overrides
-  @media (max-width: var(--breakpoint-lg)) {
+  @media (max-width: var(--viewport-tablet)) {
     min-height: 100vh;
     height: auto; // Re-allow scrolling on mobile / tablet because elements need stack space
     overflow: auto;
@@ -498,7 +430,6 @@
 
 // ANGULAR MATERIAL INTERNALS ENCAPSULATION
 .auth-layout ::ng-deep {
-  // Make sure the checkbox text adapts to your auth screen color scheme
   mat-checkbox {
     color: var(--auth-text-primary);
     opacity: var(--auth-opacity-high);
@@ -510,7 +441,7 @@
     flex-direction: column;
     align-items: center;      
     text-align: center;
-    padding: var(--space-0) var(--space-0) var(--space-8) var(--space-0) !important;
+    padding: var(--space-0) var(--space-0) var(--space-component-xs) var(--space-0) !important;
 
     .mat-mdc-card-header-text {
       width: 100%;
@@ -524,7 +455,7 @@
       font-weight: var(--auth-font-weight-bold);
       letter-spacing: var(--letter-spacing-tight);
       color: var(--auth-text-primary);
-      margin-bottom: var(--space-8) !important;
+      margin-bottom: var(--space-component-xs) !important;
     }
 
     mat-card-subtitle {
@@ -571,7 +502,7 @@
       display: flex !important;
       align-items: center !important;
       min-height: var(--auth-input-height) !important;
-      padding: var(--space-0) var(--space-8) !important;
+      padding: var(--space-0) var(--space-component-xs) !important;
     }
 
     // 2. APPLY THE GLASS TINT TO THE CORNER SPANS DIRECTLY
@@ -600,9 +531,8 @@
       .mdc-notched-outline__leading,
       .mdc-notched-outline__notch,
       .mdc-notched-outline__trailing {
-        // border-color: var(--auth-accent-color) !important; 
-        border-color: var(--color-neutral-400) !important;
-        border-width: var(--border-width-2) !important;
+        border-color: var(--border-secondary) !important;
+        border-width: var(--border-width-active) !important;
       }
     }
         
@@ -659,7 +589,7 @@
     // 5. FLOATING LABELS (Now correctly structured under mat-form-field context)
     .mdc-floating-label {
       color: var(--color-white-60) !important;
-      font-size: var(--font-size-16);
+      font-size: var(--font-body-size);
     }
 
     &.mat-focused .mdc-floating-label {
@@ -673,7 +603,7 @@
     // 6. SUFFIX BUTTON IMPLEMENTATION
     button[mat-icon-button][matSuffix] {
       color: var(--auth-text-muted);
-      margin-right: calc(var(--space-4) * var(--z-index-negative));
+      margin-right: calc(var(--space-inline-xs) * -1);
 
       &:hover {
         color: var(--auth-text-primary);
@@ -686,12 +616,12 @@
       color: var(--auth-error-text) !important;   
       font-size: var(--auth-font-size-body);      
       font-weight: var(--auth-font-weight-medium);
-      letter-spacing: var(--letter-spacing-wide);
-      margin-top: var(--space-6);      
-      padding-left: var(--space-4);     
+      letter-spacing: var(--auth-line-spacing-wide);
+      margin-top: var(--space-inline-xs);      
+      padding-left: var(--space-inline-xs);     
       display: flex;
       align-items: center;
-      gap: var(--space-4);   
+      gap: var(--space-inline-xs);   
     }
   }
 
@@ -704,26 +634,6 @@
     }
     .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__mdc-notch-filler {
       border-color: var(--color-white-20) !important;
-    }
-  }
-
-  // FORCE INTERNAL RIPPLES TO CURVE: Prevents square hover / focus vectors
-  .auth-layout__submit-btn,
-  .auth-layout__google-btn {
-    .mat-mdc-button-ripple,
-    .mat-mdc-button-persistent-ripple,
-    .mdc-button__ripple {
-      border-radius: var(--auth-input-radius) !important;
-    }
-
-    // Aligns the Google icon and text perfectly center inside the Material content block
-    .mdc-button__label,
-    .mdc-button__label * {
-      color: var(--auth-text-primary) !important;
-      display: flex !important;
-      align-items: center !important;
-      justify-content: center !important;
-      width: 100%;
     }
   }
 }

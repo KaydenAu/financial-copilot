@@ -2,8 +2,9 @@ import cors from "cors";
 import dotenv from 'dotenv';
 import express, { Request, Response, NextFunction } from "express";
 
-import authRouter from "./modules/auth/auth.api"
 import passport from "./modules/auth/integrations_google/google.passport"
+import authRouter from "./modules/auth/auth.api"
+import profileRouter from "./modules/profile/profile.api"
 
 dotenv.config();
 const port = process.env.PORT;
@@ -23,8 +24,9 @@ const corsOptions = {
 }
 app.use(cors(corsOptions));
 
-// Mounts the authentication module.
+// Mounts the module.
 app.use('/api/v1/auth', authRouter);
+app.use('/api/v1/profile/personal-info', profileRouter);
 app.use(passport.initialize());
 
 // Intercepts errors passed via next(error) from your async route handlers

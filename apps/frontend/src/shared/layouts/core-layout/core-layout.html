@@ -1,0 +1,65 @@
+<div 
+  class="layout-grid" 
+  [class.layout-grid--sidebar-collapsed]="isSidebarCollapsed()"
+  [class.layout-grid--right-panel-open]="isAiPanelOpen()"
+>
+  
+  <aside class="layout-grid__sidebar">
+    <app-left-sidebar></app-left-sidebar>
+  </aside>
+
+  <div class="layout-grid__workspace">
+    <header class="layout-grid__header">
+      <div class="layout-grid__header-left">
+        <span class="layout-grid__greeting">{{ headerMessage() }}</span>
+      </div>
+
+      <div class="layout-grid__header-right">
+        <button 
+          mat-flat-button 
+          class="layout-grid__quick-add-btn" 
+          type="button" 
+          (click)="onQuickAdd()"
+        >
+          <mat-icon>add</mat-icon>
+          <span>Quick Add</span>
+        </button>
+        <button 
+          mat-flat-button 
+          class="layout-grid__ai-btn" 
+          type="button"
+          (click)="onAskAI()" 
+        >
+          <mat-icon>auto_awesome</mat-icon>
+          <span>Ask AI</span>
+        </button>
+      </div>
+    </header>
+
+    <main class="layout-grid__content">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+
+  <aside class="layout-grid__right-panel">
+    <div class="panel-container">
+      <div class="panel-container__header">
+        <h3 class="panel-container__title">AI Assistant Workspace</h3>
+        <button 
+          mat-icon-button 
+          class="panel-container__close-btn" 
+          type="button"
+          (click)="toggleRightPanel()" 
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+      <div class="panel-container__body">
+        <p class="panel-container__message-bubble">
+          How can your financial copilot assist you with your ledger data details today?
+        </p>
+      </div>
+    </div>
+  </aside>
+
+</div>

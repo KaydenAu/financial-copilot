@@ -23,8 +23,16 @@ model CustomUser {
 // UserProfile handles application data and user customizations
 model UserProfile {
   id                Int         @id @default(autoincrement())
-  userName          String      @map("user_name")
-  preferredCurrency String      @default("RM") @map("preferred_currency")
+
+  // Reporting Data (Optional fields allow for fallback to CustomUser.userName)
+  firstName         String?     @map("first_name")
+  lastName          String?     @map("last_name")
+
+  // Localization & Formatting Preferences
+  preferredCurrency String      @default("MYR") @map("preferred_currency")
+  timezone          String      @default("Asia/Kuala_Lumpur") @map("timezone")
+  dateFormat        String      @default("DD/MM/YYYY") @map("date_format")
+  numberFormat      String      @default("comma-dot") @map("number_format")
 
   createdAt         DateTime    @default(now()) @map("created_at")
   updatedAt         DateTime    @updatedAt @map("updated_at")

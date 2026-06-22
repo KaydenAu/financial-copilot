@@ -1,0 +1,137 @@
+<div class="personal-info__container">
+    <form #profileForm="ngForm" (ngSubmit)="onSaveChanges()" class="personal-info__form">
+        <section class="personal-info__section">
+            <h3 class="personal-info__section-title">Core Identity</h3>
+            <div class="personal-info__form-group">
+                <label class="personal-info__label" for="email">Email Address</label>
+                <input 
+                    required 
+                    class="personal-info__control" 
+                    type="email" 
+                    id="email" 
+                    name="email"
+                    [ngModel]="email()" 
+                    (ngModelChange)="email.set($event)" 
+                />
+            </div>
+        </section>
+        <section class="personal-info__section">
+            <h3 class="personal-info__section-title">Personal Details</h3>      
+            <div class="personal-info__row">
+                <div class="personal-info__form-group">
+                    <label class="personal-info__label" for="firstName">First Name</label>
+                    <input 
+                        class="personal-info__control"
+                        type="text" 
+                        id="firstName" 
+                        name="firstName"
+                        [ngModel]="firstName()" 
+                        (ngModelChange)="firstName.set($event)" 
+                    />
+                </div>
+                <div class="personal-info__form-group">
+                    <label class="personal-info__label" for="lastName">Last Name</label>
+                    <input 
+                        class="personal-info__control"
+                        type="text" 
+                        id="lastName" 
+                        name="lastName"
+                        [ngModel]="lastName()" 
+                        (ngModelChange)="lastName.set($event)" 
+                    />
+                </div>
+            </div>
+        </section>
+
+        <section class="personal-info__section">
+            <h3 class="personal-info__section-title">Localization & Preferences</h3>
+            <div class="personal-info__row">
+                <div class="personal-info__form-group">
+                    <label class="personal-info__label" for="currency">Preferred Currency</label>
+                    <select 
+                        class="personal-info__control"
+                        id="currency" 
+                        name="currency"
+                        [ngModel]="preferredCurrency()" 
+                        (ngModelChange)="preferredCurrency.set($event)" 
+                    >
+                        @for (currency of currencies; track currency.code) {
+                            <option [value]="currency.code">{{ currency.name }}</option>
+                        }
+                    </select>
+                </div>
+                <div class="personal-info__form-group">
+                    <label class="personal-info__label" for="timezone">System Timezone</label>
+                    <select 
+                        class="personal-info__control"
+                        id="timezone" 
+                        name="timezone"
+                        [ngModel]="timezone()" 
+                        (ngModelChange)="timezone.set($event)" 
+                    >
+                        @for (tz of timezones; track tz) {
+                            <option [value]="tz.value">{{ tz.label }}</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="personal-info__row">
+                <div class="personal-info__form-group">
+                    <label class="personal-info__label" for="dateFormat">Date Interface Layout</label>
+                    <select 
+                        class="personal-info__control"
+                        id="dateFormat" 
+                        name="dateFormat"
+                        [ngModel]="dateFormat()" 
+                        (ngModelChange)="dateFormat.set($event)" 
+                    >
+                        @for (format of dateFormats; track format) {
+                            <option [value]="format.value">{{ format.label }}</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="personal-info__form-group">
+                    <label class="personal-info__label" for="numberFormat">Number System Convention</label>
+                    <select 
+                        class="personal-info__control"
+                        id="numberFormat" 
+                        name="numberFormat"
+                        [ngModel]="numberFormat()" 
+                        (ngModelChange)="numberFormat.set($event)" 
+                    >
+                        @for (numFmt of numberFormats; track numFmt.value) {
+                            <option [value]="numFmt.value">{{ numFmt.label }}</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        </section>
+
+        <footer class="personal-info__actions">
+            <button 
+                type="submit" 
+                class="personal-info__save-btn"
+                [disabled]="!profileForm.valid"
+            >
+                Save Configurations
+            </button>
+        </footer>
+    </form>
+    <hr class="personal-info__divider" />
+    <section class="personal-info__danger-zone">
+        <div class="personal-info__danger-meta">
+            <h4 class="personal-info__danger-title">Danger Zone: Delete Account</h4>
+            <p class="personal-info__danger-description">
+                Proceeding will completely wipe your profile, security credentials and workspace configurations from our servers. This action is absolute and cannot be undone.
+            </p>
+        </div>
+        <button 
+            type="button" 
+            class="personal-info__delete-btn"
+            (click)="onDeleteAllUserData()" 
+        >
+            Delete All Personal Data
+        </button>
+    </section>
+</div>
