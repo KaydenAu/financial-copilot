@@ -74,12 +74,12 @@
 
   &__brand-text {
     white-space: nowrap;
-    text-transform: uppercase;
+    // text-transform: uppercase;
     overflow: hidden;
     text-overflow: clip;
     max-width: 11rem;
     color: var(--sidebar-text-primary);
-    font-size: var(--font-size-14);
+    font-size: var(--font-body-size);
     font-weight: var(--font-weight-700);
     letter-spacing: var(--letter-spacing-wide);
     margin-left: var(--space-12);
