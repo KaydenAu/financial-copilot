@@ -15,6 +15,7 @@ import { OauthCallbackPage } from './features/auth/pages/oauth-callback-page/oau
 import { PersonalInfoPage } from './features/profile/pages/personal-info-page/personal-info-page';
 import { SecurityPage } from './features/profile/pages/security-page/security-page';
 import { ReportPage } from './features/reports/report-page/report-page';
+import { CategoriesPage } from './features/categories/pages/categories-page/categories-page';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'auth/login', pathMatch: 'full' },
@@ -34,6 +35,11 @@ export const routes: Routes = [
         path: 'dashboard',
         canActivate: [authGuard],
         component: DashboardPage,
+    },
+    {
+        path: 'categories',
+        // canActivate: [authGuard],
+        component: CategoriesPage,
     },
     {
         path: 'reports',
