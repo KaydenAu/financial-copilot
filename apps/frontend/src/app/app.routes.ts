@@ -52,23 +52,6 @@ export const routes: Routes = [
         // canActivate: [authGuard],
         component: ReportPage,
     },
-    {
-        path: '',
-        component: CoreLayout,
-        canActivate: [authGuard],
-        children: [
-            { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-            { path: 'dashboard', component: DashboardPage },
-            {
-                path: 'profile',
-                children: [
-                    { path: '', redirectTo: 'personal-info', pathMatch: 'full' },
-                    { path: 'personal-info', component: PersonalInfoPage },
-                    { path: 'security', component: SecurityPage }
-                ]
-            }
-        ]
-    },
     // Support routes
     {
         path: 'support',
