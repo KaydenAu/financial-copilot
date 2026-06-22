@@ -14,6 +14,7 @@ import { DashboardPage } from './features/dashboard/pages/dashboard-page/dashboa
 import { OauthCallbackPage } from './features/auth/pages/oauth-callback-page/oauth-callback-page';
 import { PersonalInfoPage } from './features/profile/pages/personal-info-page/personal-info-page';
 import { SecurityPage } from './features/profile/pages/security-page/security-page';
+import { ReportPage } from './features/reports/report-page/report-page';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'auth/login', pathMatch: 'full' },
@@ -28,6 +29,16 @@ export const routes: Routes = [
             { path: 'privacy-policy', component: PrivacyPolicyPage },
             { path: 'oauth-callback', component: OauthCallbackPage },
         ],
+    },
+    {
+        path: 'dashboard',
+        canActivate: [authGuard],
+        component: DashboardPage,
+    },
+    {
+        path: 'reports',
+        // canActivate: [authGuard],
+        component: ReportPage,
     },
     {
         path: '',
