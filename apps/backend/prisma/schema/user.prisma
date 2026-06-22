@@ -1,0 +1,58 @@
+// CustomUser handles identity, access control, security and session verification (JWT)
+model CustomUser {
+  id           Int       @id @default(autoincrement())
+  email        String    @unique
+  userName     String    @unique @map("user_name")
+  passwordHash String?   @map("password_hash")
+
+  // Role and Permission Flags
+  isUser       Boolean   @default(true) @map("is_user")
+  isAdmin      Boolean   @default(false) @map("is_admin")
+  isActive     Boolean   @default(true) @map("is_active")
+
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime  @updatedAt @map("updated_at")
+
+  // 1:1 Relation Link to the Core Application Profile
+  profile UserProfile?
+  passwordReset PasswordReset?
+
+  @@map("custom_users")
+}
+
+// UserProfile handles application data and user customizations
+model UserProfile {
+  id                Int         @id @default(autoincrement())
+
+  // Reporting Data (Optional fields allow for fallback to CustomUser.userName)
+  firstName         String?     @map("first_name")
+  lastName          String?     @map("last_name")
+
+  // Localization & Formatting Preferences
+  preferredCurrency String      @default("MYR") @map("preferred_currency")
+  timezone          String      @default("Asia/Kuala_Lumpur") @map("timezone")
+  dateFormat        String      @default("DD/MM/YYYY") @map("date_format")
+  numberFormat      String      @default("comma-dot") @map("number_format")
+
+  createdAt         DateTime    @default(now()) @map("created_at")
+  updatedAt         DateTime    @updatedAt @map("updated_at")
+
+  // Foreign Key Link back to Identity Management
+  userId            Int         @unique @map("user_id")
+  user              CustomUser  @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("user_profiles")
+} 
+
+// PasswordReset stores short-lived, single-use cryptographic tokens to securely handle password recovery without bloating the core CustomUser model.
+model PasswordReset {
+  id        Int         @id @default(autoincrement())
+  token     String      @unique
+  createdAt DateTime    @default(now()) @map("created_at")
+  expiredAt DateTime    @map("expired_at")
+
+  userId    Int         @unique @map("user_id")
+  user      CustomUser  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@map("user_password_resets")
+}

@@ -1,0 +1,170 @@
+<mat-card appearance="outlined" class="auth-layout__card-content">
+    <mat-card-header>
+        <mat-card-title>Register to Copilot</mat-card-title>
+        <mat-card-subtitle>
+            Already using Copilot?
+            <a routerLink="/auth/login/" class="auth-layout__card-link">
+                Log in here
+            </a>
+        </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="auth-layout__form">
+           <!-- USERNAME -->
+            <mat-form-field 
+                appearance="outline" 
+                floatLabel="always" 
+            >
+                <mat-label>Username</mat-label>
+                <input
+                    matInput
+                    placeholder="Enter your username"
+                    formControlName="userName"
+                />
+                @if (userName.touched && userName.invalid) {
+                    <mat-error>Please enter an username.</mat-error>
+                }
+            </mat-form-field>
+
+            <!-- EMAIL -->
+            <mat-form-field 
+                appearance="outline" 
+                floatLabel="always" 
+            >
+                <mat-label>Email Address</mat-label>
+                <input
+                    matInput
+                    placeholder="Enter your email address"
+                    formControlName="email"
+                    type="email"
+                />
+                @if (email.touched && email.invalid) {
+                    <mat-error>Please enter a valid email address.</mat-error>
+                }
+            </mat-form-field>
+
+            <!-- PASSWORD -->
+            <div class="auth-layout__password-group">
+                <mat-form-field 
+                    appearance="outline" 
+                    floatLabel="always" 
+                >
+                    <mat-label>Password</mat-label>
+                    <input
+                        matInput
+                        placeholder="Enter your password"
+                        formControlName="password"
+                        [type]="hidePassword ? 'password' : 'text'"
+                    />
+                    <button
+                        mat-icon-button
+                        matSuffix
+                        type="button"
+                        (click)="onShowPassword()"
+                        (mousedown)="$event.preventDefault()"
+                    >
+                        <mat-icon>
+                            {{ hidePassword ? 'visibility' : 'visibility_off' }}
+                        </mat-icon>
+                    </button>
+                    @if (password.touched && password.hasError('required')) {
+                        <mat-error>Please enter your password</mat-error>
+                    }
+                </mat-form-field>
+
+                <!-- PASSWORD STRENGTH INDICATOR -->
+                <app-password-strength-indicator
+                    [control]="registerForm.controls.password"
+                ></app-password-strength-indicator>
+            </div>
+
+             <!-- CONFIRM PASSWORD -->
+            <mat-form-field 
+                appearance="outline" 
+                floatLabel="always" 
+            >
+                <mat-label>Confirm Password</mat-label>
+                <input
+                    matInput
+                    placeholder="Confirm your password"
+                    formControlName="confirmPassword"
+                    [type]="hideConfirmPassword ? 'password' : 'text'"
+                />
+                <button
+                    mat-icon-button
+                    matSuffix
+                    type="button"
+                    (click)="onShowConfirmPassword()"
+                    (mousedown)="$event.preventDefault()"
+                >
+                    <mat-icon>
+                        {{ hideConfirmPassword ? 'visibility' : 'visibility_off' }}
+                    </mat-icon>
+                </button>
+                @if (confirmPassword.hasError('required') && confirmPassword.touched) {
+                    <mat-error>Please confirm your password</mat-error>
+                } @else if (confirmPassword.hasError('passwordMismatch') && confirmPassword.touched) {
+                    <mat-error>Oops! Passwords don't match. Try again.</mat-error>
+                }
+            </mat-form-field>
+
+            <!-- OPTIONS -->
+            <div class="auth-layout__options">
+                <mat-checkbox formControlName="rememberMe">
+                    I agree to the
+                    <a routerLink="/auth/terms-of-services/" class="auth-layout__card-link">
+                        Terms of Services
+                    </a>
+                    and 
+                    <a routerLink="/auth/privacy-policy/" class="auth-layout__card-link">
+                        Privacy Policy
+                    </a>
+                </mat-checkbox>
+            </div>
+
+            <!-- ERROR -->
+            @if (errorMessage()) {
+                <div class="auth-layout__error-alert" role="alert">
+                    {{ errorMessage() }}
+                </div>
+            }
+
+            <!-- CREATE ACCOUNT -->
+            <div class="auth-layout__submit-wrapper">
+                <button
+                    mat-raised-button
+                    type="submit"
+                    class="auth-layout__submit-btn"
+                    [disabled]="registerForm.invalid || isLoading()"
+                >
+                    @if (isLoading()) {
+                        <span>Starting Copilot ......</span>
+                    } @else {
+                        <span>Create Account & Start Copilot</span>
+                    }
+                </button>
+            </div>
+        </form>
+
+        <!-- OR DIVIDER -->
+        <div class="auth-layout__divider">
+            <span>or</span>
+        </div>
+
+        <!-- SSO BUTTON -->
+        <button
+            mat-raised-button
+            color="primary"
+            type="submit"
+            class="auth-layout__google-btn"
+            (click)="onGoogleRegister()"
+        >
+            <img 
+                src="assets/google.svg" 
+                alt="Google Logo" 
+                class="auth-layout__google-icon"
+            />
+            <span>Continue with Google</span>
+        </button>
+    </mat-card-content>
+</mat-card>

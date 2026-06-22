@@ -15,7 +15,8 @@
 
   --color-white-10:        rgba(255, 255, 255, 0.1);
   --color-white-20:        rgba(255, 255, 255, 0.2);
-  --color-white-60:        rgba(255,255,255,0.6) ;
+  --color-white-60:        rgba(255, 255, 255, 0.6);
+  --color-white-85:        rgba(255, 255, 255, 0.85);
 
   --color-black-1:         rgba(0, 0, 0, 0.01);
   --color-black-2:         rgba(0, 0, 0, 0.02);
@@ -57,10 +58,11 @@
   --color-darkblue-900:        #0b1b3f;  // 35% stop  - Dark background base
   --color-darkblue-950:        #060a18;  // 0% stop   - Extreme near-black shadow
 
-  // LIGHT RED SCALE FOR AUTH LAYOUT
-  --color-light-red-50: #ff80801a;
+  // LIGHT RED SCALE FOR AUTH LAYOUT & PASSWORD STRENGTH INDICATOR
+  --color-light-red-50:  #ff80801a;
   --color-light-red-100: #ff80804d;
-  --color-light-red-200:#ff8080;
+  --color-light-red-200: #ff8080;
+  --color-light-red-300: #ff6b6b;
   
   // RED SCALE
   --color-red-50:          #fef2f2;
@@ -73,6 +75,19 @@
   --color-red-700:         #b91c1c;
   --color-red-800:         #991b1b;
   --color-red-900:         #7f1d1d;
+
+  // LIGHT GREEN SCALE
+  --color-light-green-10:  #5bcb611e;
+  --color-light-green-50:  #f7fde8;
+  --color-light-green-100: #edf9cf;
+  --color-light-green-200: #dcf2a3;
+  --color-light-green-300: #bde67c;
+  --color-light-green-400: #7cb34240;
+  --color-light-green-500: #a3e635;
+  --color-light-green-600: #7cb342;
+  --color-light-green-700: #689534;
+  --color-light-green-800: #54772a;
+  --color-light-green-900: #40591f;
 
   // GREEN SCALE
   --color-green-50:        #ecfdf5;
@@ -136,6 +151,7 @@
   --space-12:                0.750rem;  // 12px
   --space-14:                0.875rem;  // 14px
   --space-16:                1rem;      // 16px
+  --space-18:                1.125rem;  // 18px
   --space-20:                1.250rem;  // 20px
   --space-24:                1.500rem;  // 24px
   --space-32:                2rem;      // 32px
@@ -296,7 +312,10 @@
   --motion-duration-100:     100ms;
   --motion-duration-150:     150ms;
   --motion-duration-200:     200ms;
+  --motion-duration-250:     250ms;
   --motion-duration-300:     300ms;
+  --motion-duration-350:     350ms;
+  --motion-duration-400:     400ms;
   --motion-duration-500:     500ms;
   --motion-duration-700:     700ms;
   --motion-duration-1000:    1000ms;
@@ -310,6 +329,8 @@
   --motion-delay-150:        150ms;
   --motion-delay-200:        200ms;
   --motion-delay-300:        300ms;
+  --motion-delay-350:        350ms;
+  --motion-delay-400:        400ms;
   --motion-delay-500:        500ms;
 
   // -------------------------------------------------------------------------- 

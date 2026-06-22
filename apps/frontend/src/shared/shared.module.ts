@@ -9,15 +9,23 @@ import { MatDialogModule } from "@angular/material/dialog";
 import { MatTableModule } from "@angular/material/table";
 import { MatDividerModule } from "@angular/material/divider";
 import { MatCardModule } from "@angular/material/card";
-import { RouterLink } from "@angular/router";
+import { RouterLink, RouterLinkActive, RouterOutlet } from "@angular/router";
 import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatNativeDateModule } from "@angular/material/core";
 import { MatSelectModule } from "@angular/material/select";
+import { MatCheckboxModule } from "@angular/material/checkbox";
+import { MatToolbarModule } from "@angular/material/toolbar";
+import { MatProgressBarModule } from "@angular/material/progress-bar";
 
 export const SharedModules = [
     CommonModule, 
     FormsModule,
     ReactiveFormsModule,
+    RouterLink,
+    RouterLinkActive,
+    RouterOutlet,
+
+    // Angular Material Dependency
     MatButtonModule, 
     MatIconModule, 
     MatInputModule,
@@ -27,8 +35,10 @@ export const SharedModules = [
     MatTableModule, 
     MatDividerModule, 
     MatCardModule,
-    RouterLink,
+    MatCheckboxModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatSelectModule
+    MatSelectModule,
+    MatToolbarModule,
+    MatProgressBarModule,
 ]

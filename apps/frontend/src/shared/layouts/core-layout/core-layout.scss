@@ -1,0 +1,212 @@
+// ==========================================================================
+// CORE PAGE LAYOUT (BEM Architecture)
+// ==========================================================================
+.layout-grid {
+  display: grid;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  background-color: var(--surface-muted); // Grounded cool gray app track background
+  
+  // Three core horizontal structural pillars
+  grid-template-rows: 1fr;
+  grid-template-columns: 16.25rem 1fr 0rem;
+  grid-template-areas: "sidebar workspace panel";
+  
+  // Clean fluid transition adjustments when layouts or sidebars switch states
+  transition: grid-template-columns var(--motion-slow) var(--motion-ease-default);
+
+  // --- MODIFIERS (State Alterations) ---
+  &--sidebar-collapsed {
+    grid-template-columns: 4.375rem 1fr 0rem;
+
+    .layout-grid__sidebar {
+      overflow: visible !important;
+    }
+    
+    // Handles fluid composition boundaries when both panel states trigger simultaneously
+    &.layout-grid--right-panel-open {
+      grid-template-columns: 4.375rem 1fr 23.75rem;
+    }
+  }
+
+  &--right-panel-open {
+    grid-template-columns: 16.25rem 1fr 23.75rem;
+  }
+
+  // --- ELEMENTS (Child Structural Nodes) ---
+  &__sidebar {
+    grid-area: sidebar;
+    background-color: var(--surface-secondary); 
+    color: var(--text-inverse);                
+    border-right: var(--border-width-1) var(--border-style-solid) var(--color-white-10); 
+    overflow-x: hidden;
+    overflow-y: hidden;
+    z-index: var(--layer-sticky-nav);
+  }
+
+  &__workspace {
+    grid-area: workspace;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+    background-color: var(--surface-muted);
+  }
+
+  &__header {
+    height: 4rem;
+    min-height: 4rem;
+    background-color: var(--surface-primary); // Pure White Header Surface
+    border-bottom: var(--border-width-1) var(--border-style-solid) var(--border-primary);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 var(--space-layout-page);
+  }
+
+  &__header-left {
+    display: flex;
+    align-items: center;
+  }
+
+  &__header-right {
+    display: flex;
+    align-items: center;
+    gap: var(--space-component-md);
+  }
+
+  &__greeting {
+    color: var(--text-primary);
+    font-size: var(--font-body-size);
+    font-weight: var(--font-label-weight);
+    letter-spacing: var(--font-letter-spacing-compressed);
+  }
+
+  &__content {
+    flex: 1;
+    overflow-y: auto;
+    padding: var(--space-layout-page);
+  }
+
+  &__right-panel {
+    grid-area: panel;
+    background-color: var(--surface-primary);
+    border-left: var(--border-width-1) var(--border-style-solid) var(--border-primary);
+    box-shadow: var(--elevation-medium);
+    overflow: hidden;
+    z-index: var(--layer-sticky-nav);
+  }
+
+  // --- COMPONENT BUTTON OVERRIDES ---
+  &__quick-add-btn{
+    background: var(--brand-primary) !important;
+    color: var(--text-inverse) !important;
+    font-weight: var(--font-label-weight) !important;
+    border: none !important;
+    border-radius: var(--radius-interactive-element) !important;
+    padding: 0 var(--space-component-md) !important;
+    transition: transform var(--motion-fast) var(--motion-ease-default), 
+                box-shadow var(--motion-fast) var(--motion-ease-default) !important;
+
+    mat-icon {
+      margin-right: var(--space-inline-sm);
+      font-size: 1.2rem;
+      width: 1.2rem;
+      height: 1.2rem;
+    }
+
+    &:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 var(--space-4) var(--space-12) var(--focus-ring-color);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+  }
+
+  &__ai-btn {
+    background: linear-gradient(135deg, var(--ai-gradient-start), var(--ai-gradient-end)) !important;
+    color: var(--text-inverse) !important;
+    font-weight: var(--font-label-weight) !important;
+    border: none !important;
+    border-radius: var(--radius-interactive-element) !important;
+    padding: 0 var(--space-component-md) !important;
+    transition: transform var(--motion-fast) var(--motion-ease-default), 
+                box-shadow var(--motion-fast) var(--motion-ease-default) !important;
+
+    mat-icon {
+      margin-right: var(--space-inline-sm);
+      font-size: 1.2rem;
+      width: 1.2rem;
+      height: 1.2rem;
+    }
+
+    &:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 var(--space-4) var(--space-12) var(--focus-ring-color);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+  }
+}
+
+// ==========================================================================
+// BLOCK: PANEL-CONTAINER (Right Context Floating Drawer Content)
+// ==========================================================================
+.panel-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: var(--surface-primary);
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-10) var(--space-component-lg);
+    border-bottom: var(--border-width-1) var(--border-style-solid) var(--border-primary);
+    // Explicit top boundary accent line mapping directly to the login brand colors
+    border-top: var(--border-width-4) var(--border-style-solid) var(--ai-gradient-start); 
+  }
+
+  &__title {
+    margin: 0;
+    font-size: var(--font-heading-4-size);
+    font-weight: var(--font-heading-3-weight);
+    color: var(--text-primary);
+    letter-spacing: var(--font-letter-spacing-compressed);
+  }
+
+  &__close-btn {
+    color: var(--text-muted) !important;
+    transition: var(--motion-hover-transition) !important;
+
+    &:hover {
+      color: var(--state-error-text) !important;
+      background-color: var(--state-error-surface) !important;
+    }
+  }
+
+  &__body {
+    flex: 1;
+    overflow-y: auto;
+    padding: var(--space-component-lg);
+    background-color: var(--surface-subtle); // Soft off-white canvas styling for chat history contrast
+    color: var(--text-secondary);
+    font-size: var(--font-label-size);
+    line-height: var(--font-body-line-height);
+
+    p {
+      margin: 0;
+      background-color: var(--surface-primary);
+      padding: var(--space-component-md);
+      border-radius: var(--radius-container-element);
+      border: var(--border-width-1) var(--border-style-solid) var(--border-primary);
+      box-shadow: var(--elevation-low);
+    }
+  }
+}
