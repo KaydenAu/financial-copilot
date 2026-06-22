@@ -1,0 +1,21 @@
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    min-width: 700px;
+}
+
+.description-field {
+    grid-column: 1 / -1;
+}
+
+mat-dialog-content {
+    padding-top: 1rem;
+}
+
+@media (max-width: 768px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+        min-width: auto;
+    }
+}

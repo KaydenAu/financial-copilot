@@ -1,0 +1,61 @@
+<div class="transaction-page">
+    <section class="toolbar-section">
+        <mat-form-field appearance="outline" class="search-field">
+            <mat-label>Search Transactions</mat-label>
+            <input matInput [(ngModel)]="searchKeyword" placeholder="Search..." />
+            <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+
+        <div class="toolbar-actions">
+            <button mat-raised-button type="button" (click)="refreshData()">
+                <mat-icon>refresh</mat-icon>
+                Refresh
+            </button>
+
+            <button mat-raised-button color="primary" type="button" (click)="addTransaction()">
+                <mat-icon>add</mat-icon>
+                Add Transaction
+            </button>
+
+            <button mat-raised-button type="button" (click)="downloadExcel()">
+                <mat-icon>download</mat-icon>
+                Download Excel
+            </button>
+
+            <button mat-icon-button [matMenuTriggerFor]="columnMenu">
+                <mat-icon>view_column</mat-icon>
+            </button>
+
+            <mat-menu #columnMenu="matMenu">
+                @for (column of displayedColumns; track column) {
+                <button mat-menu-item (click)="toggleColumn(column)">
+                    <mat-icon>
+                        {{ visibleColumns[column] ? 'check_box' :
+                        'check_box_outline_blank' }}
+                    </mat-icon>
+                    <span>{{ column }}</span>
+                </button>
+                }
+            </mat-menu>
+        </div>
+    </section>
+
+    <section class="filter-section">
+        <mat-form-field appearance="outline" class="category-filter">
+            <mat-label>Filter Categories</mat-label>
+            <mat-select multiple [(value)]="selectedCategories">
+                <mat-option value="all">All Categories</mat-option>
+                @for (category of categories; track category) {
+                <mat-option [value]="category">
+                    {{ category }}
+                </mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+    </section>
+
+    <section class="table-section">
+        <app-transaction-table [transactions]="transactions" [visibleColumns]="visibleColumns">
+        </app-transaction-table>
+    </section>
+</div>

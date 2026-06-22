@@ -1,0 +1,45 @@
+.table-container {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    min-width: 1200px;
+}
+
+.filter-row {
+    background: #fafafa;
+}
+
+.filter-row td {
+    padding: 0.5rem;
+}
+
+.filter-field {
+    width: 100%;
+}
+
+.mat-mdc-header-row {
+    background: white;
+}
+
+.mat-mdc-row:hover {
+    background: #f8f9fa;
+}
+
+td,
+th {
+    white-space: nowrap;
+}
+
+.action-buttons {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+@media (max-width: 768px) {
+    table {
+        min-width: 1000px;
+    }
+}
