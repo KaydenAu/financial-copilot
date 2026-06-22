@@ -10,6 +10,7 @@ import { Error404Page } from './features/auth/pages/error404-page/error404-page'
 import { DashboardPage } from './features/dashboard/pages/dashboard-page/dashboard-page';
 import { OauthCallbackPage } from './features/auth/pages/oauth-callback-page/oauth-callback-page';
 import { authGuard } from './core/auth/guards/auth-guard';
+import { ReportPage } from './features/reports/report-page/report-page';
 
 export const routes: Routes = [
     {
@@ -19,29 +20,29 @@ export const routes: Routes = [
     },
     {
         path: 'auth',
-        children:[
+        children: [
             {
-                path: 'login', 
+                path: 'login',
                 component: LoginPage,
             },
             {
-                path: 'register', 
+                path: 'register',
                 component: RegisterPage,
             },
             {
-                path: 'forgot-password', 
+                path: 'forgot-password',
                 component: ForgotPasswordPage,
             },
             {
-                path: 'reset-password', 
+                path: 'reset-password',
                 component: ResetPasswordPage,
             },
             {
-                path: 'terms-of-services', 
+                path: 'terms-of-services',
                 component: TermsOfServicesPage,
             },
             {
-                path: 'privacy-policy', 
+                path: 'privacy-policy',
                 component: PrivacyPolicyPage,
             },
             {
@@ -56,11 +57,15 @@ export const routes: Routes = [
                 path: 'oauth-callback',
                 component: OauthCallbackPage,
             },
+            {
+                path: 'reports',
+                component: ReportPage,
+            },
         ],
     },
     {
         path: 'dashboard',
-        canActivate:[authGuard],
+        canActivate: [authGuard],
         component: DashboardPage,
     }
 ];
