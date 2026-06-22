@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Error404Page } from './error404-page';
+import { NotFoundPage } from './not-found-page';
 
-describe('Error404Page', () => {
-  let component: Error404Page;
-  let fixture: ComponentFixture<Error404Page>;
+describe('NotFoundPage', () => {
+  let component: NotFoundPage;
+  let fixture: ComponentFixture<NotFoundPage>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Error404Page],
+      imports: [NotFoundPage],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(Error404Page);
+    fixture = TestBed.createComponent(NotFoundPage);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });
