@@ -80,7 +80,7 @@ export const PROFILE_NAVIGATION_CONFIG: NavigationItem[] = [
         label: 'Personal Info', 
         route: '/profile/personal-info', 
         icon: 'badge',
-        headerMessage: () => `Manage Your Personal Details`,
+        headerMessage: () => `Configure Your Identity, Default Tracking Metrics and Reporting Rules`,
         exactOptions: { exact: true }
     },
     {

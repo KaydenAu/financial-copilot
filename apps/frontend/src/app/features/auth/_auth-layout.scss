@@ -1,6 +1,8 @@
 // ==========================================================================
 // AUTH PAGE LAYOUT (BEM Architecture)
 // ==========================================================================
+@use '../../../styles/component-styles/buttons' as *;
+@use '../../../styles/component-tokens/buttons' as *;
 
 .auth-layout {
   // --------------------------------------------------------------------------
@@ -28,7 +30,6 @@
   // Typography & Color Constants
   --auth-text-primary:              var(--text-inverse);
   --auth-text-muted:                var(--text-subtle);
-  --auth-text-disabled:             var(--text-disabled);
   --auth-error-bg:                  var(--state-error-surface);
   --auth-error-border:              var(--state-error-border);
   --auth-error-text:                var(--state-error-text);
@@ -203,7 +204,7 @@
       background: var(--color-white-10) !important;
       box-shadow: var(--elevation-high) !important;
       backdrop-filter: blur(var(--space-component-sm));
-      -webkit-backdrop-filter: blur(--space-component-sm);
+      -webkit-backdrop-filter: blur(var(--space-component-sm));
 
       // Dynamic radial glow ambient ring background element
       &::before {
@@ -373,92 +374,23 @@
     margin-top: var(--space-component-md);
   }
 
-  &__submit-btn,
-  &__google-btn {
-    &.mat-mdc-button,
-    &.mat-mdc-raised-button,
-    &.mat-mdc-unelevated-button,
-    &.mat-mdc-outlined-button {
-      // Force the corner radius on the host element container
-      border-radius: var(--auth-input-radius) !important;
-      overflow: hidden !important; // Clips internal states cleanly
-
-      // Match internal Angular material structural templates
-      --mdc-protected-button-container-shape: var(--auth-input-radius) !important;
-      --mdc-filled-button-container-shape: var(--auth-input-radius) !important;
-    }
-
-    // Inject design tokens into official Angular Material MDC variables
-    --mdc-protected-button-container-color: var(--auth-accent-color) !important;
-    --mdc-protected-button-label-text-color: var(--auth-text-primary) !important;
-    --mdc-filled-button-container-color: var(--auth-accent-color) !important;
-    --mdc-filled-button-label-text-color: var(--auth-text-primary) !important;
-
-    // Standard fallback properties for safety
-    background-color: var(--auth-accent-color) !important;
-    color: var(--auth-text-primary); 
-    border-radius: var(--auth-input-radius) !important;
-    overflow: hidden !important; // Prevents internal ripples from bleeding past rounded edges
-
-    width: 100% !important;
-    box-sizing: border-box !important;
-    height: var(--auth-input-height) !important;
-
-    display: inline-flex !important; 
-    align-items: center;
-    justify-content: center;
-    white-space: nowrap;
-    text-align: center;
-    line-height: var(--auth-line-height-tight) !important;
-
-    font-size: var(--font-body-size) !important;
-    font-weight: var(--auth-font-weight-semibold) !important;
-
-    transition: box-shadow var(--motion-slow) var(--auth-transition-easing), 
-                background-color var(--motion-slow) var(--auth-transition-easing) !important;
-    
-    // Hover & Active Interactive States
-    &:not(:disabled):not([disabled]):hover {
-      --mdc-protected-button-container-color: var(--auth-accent-hover) !important;
-      --mdc-filled-button-container-color: var(--auth-accent-hover) !important;
-
-      filter: brightness(1.1);
-      background-color: var(--auth-accent-hover) !important;
-      box-shadow: var(--space-0) var(--space-0) var(--space-20) var(--auth-accent-glow);
-    }
-
-    // Disabled State
-    &:disabled,
-    &[disabled] {
-      cursor: not-allowed;
-      filter: none !important;
-      box-shadow: none !important;
-      opacity: var(--auth-opacity-disabled) !important;
-
-      --mdc-protected-button-disabled-label-text-color: var(--auth-text-primary) !important;
-      --mdc-filled-button-disabled-label-text-color: var(--auth-text-primary) !important;
-      color: var(--auth-text-primary) !important;
-    }
-
-    span {
-      display: inline-block;
-      vertical-align: middle;
-    }
+  // Primary Submit Button Integration
+  &__submit-btn {
+    @extend %btn-core; 
+    @extend .btn-primary;  // Injects the Primary color token definitions
   }
 
-  &__google-btn{
-    margin-top: var(--space-component-xs);
-    margin-bottom: var(--space-component-m); 
+  // Google SSO Button Integration
+  &__google-btn {
+    @extend %btn-core;    
+    @extend .btn-google;   // Injects the Google brand token definitions
+  }
 
-    .auth-layout__google-icon {
-        width: var(--space-component-card) !important;
-        height: var(--space-component-card) !important;
-        min-width: var(--space-component-card);
-        min-height: var(--space-component-card);
-        margin-right: var(--space-component-sm);
-        object-fit: contain;
-        display: inline-block;
-      }
+  // Helper layout rules for the Google Icon alignment
+  &__google-icon{
+    width: var(--space-component-md);
+    height: var(--space-component-md);
+    display: inline-block;
   }
 
   // MODIFIERS & RESPONSIVE STATES
@@ -498,7 +430,6 @@
 
 // ANGULAR MATERIAL INTERNALS ENCAPSULATION
 .auth-layout ::ng-deep {
-  // Make sure the checkbox text adapts to your auth screen color scheme
   mat-checkbox {
     color: var(--auth-text-primary);
     opacity: var(--auth-opacity-high);
@@ -703,26 +634,6 @@
     }
     .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__mdc-notch-filler {
       border-color: var(--color-white-20) !important;
-    }
-  }
-
-  // FORCE INTERNAL RIPPLES TO CURVE: Prevents square hover / focus vectors
-  .auth-layout__submit-btn,
-  .auth-layout__google-btn {
-    .mat-mdc-button-ripple,
-    .mat-mdc-button-persistent-ripple,
-    .mdc-button__ripple {
-      border-radius: var(--auth-input-radius) !important;
-    }
-
-    // Aligns the Google icon and text perfectly center inside the Material content block
-    .mdc-button__label,
-    .mdc-button__label * {
-      color: var(--auth-text-primary) !important;
-      display: flex !important;
-      align-items: center !important;
-      justify-content: center !important;
-      width: 100%;
     }
   }
 }
