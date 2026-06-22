@@ -1,0 +1,203 @@
+@use '../../../../../styles/component-tokens/buttons' as *;
+@use '../../../../../styles/component-styles/buttons' as *;
+@use "sass:color";
+
+.personal-info {
+  // --------------------------------------------------------------------------
+  // 1. LOCAL COMPONENT TOKENS
+  // --------------------------------------------------------------------------
+  display: block;
+  width: 100%;
+  max-width: 50rem;
+  margin: var(--space-0) auto;
+  padding: 2rem;
+  background-color: var(--surface-primary);
+  border-radius: var(--border-width-8);
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+  }
+
+  &__section {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  &__section-title {
+    font-size: 1.25rem;
+    font-weight: var(--font-heading-3-weight);
+    color:#0f172a;
+    margin: 0;
+    letter-spacing: -0.02em;
+  }
+
+  &__row {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+
+    // Fluid side-by-side positioning for desktop viewports
+    @media (min-width: 640px) {
+      flex-direction: row;
+      
+      > * {
+        flex: 1;
+      }
+    }
+  }
+
+  &__form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  &__label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #64748b;
+  }
+
+  &__control {
+    width: 100%;
+    padding: 0.625rem 0.875rem;
+    font-size: 0.95rem;
+    color: #0f172a;
+    background-color: #ffffff;
+    border: 1px var(--border-style-default) #e2e8f0;
+    border-radius: var(--border-width-4);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    outline: none;
+
+    // Base interaction settings across select inputs and text forms
+    &:focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(#3b82f6, 0.15);
+    }
+
+    &::placeholder {
+      color: #64748b;
+      opacity: 0.6;
+    }
+  }
+
+  // Native dropdown arrow customizations scoping
+  select.personal-info__control {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2364748b' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19.5 8.25l-7.5 7.5-7.5-7.5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.875rem center;
+    background-size: 1rem;
+    padding-right: 2.5rem;
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 0.5rem;
+  }
+
+  &__divider {
+    border: 0;
+    height: 1px;
+    background-color: #e2e8f0;
+    margin: 2.5rem 0;
+  }
+
+  // Encapsulated Danger Zone configuration block
+  &__danger-zone {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1.5rem;
+    padding: 1.5rem;
+    background-color: #fef2f2;
+    border: 1px solid rgba(#ef4444, 0.2);
+    border-radius: 8px;
+
+    @media (min-width: 640px) {
+      flex-direction: row;
+      align-items: center;
+    }
+  }
+
+  &__danger-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    // max-width: 480px;
+    max-width: 600px;
+
+  }
+
+  &__danger-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #ef4444;
+    margin: 0;
+  }
+
+  &__danger-description {
+    font-size: 0.875rem;
+    color: color.adjust(#ef4444, $lightness: -15%);
+    line-height: 1.4;
+    margin: 0;
+  }
+
+  &__save-btn{
+    @extend %btn-core;     // Injects structural layouts & Angular Material overrides
+    @extend .btn-primary;  // Injects Primary color token definitions
+  }
+
+  &__delete-btn {
+    @extend %btn-core;           // Injects structural layouts & Angular Material overrides
+    @extend .btn-destructive;    // Injects Destructive Red token definitions from global token sheet
+  }
+
+  // Component-specific specialized buttons block variant
+  // &__btn {
+  //   display: inline-flex;
+  //   align-items: center;
+  //   justify-content: center;
+  //   font-size: 0.925rem;
+  //   font-weight: 500;
+  //   padding: 0.625rem 1.25rem;
+  //   border-radius: 6px;
+  //   border: 1px solid transparent;
+  //   cursor: pointer;
+  //   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  //   white-space: nowrap;
+
+  //   // BEM Modifiers for distinct actions
+  //   &--primary {
+  //     color: #ffffff;
+  //     background-color: #3b82f6;
+
+  //     &:hover:not(:disabled) {
+  //       background-color: #1d4ed8;
+  //     }
+  //   }
+
+  //   &--danger {
+  //     color: #ffffff;
+  //     background-color: #ef4444;
+
+  //     &:hover {
+  //       background-color: #dc2626;
+  //     }
+  //   }
+
+  //   // Angular Form Validation State Hooks
+  //   &:disabled {
+  //     cursor: not-allowed;
+  //     opacity: 0.5;
+  //     background-color: #64748b;
+  //     color: color.adjust(#64748b, $lightness: 30%);
+  //   }
+  // }
+}

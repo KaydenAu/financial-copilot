@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { LeftSidebar } from '../../components/left-sidebar/left-sidebar';
 import { SharedModules } from '../../shared.module';
-import { UiLayoutService } from '../../services/ui-layout-service';
+import { CoreLayoutApi } from '../../services/core-layout-api';
 
 @Component({
   selector: 'app-core-layout',
@@ -10,15 +10,15 @@ import { UiLayoutService } from '../../services/ui-layout-service';
   styleUrl: './core-layout.scss',
 })
 export class CoreLayout {
-  private uiLayoutService = inject(UiLayoutService);
+  private coreLayoutService = inject(CoreLayoutApi);
 
-  public headerMessage = this.uiLayoutService.headerMessage;
-  public isSidebarCollapsed = this.uiLayoutService.isSidebarCollapsed;
-  public isAiPanelOpen = this.uiLayoutService.isAiPanelOpen;
+  public headerMessage = this.coreLayoutService.headerMessage;
+  public isSidebarCollapsed = this.coreLayoutService.isSidebarCollapsed;
+  public isAiPanelOpen = this.coreLayoutService.isAiPanelOpen;
   
-  public toggleSidebar(): void { this.uiLayoutService.toggleSidebar(); }
-  public toggleRightPanel(): void { this.uiLayoutService.toggleRightPanel(); }
-  public onAskAI(): void { this.uiLayoutService.isAiPanelOpen.set(true); }
+  public toggleSidebar(): void { this.coreLayoutService.toggleSidebar(); }
+  public toggleRightPanel(): void { this.coreLayoutService.toggleRightPanel(); }
+  public onAskAI(): void { this.coreLayoutService.isAiPanelOpen.set(true); }
   public onQuickAdd(): void {
     console.log('Quick Add menu or dialog triggered!');
     // Future expansion: open a dialog pane or launch an overlay menu here
