@@ -32,21 +32,6 @@ export const routes: Routes = [
         ],
     },
     {
-        path: 'dashboard',
-        canActivate: [authGuard],
-        component: DashboardPage,
-    },
-    {
-        path: 'categories',
-        // canActivate: [authGuard],
-        component: CategoriesPage,
-    },
-    {
-        path: 'reports',
-        // canActivate: [authGuard],
-        component: ReportPage,
-    },
-    {
         path: '',
         component: CoreLayout,
         canActivate: [authGuard],
@@ -62,6 +47,16 @@ export const routes: Routes = [
                 ]
             }
         ]
+    },
+    {
+        path: 'categories',
+        // canActivate: [authGuard],
+        component: CategoriesPage,
+    },
+    {
+        path: 'reports',
+        // canActivate: [authGuard],
+        component: ReportPage,
     },
     // Support routes
     {
