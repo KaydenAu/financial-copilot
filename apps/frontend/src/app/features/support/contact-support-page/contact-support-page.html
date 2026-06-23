@@ -1,5 +1,4 @@
 <div class="container">
-
     <div class="back-button">
         <button mat-stroked-button routerLink="/dashboard">
             Return to Dashboard
@@ -92,12 +91,12 @@
                 <h3 class="section-title">Send a Secure Message</h3>
                 <mat-form-field appearance="outline">
                     <mat-label>Name</mat-label>
-                    <input matInput />
+                    <input matInput [(ngModel)]="name" name="name" />
                 </mat-form-field>
 
                 <mat-form-field appearance="outline">
                     <mat-label>Email Address</mat-label>
-                    <input matInput type="email" />
+                    <input matInput [(ngModel)]="email" name="email" />
                 </mat-form-field>
 
                 <mat-form-field appearance="outline">
@@ -113,12 +112,27 @@
 
                 <mat-form-field appearance="outline">
                     <mat-label>Message</mat-label>
-                    <textarea matInput rows="6" placeholder="Describe your issue here..."></textarea>
+                    <textarea matInput [(ngModel)]="message" name="message" rows="6"
+                        placeholder="Describe your issue here..."></textarea>
                 </mat-form-field>
 
-                <button mat-flat-button type="submit">
-                    Send Secure Message
-                </button>
+                <div class="form-actions">
+                    <button mat-stroked-button type="button" (click)="resetForm()">
+                        Reset
+                    </button>
+
+                    <button mat-flat-button type="button" (click)="submitForm()"
+                        [disabled]="loading || !name || !email || !message || !selectedValue">
+                        <span class="btn-content">
+                            @if (loading) {
+                            <mat-spinner diameter="18" class="spinner"></mat-spinner>
+                            <span>Sending...</span>
+                            } @else {
+                            <span>Send Secure Message</span>
+                            }
+                        </span>
+                    </button>
+                </div>
             </form>
         </div>
     </div>
