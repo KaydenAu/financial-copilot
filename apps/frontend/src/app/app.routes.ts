@@ -16,6 +16,8 @@ import { PersonalInfoPage } from './features/profile/pages/personal-info-page/pe
 import { SecurityPage } from './features/profile/pages/security-page/security-page';
 import { ReportPage } from './features/reports/report-page/report-page';
 import { CategoriesPage } from './features/categories/pages/categories-page/categories-page';
+import { TransactionPage } from './features/transactions/transaction-page/transaction-page';
+
 
 export const routes: Routes = [
     { path: '', redirectTo: 'auth/login', pathMatch: 'full' },
@@ -52,6 +54,11 @@ export const routes: Routes = [
         path: 'categories',
         // canActivate: [authGuard],
         component: CategoriesPage,
+    },
+    {
+        path: 'transactions',
+        // canActivate: [authGuard],
+        component: TransactionPage,
     },
     {
         path: 'reports',

@@ -1,0 +1,78 @@
+<h2 mat-dialog-title>
+    {{ dialogTitle }}
+</h2>
+
+<mat-dialog-content>
+    <div class="form-grid">
+        <mat-form-field appearance="outline">
+            <mat-label>Category</mat-label>
+            <mat-select [(ngModel)]="form.category">
+                @for(category of categories; track category) {
+                <mat-option [value]="category">
+                    {{ category }}
+                </mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Subcategory</mat-label>
+            <mat-select [(ngModel)]="form.subcategory">
+                @for(subcategory of subcategories; track subcategory) {
+                <mat-option [value]="subcategory">
+                    {{ subcategory }}
+                </mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Date</mat-label>
+            <input matInput [matDatepicker]="picker" [(ngModel)]="form.date">
+            <mat-datepicker-toggle matSuffix [for]="picker" />
+            <mat-datepicker #picker />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Account</mat-label>
+            <mat-select [(ngModel)]="form.account">
+                @for(account of accounts; track account) {
+                <mat-option [value]="account">
+                    {{ account }}
+                </mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Currency</mat-label>
+            <mat-select [(ngModel)]="form.currency">
+                @for(currency of currencies; track currency) {
+                <mat-option [value]="currency">
+                    {{ currency }}
+                </mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Amount</mat-label>
+            <input matInput type="number" [(ngModel)]="form.amount">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="description-field">
+            <mat-label>Description</mat-label>
+            <textarea matInput rows="4" [(ngModel)]="form.description"></textarea>
+        </mat-form-field>
+    </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-button (click)="cancel()">
+        Cancel
+    </button>
+
+    <button mat-raised-button color="primary" (click)="save()">
+        Save
+    </button>
+</mat-dialog-actions>
