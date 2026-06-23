@@ -11,9 +11,7 @@ export type CategoryFormMode =
 @Component({
   selector: 'app-category-form',
   standalone: true,
-  imports: [
-    ...SharedModules
-  ],
+  imports: [...SharedModules],
   templateUrl: './category-form.html',
   styleUrl: './category-form.scss',
 })
@@ -21,13 +19,16 @@ export type CategoryFormMode =
 export class CategoryForm implements OnChanges {
   private fb = inject(FormBuilder);
 
+  // ================= INPUTS =================
   @Input() mode: CategoryFormMode = 'create';
   @Input() category: any = null;
   @Input() parentCategories: any[] = [];
 
+  // ================= OUTPUTS =================
   @Output() saveCategory = new EventEmitter<any>();
   @Output() deleteCategory = new EventEmitter<any>();
 
+  // ================= FORM =================
   form = this.fb.group({
     name: ['', Validators.required],
     type: ['category', Validators.required],
@@ -35,14 +36,21 @@ export class CategoryForm implements OnChanges {
     description: [''],
   });
 
+  // ================= LIFECYCLE =================
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['mode'] || changes['category']) {
       this.configureForm();
     }
   }
 
+  // ================= FORM CONFIG =================
   private configureForm(): void {
-    if (this.mode === 'create') {
+    const isCreate = this.mode === 'create';
+    const isSub = this.mode === 'add-subcategory';
+    const isEdit = this.mode === 'edit';
+    const isView = this.mode === 'view';
+
+    if (isCreate) {
       this.form.reset({
         name: '',
         type: 'category',
@@ -52,7 +60,7 @@ export class CategoryForm implements OnChanges {
       this.form.enable();
     }
 
-    if (this.mode === 'add-subcategory') {
+    if (isSub) {
       this.form.reset({
         name: '',
         type: 'subcategory',
@@ -62,29 +70,26 @@ export class CategoryForm implements OnChanges {
       this.form.enable();
     }
 
-    if (this.mode === 'edit' || this.mode === 'view') {
+    if (isEdit || isView) {
       if (this.category) {
         this.form.patchValue({
           name: this.category.name,
-          type: this.category.type ?? 'category',
+          type: this.category.parentId ? 'subcategory' : 'category',
           parentId: this.category.parentId ?? null,
           description: this.category.description ?? '',
         });
       }
-
-      if (this.mode === 'view') {
-        this.form.disable();
-      } else {
-        this.form.enable();
-      }
+      isView ? this.form.disable() : this.form.enable();
     }
   }
 
+  // ================= ACTIONS =================
   onSave(): void {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
     }
+
     this.saveCategory.emit({
       ...this.category,
       ...this.form.getRawValue(),
@@ -93,6 +98,19 @@ export class CategoryForm implements OnChanges {
 
   onDelete(): void {
     this.deleteCategory.emit(this.category);
+  }
+
+  // ================= UI HELPERS =================
+  get isCreateMode(): boolean {
+    return this.mode === 'create' || this.mode === 'add-subcategory';
+  }
+
+  get isEditMode(): boolean {
+    return this.mode === 'edit';
+  }
+
+  get isViewMode(): boolean {
+    return this.mode === 'view';
   }
 
   get title(): string {
@@ -112,10 +130,6 @@ export class CategoryForm implements OnChanges {
 
   get showDeleteButton(): boolean {
     return this.mode === 'edit';
-  }
-
-  get isViewMode(): boolean {
-    return this.mode === 'view';
   }
 
   get showParentField(): boolean {
