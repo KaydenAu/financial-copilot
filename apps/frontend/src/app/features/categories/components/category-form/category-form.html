@@ -1,5 +1,4 @@
 <div class="form-container">
-
     <div class="form-header">
         <h2>{{ title }}</h2>
     </div>
@@ -47,8 +46,10 @@
         <div class="action-buttons">
             @if (!isViewMode) {
             <button mat-raised-button color="primary" type="button" (click)="onSave()">
-                <mat-icon>save</mat-icon>
-                Save
+                <mat-icon>
+                    {{ isCreateMode ? 'add' : 'save' }}
+                </mat-icon>
+                {{ isCreateMode ? 'Add' : 'Save' }}
             </button>
             }
 
