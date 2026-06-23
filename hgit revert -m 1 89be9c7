@@ -1,0 +1,78 @@
+[33m89be9c7[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m Merge pull request #33 from KaydenAu/feature/categories-page
+[33me17f657[m[33m ([m[1;31morigin/feature/categories-page[m[33m, [m[1;32mfeature/categories-page[m[33m)[m Feat(categories): implement full backend API and connect Angular frontend with UI fixes
+[33m0e33b96[m[33m ([m[1;31morigin/develop[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mdevelop[m[33m)[m Merge pull request #32 from KaydenAu/features/contact-support-and-404
+[33m0ce1201[m[33m ([m[1;31morigin/features/contact-support-and-404[m[33m, [m[1;32mfeatures/contact-support-and-404[m[33m)[m Feat: integrate support backend with Angular frontend
+[33m473da20[m Feat: add support ticket backend API
+[33me0b13b8[m Merge pull request #31 from KaydenAu/feature/transactions-page
+[33m4a7d344[m[33m ([m[1;31morigin/feature/transactions-page[m[33m, [m[1;32mfeature/transactions-page[m[33m)[m Merge branch 'develop' into feature/transactions-page
+[33md7f35d4[m Merge pull request #30 from KaydenAu/feature/categories-page
+[33m3b2cf4d[m Merge branch 'develop' into feature/categories-page
+[33m5625568[m Feat: add transaction page, table and form dialog
+[33m2be1ce1[m Feat: implement category tree and reusable category form UI
+[33m8c584fc[m Remove duplicate routes
+[33m10e3d77[m[33m ([m[1;31morigin/features/profile-page[m[33m)[m Hotfix: Update App Routes for Reports
+[33m0efc2ed[m Merge pull request #29 from KaydenAu/feature/report-page
+[33m53e5eab[m[33m ([m[1;31morigin/feature/report-page[m[33m, [m[1;32mfeature/report-page[m[33m)[m Merge branch 'develop' into feature/report-page
+[33mc8d5a66[m Merge branch 'develop' of github.com:KaydenAu/financial-copilot into feature/report-page
+[33md335055[m Merge pull request #28 from KaydenAu/features/contact-support-and-404
+[33m1d728bf[m Feat: update button redirect path
+[33m79145fa[m Merge branch 'develop' into features/contact-support-and-404
+[33m2f14183[m Merge pull request #27 from KaydenAu/develop
+[33m84df12a[m Hotfix: Solve ng-serve unable to open issue
+[33mede6c16[m[33m ([m[1;31morigin/features/dashboard-page[m[33m)[m Hotfix: Remove uiLayoutService
+[33m0ae8b6a[m Merge branch 'develop' into features/contact-support-and-404
+[33m783daaa[m Fix: add native date adapter and fix report page import
+[33md9c7110[m Feat: implement report page UI with dialog form and validation
+[33m02c5c64[m Features: Add JWT Interceptor
+[33m8bc1648[m Hotfix: Solve Auth Registration Issue
+[33m82e050d[m Hotfix: Solve Auth Registration Issue
+[33mbd0d23a[m Hotfix: Solve Auth Registration Issue
+[33ma5fc4bf[m Merge pull request #23 from KaydenAu/develop
+[33mc4315a1[m Refactor: Map the existing token to semantic tokens
+[33m483e3cb[m Refactor: Map the existing token to semantic tokens
+[33mdf006b0[m Refactor: Create Dummy Pages for Core Layout
+[33mf550655[m Refactor: Create Dummy Pages for Core Layout
+[33md570b5a[m Refactor: Create Dummy Pages for Core Layout
+[33m420c5ed[m Feature: Introduce Core Layout for Core Pages
+[33m1f256de[m Feature: Introduce Core Layout for Core Pages
+[33m20d2183[m Feature: Introduce Core Layout for Core Pages
+[33m543aac9[m[33m ([m[1;33mtag: [m[1;33mv1.0.2[m[33m)[m Feature: Left Sidebar Component
+[33mc662c91[m Feature: Left Sidebar Component
+[33m19e050a[m Feature: Left Sidebar Component
+[33m1d37d13[m[33m ([m[1;33mtag: [m[1;33mv1.0.1[m[33m)[m Refactor: Include the UserName into Auth Payload
+[33m82352e1[m Merge pull request #14 from KaydenAu/features/dashboard-page
+[33m5f54c8b[m Chore: Improve Readability
+[33m4c1f1bb[m Merge pull request #13 from KaydenAu/features/dashboard-page
+[33m3be7e2f[m Refactor: Include the UserName into Auth Payload
+[33m247a4bd[m[33m ([m[1;33mtag: [m[1;33mv1.0.3[m[33m, [m[1;33mtag: [m[1;33mv1.0.0[m[33m)[m Features: Include Auth Module
+[33ma70bcc5[m Feature: Introduce Auth Module
+[33m3ffbb77[m Chore: Create Dummy Page for Dashboard
+[33m0cfd954[m Feature: Create Reset Password Page
+[33mbbb5fce[m Feature: Create Forgot Password Page
+[33me7b0181[m Feature: Create Register Page and Password Strength Indicator
+[33m8f2fc56[m Features: Introduce Google SSO
+[33m5f40447[m Features: Login Page
+[33mcc241ec[m Fix: Create the shared files for frontend and backend
+[33m9365109[m Fix: Create the Files for Auth Module
+[33mfe37b50[m Fix: Adjust the Folder Structure for Auth Module
+[33mce28483[m Refactor: Updates on Database Fields
+[33madbaea6[m Refactor: Updates on Database Fields
+[33mce7047c[m Merge branch 'develop' into features/contact-support-and-404
+[33ma6842f4[m Feature: New SCSS token system
+[33m9b92d97[m Feature: Introduce SCSS token system
+[33m95adc07[m[33m ([m[1;31morigin/features/auth-pages[m[33m)[m Fix: Adjust the import for SCSS tokens
+[33mbdcd6d7[m Features: Design SCSS token system
+[33m63dd735[m Feat: create responsive contact support page UI
+[33ma717b1c[m Feat: implement 404 page with Angular Material and responsive UI
+[33m9b0ac0f[m Refactor: restructure feature folders
+[33m6446747[m Merge pull request #7 from KaydenAu/develop
+[33m6956580[m Merge pull request #6 from KaydenAu/features/login-page
+[33m5b2a3a2[m[33m ([m[1;31morigin/features/login-page[m[33m)[m Fix: Update the ts config for frontend
+[33ma6a9cb0[m Merge pull request #5 from KaydenAu/develop
+[33mb9a1124[m Fix: Page Display
+[33m9a50e99[m Fix: Page Display
+[33m8ae039c[m Branch Adjustment
+[33m67c98ed[m Merge pull request #2 from KaydenAu/main
+[33m313702a[m Merge pull request #1 from KaydenAu/develop
+[33md726151[m Chore: Include Shared Module
+[33mce970db[m Chore: Initial Project Setup
