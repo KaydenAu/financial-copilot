@@ -2,10 +2,11 @@ import { Component, inject } from '@angular/core';
 import { LeftSidebar } from '../../components/left-sidebar/left-sidebar';
 import { SharedModules } from '../../shared.module';
 import { CoreLayoutApi } from '../../services/core-layout-api';
+import { TransactionPage } from '../../../app/features/transactions/transaction-page/transaction-page';
 
 @Component({
   selector: 'app-core-layout',
-  imports: [LeftSidebar, ...SharedModules],
+  imports: [LeftSidebar,...SharedModules],
   templateUrl: './core-layout.html',
   styleUrl: './core-layout.scss',
 })
@@ -20,7 +21,7 @@ export class CoreLayout {
   public toggleRightPanel(): void { this.coreLayoutService.toggleRightPanel(); }
   public onAskAI(): void { this.coreLayoutService.isAiPanelOpen.set(true); }
   public onQuickAdd(): void {
-    console.log('Quick Add menu or dialog triggered!');
+    this.coreLayoutService.openTransactionDialog("add");
     // Future expansion: open a dialog pane or launch an overlay menu here
   }
 }
