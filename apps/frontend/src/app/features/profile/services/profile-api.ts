@@ -2,6 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { ApiService } from '../../../../shared/services/api-service';
 import { catchError, Observable, tap, throwError } from 'rxjs';
 import { AuthApi } from '../../../core/auth/services/auth-api';
+import { Router } from '@angular/router';
 
 export interface userProfilePayload{
   user: {
@@ -23,6 +24,7 @@ export interface userProfilePayload{
 })
 export class ProfileApi {
   private readonly api = inject(ApiService);
+  private readonly router = inject(Router);
   private readonly authService = inject(AuthApi);
 
   // Get User Profile
@@ -43,16 +45,19 @@ export class ProfileApi {
   }
 
   // Dispatches a total account and privacy destruction sequence command.
-  public deleteAccount(): Observable<any> {
-    return this.api.delete('/profile/personal-info').pipe(
-      tap(response => this.handleProfileSuccess(response)),
+  public deleteUserAccount(password: string): Observable<any> {
+    return this.api.delete('/profile/personal-info', { password }).pipe(
+      tap(response => {
+        this.handleProfileSuccess(response);
+        this.authService.logout();
+      }),
       catchError(error => this.handleProfileFailure(error))
     );
   }
 
   private handleProfileSuccess(profilePayload: any): void{
     if (profilePayload?.token){
-      this.authService.handleAuthenticationSuccess(profilePayload);
+      this.authService.handleAuthenticationSuccess(profilePayload, false);
     }
   }
   

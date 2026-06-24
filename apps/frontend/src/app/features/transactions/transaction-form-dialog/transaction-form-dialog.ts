@@ -1,39 +1,55 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
-import { provideNativeDateAdapter } from '@angular/material/core';
+import { Component, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
-import { TransactionsService } from '../transactions.service';
+import { provideNativeDateAdapter } from '@angular/material/core';
+import { SharedModules } from '../../../../shared/shared.module';
 
 @Component({
   selector: 'app-transaction-form-dialog',
   standalone: true,
   providers: [provideNativeDateAdapter()],
   imports: [
-    CommonModule,
-    FormsModule,
-    MatDatepickerModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatDialogModule
+    ...SharedModules,
+    MatDatepickerModule
   ],
   templateUrl: './transaction-form-dialog.html',
   styleUrl: './transaction-form-dialog.scss',
 })
-export class TransactionFormDialog implements OnInit {
 
-  categories: any[] = [];
-  subcategories: any[] = [];
+export class TransactionFormDialog {
+  categories = [
+    'Food',
+    'Transport',
+    'Shopping',
+    'Bills',
+    'Salary',
+  ];
+
+  subcategories = [
+    'Restaurant',
+    'Fuel',
+    'Electronics',
+    'Utilities',
+    'Monthly Income',
+  ];
+
+  accounts = [
+    'Cash',
+    'Maybank',
+    'CIMB',
+    'Credit Card',
+  ];
+
+  currencies = [
+    'MYR',
+    'USD',
+    'SGD',
+  ];
 
   form = {
-    categoryId: null as number | null,
-    subcategoryId: null as number | null,
-    transactionDate: new Date(),
+    category: '',
+    subcategory: '',
+    date: new Date(),
     account: '',
     currency: 'MYR',
     amount: null as number | null,
@@ -42,42 +58,18 @@ export class TransactionFormDialog implements OnInit {
 
   constructor(
     private dialogRef: MatDialogRef<TransactionFormDialog>,
-    private transactionApi: TransactionsService,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA)
+    public data: any
   ) {
-    if (data?.mode === 'edit' && data?.transaction) {
+    if (
+      data?.mode === 'edit' &&
+      data?.transaction
+    ) {
       this.form = {
-        categoryId: data.transaction.categoryId,
-        subcategoryId: data.transaction.subcategoryId,
-        transactionDate: new Date(data.transaction.transactionDate),
-        account: data.transaction.account,
-        currency: data.transaction.currency,
-        amount: data.transaction.amount,
-        description: data.transaction.description,
+        ...data.transaction,
+        date: new Date(data.transaction.date),
       };
     }
-  }
-
-  ngOnInit(): void {
-    this.loadCategories();
-  }
-
-  loadCategories(): void {
-    this.transactionApi.getCategories().subscribe({
-      next: (res) => {
-        this.categories = res;
-      },
-      error: (err) => console.error('Failed to load categories', err),
-    });
-  }
-
-  onCategoryChange(): void {
-    const selected = this.categories.find(
-      c => c.id === this.form.categoryId
-    );
-
-    this.subcategories = selected?.children || [];
-    this.form.subcategoryId = null;
   }
 
   get dialogTitle(): string {
@@ -87,17 +79,8 @@ export class TransactionFormDialog implements OnInit {
   }
 
   save(): void {
-    const payload = {
-      categoryId: this.form.categoryId,
-      subcategoryId: this.form.subcategoryId,
-      transactionDate: this.form.transactionDate,
-      account: this.form.account,
-      currency: this.form.currency,
-      amount: this.form.amount,
-      description: this.form.description,
-    };
-
-    this.dialogRef.close(payload);
+    console.log(this.form);
+    this.dialogRef.close(this.form);
   }
 
   cancel(): void {

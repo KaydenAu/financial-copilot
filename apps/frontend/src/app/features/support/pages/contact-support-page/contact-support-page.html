@@ -1,0 +1,169 @@
+<div class="contact-support__container">
+    <div class="contact-support__header">
+        <span class="contact-support__title">
+            Get In Touch
+        </span>
+        <br>
+        <span class="contact-support__subtitle">
+            Have a question or running into an issue?
+            Our support team is here to help you.
+        </span>
+    </div>
+
+    <div class="contact-support__main-content">
+        <!-- LEFT SIDE -->
+        <div class="contact-support__column">
+            <div class="contact-support__card">
+                <span class="contact-support__card-title">Quick Answers</span>
+                <mat-accordion multi="false">
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                Is my transaction data safe?
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <span>
+                            Yes. All transaction data is encrypted and securely stored.
+                            We follow industry-standard security practices to protect your information.
+                        </span>
+                    </mat-expansion-panel>
+
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                Can I export my transaction history?
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <span>
+                            Yes. You can export your data anytime for personal analysis. Go to Upload Files in the dashboard. You can filter by your desired date range or specific accounts, select your preferred file format and click the Download button to save the file directly to your device.
+                        </span>
+                    </mat-expansion-panel>
+
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                How do I delete my account and permanently wipe my data?
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <span>
+                            We take your privacy seriously. If you choose to leave, navigate to Profile Settings > Personal Info > Delete All Personal Data. 
+                            <br><br> 
+                            Once you confirm your identity via email verification, your profile, linked credentials and entire transaction history are permanently deleted from our servers within 30 days. This action cannot be undone.
+                        </span>
+                    </mat-expansion-panel>
+                </mat-accordion>
+            </div>
+
+            <div class="contact-support__card">
+                <span class="contact-support__card-title">Contact Channel</span>
+                <mat-list>
+                    <mat-list-item>
+                        <span class="contact-support__channel-label">Support Email:</span>
+                        <span class="contact-support__channel-value">support@financialcopilot.com</span>
+                    </mat-list-item>
+
+                    <mat-list-item>
+                        <span class="contact-support__channel-label">Average Response Time:</span>
+                        <span class="contact-support__channel-value"> Under 12 hours </span>
+                    </mat-list-item>
+
+                    <mat-list-item>
+                        <span class="contact-support__channel-label">Support Hours:</span>
+                        <span class="contact-support__channel-value">Monday - Friday, 9AM - 6PM</span>
+                    </mat-list-item>
+                </mat-list>
+            </div>
+        </div>
+
+        <!-- RIGHT SIDE -->
+        <div class="contact-support__column">
+            <form #supportForm="ngForm" (ngSubmit)="onSendMessage()" class="contact-support__form">
+                <span class="contact-support__form-title">Send a Secure Message</span>
+                <mat-form-field appearance="outline" floatLabel="always">
+                    <mat-label>Name</mat-label>
+                    <input 
+                        matInput
+                        placeholder="Enter your name"
+                        type="text" 
+                        name="contactName"
+                        [disabled]="isSubmitting()"
+                        [ngModel]="contactName()" 
+                        (ngModelChange)="contactName.set($event)"
+                    />
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" floatLabel="always">
+                    <mat-label>Email Address</mat-label>
+                    <input 
+                        matInput 
+                        required
+                        type="email" 
+                        name="email"
+                        placeholder="Enter your email address" 
+                        [disabled]="isSubmitting()"
+                        [ngModel]="email()" 
+                        (ngModelChange)="email.set($event)"
+                    />
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" floatLabel="always">
+                    <mat-label>Category</mat-label>
+                    <mat-select 
+                        required
+                        name="category" 
+                        placeholder="Select the category"
+                        [disabled]="isSubmitting()"
+                        [ngModel]="category()" 
+                        (ngModelChange)="category.set($event)"
+                    >
+                        @for (category of categories; track category) {
+                        <mat-option [value]="category.value">
+                            {{ category.viewValue }}
+                        </mat-option>
+                        }
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" floatLabel="always">
+                    <mat-label>Message</mat-label>
+                    <textarea 
+                        matInput 
+                        required
+                        rows="6" 
+                        name="message"
+                        placeholder="Describe your issue here..."
+                        [disabled]="isSubmitting()"
+                        [ngModel]="message()" 
+                        (ngModelChange)="message.set($event)"
+                    ></textarea>
+                </mat-form-field>
+
+                <button 
+                    mat-flat-button 
+                    type="submit" 
+                    class="contact-support__send-btn"
+                    [disabled]="!supportForm.valid || isSubmitting()"
+                >
+                    Send Secure Message
+                </button>
+            </form>
+        </div>
+    </div>
+    @if (showSuccessBanner()) {
+        <div class="contact-support__success-banner">
+            <div class="contact-support__success-content">
+                <svg class="contact-support__success-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span class="contact-support__success-message">
+                    Message sent successfully! Our support team will review your ticket and reply shortly.
+                </span>
+            </div>
+            <button type="button" class="contact-support__success-close" (click)="showSuccessBanner.set(false)">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+    }
+</div>

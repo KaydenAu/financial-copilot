@@ -1,4 +1,4 @@
-import { Component, computed, inject, linkedSignal } from '@angular/core';
+import { Component, computed, inject, linkedSignal, signal } from '@angular/core';
 import { SharedModules } from '../../../../../shared/shared.module';
 import { CoreLayoutApi } from '../../../../../shared/services/core-layout-api';
 import { ProfileApi } from '../../services/profile-api';
@@ -12,6 +12,12 @@ import { ProfileApi } from '../../services/profile-api';
 export class PersonalInfoPage {
   private coreLayoutService = inject(CoreLayoutApi);
   private profileService = inject(ProfileApi);
+
+  public showSuccessBanner = signal(false);
+  public deleteState = signal<'idle' | 'confirm' | 'password'>('idle');
+  public deletePassword = signal('');
+  public isDeleting = signal(false);
+  public deleteError = signal<string | null>(null);
 
   public userName = linkedSignal(() => this.coreLayoutService.userName());
   public email = linkedSignal(() => this.coreLayoutService.email());
@@ -70,25 +76,47 @@ export class PersonalInfoPage {
       }
     };
 
-    console.log('Sending aligned payload payload to backend:', payload);
     this.profileService.updateUserProfile(payload).subscribe({
       next: (response) => {
         console.log('Configurations securely saved:', response);
+        this.showSuccessBanner.set(true);
+        setTimeout(() => this.showSuccessBanner.set(false), 5000);
       }, 
       error: (error) => {
         console.error('Configuration save failed:', error);
       }
     });
+  }
 
+  public onDeleteCancel(): void {
+    this.deleteState.set('idle');
+    this.deletePassword.set('');
+    this.deleteError.set(null);
+    this.isDeleting.set(false);
   }
 
   public onDeleteAllUserData(): void {
-    const confirmation = confirm(
-      'CRITICAL WARNING: Are you absolutely sure you want to delete all user data?'
-    );
-    if (confirmation) {
-      console.warn('Executing purge sequence...');
+    const passwordPayload = this.deletePassword().trim();
+    
+    if (!passwordPayload) {
+      this.deleteError.set('Please enter your account password to proceed.');
+      return;
     }
-  }
 
+    console.warn('Executing purge sequence...');
+    this.isDeleting.set(true);
+    this.deleteError.set(null);
+
+    this.profileService.deleteUserAccount(passwordPayload).subscribe({
+      next: (response) => {
+        console.log('Account successfully deleted:', response);
+        this.isDeleting.set(false);
+      }, 
+      error: (error) => {
+        console.error('Account deletion rejected:', error);
+        this.isDeleting.set(false);
+        this.deleteError.set(error.message);
+      }
+    });
+  }
 }
