@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "private": true,
+   "private": true,
   "scripts": {
     "dev:frontend": "npm run start --prefix frontend",
     "dev:backend": "npm run dev --prefix backend",
@@ -13,12 +13,5 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
-  "dependencies": {
-    "file-saver": "^2.0.5",
-    "xlsx": "^0.18.5"
-  },
-  "devDependencies": {
-    "@types/file-saver": "^2.0.7"
-  }
+  "type": "commonjs"
 }

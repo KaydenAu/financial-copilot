@@ -7,9 +7,6 @@ model Category {
   parent      Category?  @relation("CategoryHierarchy", fields: [parentId], references: [id], onDelete: Cascade)
   children    Category[] @relation("CategoryHierarchy")
 
-  transactions           Transaction[] @relation("TransactionCategory")
-  subcategoryTransactions Transaction[] @relation("TransactionSubcategory")
-
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
 

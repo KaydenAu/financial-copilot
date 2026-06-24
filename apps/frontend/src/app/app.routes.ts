@@ -9,33 +9,37 @@ import { ResetPasswordPage } from './features/auth/pages/reset-password-page/res
 import { TermsOfServicesPage } from './features/auth/pages/terms-of-services-page/terms-of-services-page';
 import { PrivacyPolicyPage } from './features/auth/pages/privacy-policy-page/privacy-policy-page';
 import { ContactSupportPage } from './features/support/pages/contact-support-page/contact-support-page';
+import { NotFoundPage } from './features/error/not-found-page/not-found-page';
 import { DashboardPage } from './features/dashboard/pages/dashboard-page/dashboard-page';
 import { OauthCallbackPage } from './features/auth/pages/oauth-callback-page/oauth-callback-page';
 import { PersonalInfoPage } from './features/profile/pages/personal-info-page/personal-info-page';
 import { SecurityPage } from './features/profile/pages/security-page/security-page';
+import { ReportPage } from './features/reports/report-page/report-page';
+import { CategoriesPage } from './features/categories/pages/categories-page/categories-page';
+import { TransactionPage } from './features/transactions/transaction-page/transaction-page';
+
 
 export const routes: Routes = [
-    { path: '', redirectTo: 'auth/login', pathMatch: 'full'},
+    { path: '', redirectTo: 'auth/login', pathMatch: 'full' },
     {
         path: 'auth',
-        children:[
-            { path: 'login', component: LoginPage},
-            { path: 'register', component: RegisterPage},
-            { path: 'forgot-password', component: ForgotPasswordPage},
-            { path: 'reset-password', component: ResetPasswordPage},
-            { path: 'terms-of-services', component: TermsOfServicesPage},
-            { path: 'privacy-policy', component: PrivacyPolicyPage},
-            { path: 'contact-support', component: ContactSupportPage},
-            { path: 'oauth-callback', component: OauthCallbackPage},
+        children: [
+            { path: 'login', component: LoginPage },
+            { path: 'register', component: RegisterPage },
+            { path: 'forgot-password', component: ForgotPasswordPage },
+            { path: 'reset-password', component: ResetPasswordPage },
+            { path: 'terms-of-services', component: TermsOfServicesPage },
+            { path: 'privacy-policy', component: PrivacyPolicyPage },
+            { path: 'oauth-callback', component: OauthCallbackPage },
         ],
     },
     {
         path: '',
         component: CoreLayout,
         canActivate: [authGuard],
-        children:[
-            { path: '', redirectTo: 'dashboard', pathMatch: 'full'},
-            { path: 'dashboard', component: DashboardPage},
+        children: [
+            { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+            { path: 'dashboard', component: DashboardPage },
             {
                 path: 'profile',
                 children: [
@@ -45,8 +49,44 @@ export const routes: Routes = [
                     { path: 'support/contact', component: ContactSupportPage}
                 ]
             },
-            // { path: 'reports', component: ReportPage},
+            { path: 'reports', component: ReportPage},
         ]
     },
-    { path: '**', redirectTo: 'auth/errors'},
+    {
+        path: 'categories',
+        // canActivate: [authGuard],
+        component: CategoriesPage,
+    },
+    {
+        path: 'transactions',
+        // canActivate: [authGuard],
+        component: TransactionPage,
+    },
+    {
+        path: 'reports',
+        // canActivate: [authGuard],
+        component: ReportPage,
+    },
+    // Support routes
+    {
+        path: 'support',
+        children: [
+            {
+                path: 'contact',
+                component: ContactSupportPage,
+            }
+        ],
+    },
+    // Error routes
+    {
+        path: 'error',
+        children: [
+            {
+                path: '404',
+                component: NotFoundPage,
+            },
+        ],
+    },
+    // Fallback route
+    { path: '**', redirectTo: 'error/404' },
 ];
