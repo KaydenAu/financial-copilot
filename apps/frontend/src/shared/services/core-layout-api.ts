@@ -3,6 +3,8 @@ import { NavigationEnd, Router } from '@angular/router';
 import { AuthApi } from '../../app/core/auth/services/auth-api';
 import { filter } from 'rxjs';
 import { APP_NAVIGATION_CONFIG, DEFAULT_HEADER_MESSAGE, PROFILE_NAVIGATION_CONFIG } from '../layouts/core-layout/core-layout.config';
+import { MatDialog } from '@angular/material/dialog';
+import { TransactionFormDialog } from '../../app/features/transactions/transaction-form-dialog/transaction-form-dialog';
 
 @Injectable({
   providedIn: 'root',
@@ -10,6 +12,7 @@ import { APP_NAVIGATION_CONFIG, DEFAULT_HEADER_MESSAGE, PROFILE_NAVIGATION_CONFI
 export class CoreLayoutApi {
   private router = inject(Router);
   private authService = inject(AuthApi);
+  private dialog = inject(MatDialog);
 
   public userName = computed(() => {
     const data = this.authService.currentUser(); 
@@ -72,6 +75,17 @@ export class CoreLayoutApi {
   
     return DEFAULT_HEADER_MESSAGE;
   });
+
+  public openTransactionDialog(mode: 'add' | 'edit' = 'add', initialData?: any): void {
+    this.dialog.open(TransactionFormDialog, {
+      width: '800px',
+      maxWidth: '95vw',
+      data: {
+        mode,
+        ...initialData
+      },
+    });
+  }
 
   public toggleSidebar(): void { this.isSidebarCollapsed.update((state) => !state); }
   public toggleRightPanel(): void { this.isAiPanelOpen.update((state) => !state); }
