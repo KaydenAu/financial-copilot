@@ -1,0 +1,294 @@
+@use '../../../../../styles/component-tokens/buttons' as *;
+@use '../../../../../styles/component-tokens/forms' as *;
+@use '../../../../../styles/component-styles/buttons' as *;
+@use '../../../../../styles/component-styles/forms' as *;
+
+.security-settings {
+    &__container {
+        max-width: var(--viewport-desktop);
+        margin: var(--space-0) auto;
+        padding: var(--space-layout-page);
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-component-md);
+
+        @media (max-width: var(--viewport-tablet)) {
+            padding: var(--space-component-lg) var(--space-inline-sm);
+        }
+    }
+
+    &__header {
+        text-align: center;
+        margin-bottom: var(--space-component-lg);
+    }
+
+    &__title {
+        font-size: var(--font-heading-2-size);
+        font-weight: var(--font-heading-2-weight);
+        line-height: var(--font-heading-2-line-height);
+        color: var(--text-primary);
+        margin-bottom: var(--space-inline-xs);
+
+        @media (max-width: var(--viewport-tablet)) {
+            font-size: var(--font-heading-2-size, 1.9rem);
+        }
+        @media (max-width: var(--viewport-mobile)) {
+            font-size: var(--font-heading-3-size, 1.6rem);
+        }
+    }
+
+    &__subtitle {
+        font-size: var(--font-body-size, 1rem);
+        color: var(--text-secondary);
+        line-height: var(--font-body-line-height, 1.6);
+        max-width: 44rem; // Balanced desktop reading boundary
+        margin: var(--space-0) auto;
+
+        @media (max-width: var(--viewport-tablet)) {
+            font-size: var(--font-label-size, 0.95rem);
+        }
+    }
+
+    // Symmetrical Multi-Column Layout Grid
+    &__main-content {
+        display: grid;
+        grid-template-columns: 1fr 1.2fr;
+        gap: var(--space-component-card);
+        align-items: stretch;
+
+        @media (max-width: --viewport-tablet) {
+            grid-template-columns: 1fr;
+        }
+    }
+
+  // Standardized Component Token Card Boundary Model
+  &__card {
+    background-color: var(--surface-primary);
+    border: var(--border-width-component) var(--border-style-default) var(--border-primary);
+    border-radius: var(--radius-container-element);
+    padding: var(--space-component-card);
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    gap: var(--space-6);
+  }
+
+  &__card-title {
+    font-size: var(--font-heading-4-size);
+    font-weight: var(--font-heading-4-weight);
+    line-height: var(--font-heading-1-line-height);
+    margin: var(--space-0) var(--space-0) var(--space-component-sm) var(--space-0);
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-12);
+    width: 100%;
+  }
+
+  &__mfa-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    width: 100%;
+    gap: var(--space-12);
+  }
+
+  &__mfa-text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+
+  &__section-title {
+    font-size: var(--font-heading-4-size);
+    font-weight: var(--font-heading-4-weight);
+    line-height: var(--font-heading-1-line-height);
+    margin: var(--space-0) var(--space-0) var(--space-component-sm) var(--space-0)
+  }
+
+  &__mfa-step {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-16);
+    width: 100%;
+
+    &--center {
+      align-items: center;
+      text-align: center;
+      justify-content: center;
+      padding: var(--space-32) var(--space-0);
+    }
+
+    &--success {
+      .security-settings__wizard-subtitle {
+        color: var(--feedback-success);
+      }
+    }
+  }
+
+  &__wizard-subtitle {
+    font-size: var(--font-body-size);
+    font-weight: var(--font-heading-3-weight);
+  }
+
+  &__wizard-actions {
+    display: flex;
+    gap: var(--space-12);
+    align-items: center;
+    margin-top: var(--space-4);
+  }
+
+  &__panel-text {
+    font-size: var(--font-body-size);
+    color: var(--text-muted);
+    line-height: var(--font-body-line-height);
+  }
+
+  &__qr-wrapper {
+    background: var(--surface-primary);
+    padding: var(--space-12);
+    border: var(--border-width-component) var(--border-style-default) var(--border-primary);
+    border-radius: var(--radius-interactive-element);
+    align-self: center;
+  }
+
+  &__qr-image {
+    display: block;
+    width: 130px;
+    height: 130px;
+  }
+
+  &__backup-codes {
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 10rem;
+    background: var(--surface-disabled);
+    border: var(--border-width-component) var(--border-style-default) var(--border-primary);
+    border-radius: var(--radius-interactive-element);
+    padding: var(--space-16);
+  }
+
+  &__backup-title {
+    display: block;
+    font-size: var(--font-caption-size);
+    font-weight: var(--font-heading-3-weight);
+    margin-bottom: var(--space-8);
+  }
+
+  &__backup-desc {
+    font-size: var(--font-caption-size);
+    color: var(--text-muted);
+    display: block;
+    margin-bottom: var(--space-14);
+    line-height: var(--font-body-line-height);
+  }
+
+  &__backup-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-8);
+    list-style: none;
+    padding: var(--space-0);
+    margin: var(--space-0);
+  }
+
+  &__code {
+    display: block;
+    text-align: center;
+    font-family: monospace;
+    font-weight: var(--font-heading-3-weight);
+    min-height: 2rem;
+    padding: var(--space-6) var(--space-6);
+    border: var(--border-width-component) var(--border-style-default) var(--border-primary);
+    border-radius: var(--radius-interactive-element);
+    background-color: var(--surface-primary);
+  }
+
+  &__set-up-btn,
+  &__back-btn,
+  &__save-changes-btn,
+  &__cancel-btn,
+  &__verify-btn,
+  &__setup-btn,
+  &__send-btn {
+    @extend %btn-core;
+    @extend .btn-primary;
+    align-self: flex-start;
+    min-width: 11.25rem;
+
+    @media (max-width: var(--viewport-mobile)) {
+      width: 100%;
+      align-self: stretch;      // Adapts smoothly to mobile touch targets
+    }
+  }
+
+  &__disable-btn{
+    @extend %btn-core;
+    @extend .btn-destructive;
+    align-self: flex-start;
+    min-width: 11.25rem;
+  }
+}
+
+
+
+.security-settings__container ::ng-deep {
+  // Clean Form Field Blueprint hooked into Layer 1 Design System Tokens
+  mat-form-field {
+    @extend .form-control;
+    @extend %mat-form-field-engine-standard;
+
+    // Forces clean layout backing tracks using local background tokens
+    .mat-mdc-text-field-wrapper {
+      background-color: var(--_form-bg) !important;
+      box-shadow: none !important;
+      transition: var(--_form-transition);
+    }
+
+    // Interactive States: Focus Ring Override
+    &.mat-form-field-should-float:not(.mat-form-field-invalid) {
+      // Gentle glow using light purple opacity coordinates
+      --_form-focus-ring: 0 0 0 var(--focus-ring-width, 3px) rgba(147, 83, 234, 0.15);
+    }
+
+    // Bridging alignments for custom select and text input targets
+    .mat-mdc-form-field-flex,
+    .mat-mdc-text-field-wrapper {
+      align-items: center !important;
+    }
+
+    .mat-mdc-select-arrow-wrapper {
+      transform: none !important;
+      align-self: center !important;
+    }
+  }
+
+  // Secure Textarea Boundary Adaptations
+  textarea.mat-mdc-input-element {
+    min-height: 7.5rem !important; 
+    resize: vertical;
+
+    @media (max-width: var(--viewport-mobile)) {
+      min-height: 6.25rem !important;
+    }
+  }
+
+  // Channel List Presentation Adapters
+  mat-list {
+    height: auto !important;
+    padding-top: var(--space-0) !important;
+    padding-bottom: var(--space-0) !important;
+    flex: 1;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-around !important;
+  }
+
+  mat-list-item {
+    height: auto !important;
+    min-height: unset !important;
+    padding: var(--space-0) !important;
+  }
+}

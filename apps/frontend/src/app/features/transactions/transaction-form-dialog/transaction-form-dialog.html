@@ -3,51 +3,40 @@
 </h2>
 
 <mat-dialog-content>
-
     <div class="form-grid">
-
-        <!-- CATEGORY -->
         <mat-form-field appearance="outline">
             <mat-label>Category</mat-label>
-
-            <mat-select [(ngModel)]="form.categoryId" (selectionChange)="onCategoryChange()">
-                @for (category of categories; track category.id) {
-                <mat-option [value]="category.id">
-                    {{ category.name }}
+            <mat-select [(ngModel)]="form.category">
+                @for(category of categories; track category) {
+                <mat-option [value]="category">
+                    {{ category }}
                 </mat-option>
                 }
             </mat-select>
         </mat-form-field>
 
-        <!-- SUBCATEGORY -->
         <mat-form-field appearance="outline">
             <mat-label>Subcategory</mat-label>
-
-            <mat-select [(ngModel)]="form.subcategoryId">
-                @for (subcategory of subcategories; track subcategory.id) {
-                <mat-option [value]="subcategory.id">
-                    {{ subcategory.name }}
+            <mat-select [(ngModel)]="form.subcategory">
+                @for(subcategory of subcategories; track subcategory) {
+                <mat-option [value]="subcategory">
+                    {{ subcategory }}
                 </mat-option>
                 }
             </mat-select>
         </mat-form-field>
 
-        <!-- DATE -->
         <mat-form-field appearance="outline">
             <mat-label>Date</mat-label>
-
-            <input matInput [matDatepicker]="picker" [(ngModel)]="form.transactionDate" />
-
+            <input matInput [matDatepicker]="picker" [(ngModel)]="form.date">
             <mat-datepicker-toggle matSuffix [for]="picker" />
             <mat-datepicker #picker />
         </mat-form-field>
 
-        <!-- ACCOUNT -->
         <mat-form-field appearance="outline">
             <mat-label>Account</mat-label>
-
             <mat-select [(ngModel)]="form.account">
-                @for (account of ['Cash','Maybank','CIMB','Credit Card']; track account) {
+                @for(account of accounts; track account) {
                 <mat-option [value]="account">
                     {{ account }}
                 </mat-option>
@@ -55,12 +44,10 @@
             </mat-select>
         </mat-form-field>
 
-        <!-- CURRENCY -->
         <mat-form-field appearance="outline">
             <mat-label>Currency</mat-label>
-
             <mat-select [(ngModel)]="form.currency">
-                @for (currency of ['MYR','USD','SGD']; track currency) {
+                @for(currency of currencies; track currency) {
                 <mat-option [value]="currency">
                     {{ currency }}
                 </mat-option>
@@ -68,32 +55,24 @@
             </mat-select>
         </mat-form-field>
 
-        <!-- AMOUNT -->
         <mat-form-field appearance="outline">
             <mat-label>Amount</mat-label>
-
-            <input matInput type="number" [(ngModel)]="form.amount" />
+            <input matInput type="number" [(ngModel)]="form.amount">
         </mat-form-field>
 
-        <!-- DESCRIPTION -->
         <mat-form-field appearance="outline" class="description-field">
             <mat-label>Description</mat-label>
-
             <textarea matInput rows="4" [(ngModel)]="form.description"></textarea>
         </mat-form-field>
-
     </div>
-
 </mat-dialog-content>
 
-<mat-dialog-actions align="end" class="dialog-actions">
-
-    <button mat-button type="button" (click)="cancel()">
+<mat-dialog-actions align="end">
+    <button mat-button (click)="cancel()">
         Cancel
     </button>
 
-    <button mat-raised-button color="primary" type="button" (click)="save()">
+    <button mat-raised-button color="primary" (click)="save()">
         Save
     </button>
-
 </mat-dialog-actions>

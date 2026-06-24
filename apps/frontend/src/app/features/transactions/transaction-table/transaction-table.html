@@ -1,5 +1,4 @@
 <div class="table-container">
-
     <table mat-table [dataSource]="dataSource" matSort>
 
         <!-- CATEGORY -->
@@ -8,7 +7,7 @@
                 Category
             </th>
             <td mat-cell *matCellDef="let row">
-                {{ row.category?.name || row.category }}
+                {{ row.category }}
             </td>
         </ng-container>
 
@@ -18,17 +17,17 @@
                 Subcategory
             </th>
             <td mat-cell *matCellDef="let row">
-                {{ row.subcategory?.name || '-' }}
+                {{ row.subcategory }}
             </td>
         </ng-container>
 
         <!-- DATE -->
-        <ng-container matColumnDef="transactionDate">
+        <ng-container matColumnDef="date">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>
                 Date
             </th>
             <td mat-cell *matCellDef="let row">
-                {{ row.transactionDate | date:'mediumDate' }}
+                {{ row.date }}
             </td>
         </ng-container>
 
@@ -68,7 +67,7 @@
                 Description
             </th>
             <td mat-cell *matCellDef="let row">
-                {{ row.description || '-' }}
+                {{ row.description }}
             </td>
         </ng-container>
 
@@ -77,32 +76,42 @@
             <th mat-header-cell *matHeaderCellDef>
                 Action
             </th>
-
             <td mat-cell *matCellDef="let row">
                 <div class="action-buttons">
-
-                    <button mat-icon-button (click)="onEdit(row)">
+                    <button mat-icon-button (click)="editTransaction(row)">
                         <mat-icon>edit</mat-icon>
                     </button>
-
-                    <button mat-icon-button (click)="onDelete(row)">
+                    <button mat-icon-button (click)="deleteTransaction(row)">
                         <mat-icon>delete</mat-icon>
                     </button>
-
                 </div>
             </td>
         </ng-container>
 
-        <!-- HEADER ROW -->
+        <!-- HEADER -->
         <tr mat-header-row *matHeaderRowDef="getDisplayedColumns(); sticky: true"></tr>
 
-        <!-- DATA ROWS -->
-        <tr mat-row *matRowDef="let row; columns: getDisplayedColumns()"></tr>
+        <!-- FILTER ROW -->
+        <tr class="filter-row">
+            @for (column of getDisplayedColumns(); track column) {
+            <td>
+                @if (column !== 'action') {
+                <mat-form-field appearance="outline" class="filter-field">
+                    <input matInput [(ngModel)]="columnFilters[column]" (keyup)="applyColumnFilter()"
+                        placeholder="Search" />
+                </mat-form-field>
+                }
+            </td>
+            }
+        </tr>
 
+        <!-- DATA ROWS -->
+        <tr mat-row *matRowDef="
+                let row;
+                columns: getDisplayedColumns()
+            "></tr>
     </table>
 
-    <!-- PAGINATOR -->
     <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons>
     </mat-paginator>
-
 </div>
