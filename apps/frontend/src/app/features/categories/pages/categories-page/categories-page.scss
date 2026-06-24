@@ -1,0 +1,130 @@
+.page-container {
+  padding: 1.5rem;
+}
+
+/* ================= TOOLBAR ================= */
+.toolbar-card {
+  margin-bottom: 1.5rem;
+}
+
+.toolbar {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.search-field {
+  flex: 1;
+  min-width: 280px;
+}
+
+/* ================= LAYOUT ================= */
+.content-layout {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+}
+
+/* LEFT PANEL */
+.tree-panel {
+  width: 35%;
+  min-width: 320px;
+  max-height: 80vh;
+  overflow: auto;
+}
+
+/* RIGHT PANEL */
+.editor-panel {
+  flex: 1;
+  min-height: 600px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ================= PANEL TITLE ================= */
+.panel-title {
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
+}
+
+/* ================= TREE ================= */
+.tree-root,
+.tree-children {
+  list-style: none;
+  margin: 0;
+  padding-left: 0.75rem;
+}
+
+.tree-children {
+  border-left: 1px solid #e0e0e0;
+  margin-left: 0.5rem;
+  padding-left: 0.75rem;
+}
+
+/* NODE */
+.tree-node {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+/* HOVER */
+.tree-node:hover {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+/* SELECTED */
+.tree-node.selected {
+  background: rgba(25, 118, 210, 0.12);
+}
+
+/* NODE TEXT */
+.node-name {
+  font-size: 0.95rem;
+  font-weight: 400;
+}
+
+/* ================= EMPTY / LOADING ================= */
+.empty-state,
+.empty-tree,
+.loading-state {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #777;
+}
+
+.empty-state mat-icon,
+.empty-tree mat-icon,
+.loading-state mat-icon {
+  font-size: 64px;
+  width: 64px;
+  height: 64px;
+  margin-bottom: 1rem;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 992px) {
+  .content-layout {
+    flex-direction: column;
+  }
+
+  .tree-panel {
+    width: 100%;
+    max-height: 400px;
+  }
+
+  .editor-panel {
+    min-height: auto;
+  }
+}

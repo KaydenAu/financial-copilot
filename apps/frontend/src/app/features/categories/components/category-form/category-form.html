@@ -1,0 +1,64 @@
+<div class="form-container">
+    <div class="form-header">
+        <h2>{{ title }}</h2>
+    </div>
+
+    <form [formGroup]="form">
+        <mat-form-field appearance="outline">
+            <mat-label>Category Name</mat-label>
+            <input matInput formControlName="name" />
+            <mat-error>
+                Category name is required
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Category Type</mat-label>
+            <mat-select formControlName="type">
+                <mat-option value="category">
+                    Category
+                </mat-option>
+                <mat-option value="subcategory">
+                    Subcategory
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        @if (showParentField) {
+        <mat-form-field appearance="outline">
+            <mat-label>Parent Category</mat-label>
+            <mat-select formControlName="parentId">
+                @for (parent of parentCategories; track parent.id) {
+                <mat-option [value]="parent.id">
+                    {{ parent.name }}
+                </mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+        }
+
+        <mat-form-field appearance="outline">
+            <mat-label>Description</mat-label>
+            <textarea matInput rows="5" formControlName="description">
+      </textarea>
+        </mat-form-field>
+
+        <div class="action-buttons">
+            @if (!isViewMode) {
+            <button mat-raised-button color="primary" type="button" (click)="onSave()">
+                <mat-icon>
+                    {{ isCreateMode ? 'add' : 'save' }}
+                </mat-icon>
+                {{ isCreateMode ? 'Add' : 'Save' }}
+            </button>
+            }
+
+            @if (showDeleteButton) {
+            <button mat-raised-button color="warn" type="button" (click)="onDelete()">
+                <mat-icon>delete</mat-icon>
+                Delete
+            </button>
+            }
+        </div>
+    </form>
+</div>
