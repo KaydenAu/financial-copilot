@@ -50,22 +50,9 @@ export const routes: Routes = [
                 ]
             },
             { path: 'reports', component: ReportPage},
+            { path: 'categories', component: CategoriesPage},
+            { path: 'transactions', component: TransactionPage},
         ]
-    },
-    {
-        path: 'categories',
-        // canActivate: [authGuard],
-        component: CategoriesPage,
-    },
-    {
-        path: 'transactions',
-        // canActivate: [authGuard],
-        component: TransactionPage,
-    },
-    {
-        path: 'reports',
-        // canActivate: [authGuard],
-        component: ReportPage,
     },
     // Support routes
     {
