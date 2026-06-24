@@ -1,0 +1,104 @@
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+    min-width: 700px;
+    padding: 0.5rem 0;
+}
+
+/* full width field (description) */
+.description-field {
+    grid-column: 1 / -1;
+}
+
+/* dialog content spacing */
+mat-dialog-content {
+    padding-top: 1rem;
+    max-height: 70vh;
+    overflow: auto;
+}
+
+/* make form fields consistent width */
+mat-form-field {
+    width: 100%;
+}
+
+/* dialog title spacing (optional polish) */
+h2[mat-dialog-title] {
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.dialog-actions {
+    padding: 1rem 0 0;
+    gap: 0.75rem;
+}
+
+/* consistent button sizing */
+.dialog-actions button {
+    min-width: 120px;
+    border-radius: 8px;
+}
+
+/* optional: better hover feel */
+.dialog-actions button:hover {
+    transform: translateY(-1px);
+    transition: 0.15s ease;
+}
+
+
+/* dialog actions spacing */
+mat-dialog-actions {
+    padding: 1rem 0 0;
+    gap: 0.5rem;
+}
+
+/* buttons alignment improvement */
+mat-dialog-actions button {
+    min-width: 100px;
+}
+
+mat-dialog-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid #eee;
+    margin-top: 1rem;
+}
+
+/* Cancel button - low emphasis */
+mat-dialog-actions button[mat-button] {
+    color: #666;
+    font-weight: 500;
+}
+
+/* Save button - stronger CTA */
+mat-dialog-actions button[color="primary"] {
+    padding: 0 1.5rem;
+    font-weight: 600;
+    border-radius: 8px;
+}
+
+/* Hover effects */
+mat-dialog-actions button[mat-button]:hover {
+    background: rgba(0, 0, 0, 0.04);
+}
+
+mat-dialog-actions button[color="primary"]:hover {
+    filter: brightness(1.05);
+}
+
+/* MOBILE RESPONSIVE */
+@media (max-width: 768px) {
+
+    .form-grid {
+        grid-template-columns: 1fr;
+        min-width: auto;
+        gap: 1rem;
+    }
+
+    mat-dialog-content {
+        max-height: 65vh;
+    }
+}

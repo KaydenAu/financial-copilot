@@ -133,7 +133,7 @@
   &__content {
     flex: 1;
     overflow-y: auto;
-    padding: var(--core-layout-padding-page);
+    // padding: var(--core-layout-padding-page);
   }
 
   &__right-panel {
@@ -149,14 +149,12 @@
     @extend %btn-core;     // Injects structural layouts & Angular Material overrides
     @extend .btn-primary;  // Injects Primary color token definitions
     --_btn-width: auto;   
-    --_btn-font-weight: var(--font-weight-700); 
   }
 
   &__ai-btn {
     @extend %btn-core;     // Injects structural layouts & Angular Material overrides
     @extend .btn-ai;       // Injects AI gradient token definitions
     --_btn-width: auto;  
-    --_btn-font-weight: var(--font-weight-700); 
   }
 }
 

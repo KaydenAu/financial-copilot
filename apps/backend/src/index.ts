@@ -6,6 +6,10 @@ import passport from "./modules/auth/integrations_google/google.passport"
 import authRouter from "./modules/auth/auth.api"
 import profileRouter from "./modules/profile/profile.api"
 
+import supportRouter from "./modules/support/support.api"
+import categoriesRouter from './modules/categories/categories.api';
+import transactionRouter from './modules/transactions/transactions.api';
+
 dotenv.config();
 const port = process.env.PORT;
 const frontendUrl = process.env.FRONTEND_URL;
@@ -28,6 +32,10 @@ app.use(cors(corsOptions));
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/profile/personal-info', profileRouter);
 app.use(passport.initialize());
+app.use('/api/v1/support', supportRouter);
+app.use('/api/v1/categories', categoriesRouter);
+app.use('/api/v1/transactions', transactionRouter);
+
 
 // Intercepts errors passed via next(error) from your async route handlers
 app.use((error: any, req: Request, res: Response, next: NextFunction) => {

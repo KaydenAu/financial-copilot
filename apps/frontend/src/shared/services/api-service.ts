@@ -32,12 +32,11 @@ export class ApiService {
     return this.http.put<T>(`${this.baseUrl}${path}`, body, { headers: this.defaultHeaders });
   }
 
-  delete<T>(path: string): Observable<T> {
-    return this.http.delete<T>(`${this.baseUrl}${path}`, { headers: this.defaultHeaders });
+  delete<T>(path: string, body: any = {}): Observable<T> {
+    return this.http.delete<T>(`${this.baseUrl}${path}`, { headers: this.defaultHeaders, body: body });
   }
 
   patch<T>(path: string, body: any = {}): Observable<T> {
     return this.http.patch<T>(`${this.baseUrl}${path}`, body, { headers: this.defaultHeaders })
   }
-
 }

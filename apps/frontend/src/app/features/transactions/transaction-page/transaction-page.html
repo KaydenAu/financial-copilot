@@ -1,0 +1,60 @@
+<div class="transaction-page">
+
+    <!-- TOOLBAR -->
+    <section class="toolbar-section">
+
+        <mat-form-field appearance="outline" class="search-field">
+            <mat-label>Search Transactions</mat-label>
+
+            <input matInput [(ngModel)]="searchKeyword" placeholder="Search..." (keyup)="refreshData()" />
+
+            <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+
+        <div class="toolbar-actions">
+
+            <button mat-raised-button type="button" (click)="refreshData()">
+                <mat-icon>refresh</mat-icon>
+                Refresh
+            </button>
+
+            <button mat-raised-button color="primary" type="button" (click)="addTransaction()">
+                <mat-icon>add</mat-icon>
+                Add Transaction
+            </button>
+
+            <button mat-raised-button type="button" (click)="downloadExcel()">
+                <mat-icon>download</mat-icon>
+                Download Excel
+            </button>
+
+            <button mat-icon-button [matMenuTriggerFor]="columnMenu">
+                <mat-icon>view_column</mat-icon>
+            </button>
+
+            <mat-menu #columnMenu="matMenu">
+
+                @for (column of displayedColumns; track column) {
+                <button mat-menu-item (click)="toggleColumn(column)">
+                    <mat-icon>
+                        {{ visibleColumns[column] ? 'check_box' : 'check_box_outline_blank' }}
+                    </mat-icon>
+                    <span>{{ column | titlecase }}</span>
+                </button>
+                }
+
+            </mat-menu>
+
+        </div>
+    </section>
+
+    <!-- TABLE -->
+    <section class="table-section">
+
+        <app-transaction-table [transactions]="transactions" [visibleColumns]="visibleColumns"
+            (edit)="editTransaction($event)" (delete)="deleteTransaction($event)">
+        </app-transaction-table>
+
+    </section>
+
+</div>
