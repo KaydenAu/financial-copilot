@@ -2,7 +2,9 @@
 // AUTH PAGE LAYOUT (BEM Architecture)
 // ==========================================================================
 @use '../../../styles/component-styles/buttons' as *;
+@use '../../../styles/component-styles/forms' as *;
 @use '../../../styles/component-tokens/buttons' as *;
+@use '../../../styles/component-tokens/forms' as *;
 
 .auth-layout {
   // --------------------------------------------------------------------------
@@ -112,9 +114,6 @@
       padding: var(--auth-padding-desktop-y) var(--auth-padding-desktop-x);
       color: var(--auth-text-primary);
 
-      @media (max-width: var(--viewport-tablet)) {
-        display: none; // Managed via modifiers below for mobile structural collapses
-      }
   }
 
   // Wrapper context for header typography text
@@ -430,6 +429,15 @@
 
 // ANGULAR MATERIAL INTERNALS ENCAPSULATION
 .auth-layout ::ng-deep {
+  mat-form-field {
+    @extend .form-control;
+    @extend .form-control--glass;
+    @extend %mat-form-field-engine-auth;
+
+    // Synchronize Material's outer shape with our inner dynamic variable profiles
+    --mdc-outlined-text-field-container-shape: var(--_form-radius);
+  }
+
   mat-checkbox {
     color: var(--auth-text-primary);
     opacity: var(--auth-opacity-high);
@@ -463,177 +471,6 @@
       color: var(--auth-text-primary);
       opacity: var(--auth-opacity-subtle);
       margin: var(--space-0) !important;
-    }
-  }
-
-  mat-form-field {
-    --mdc-outlined-text-field-container-shape: var(--auth-input-radius);
-    width: 100%;
-    --mdc-outlined-text-field-input-text-color: var(--auth-text-primary);
-    --mdc-outlined-text-field-focus-input-text-color: var(--auth-text-primary);
-
-    input.mat-mdc-input-element {
-      color: var(--auth-text-primary) !important;
-      -webkit-text-fill-color: var(--auth-text-primary) !important;
-      caret-color: var(--auth-text-primary) !important; 
-
-      &::placeholder {
-        color: var(--auth-text-muted) !important;
-      }
-
-      &:focus {
-        color: var(--auth-text-primary) !important;
-        -webkit-text-fill-color: var(--auth-text-primary) !important;
-      }
-    }
-
-    // 1. ELIMINATE THE RECTANGULAR BACKGROUND LEAK
-    .mat-mdc-text-field-wrapper {
-      background-color: transparent !important; 
-      box-shadow: none !important;
-    }
-
-    // TARGET THE SPECIFIC INTERNAL INPUT WRAPPER CELLS (MDC RESTRICTIONS)
-    .mat-mdc-form-field-flex,
-    .mat-mdc-text-field-wrapper,
-    .mat-mdc-form-field-infix {
-      background: transparent !important;
-      background-color: transparent !important;
-      display: flex !important;
-      align-items: center !important;
-      min-height: var(--auth-input-height) !important;
-      padding: var(--space-0) var(--space-component-xs) !important;
-    }
-
-    // 2. APPLY THE GLASS TINT TO THE CORNER SPANS DIRECTLY
-    .mdc-notched-outline__leading,
-    .mdc-notched-outline__notch,
-    .mdc-notched-outline__trailing {
-      background-color: var(--color-white-10) !important; 
-      border-color: var(--color-white-20) !important;
-      border-width: var(--auth-border-width) !important;
-      transition: border-color var(--auth-transition-speed) var(--auth-transition-easing), 
-                  background-color var(--auth-transition-speed) var(--auth-transition-easing);
-    }
-
-    // Hover state transitions
-    &:hover {
-      .mdc-notched-outline__leading,
-      .mdc-notched-outline__notch,
-      .mdc-notched-outline__trailing {
-        border-color: var(--color-neutral-400) !important;
-        background-color: var(--color-white-20) !important;
-      }
-    }
-
-    // Active typed focus state transitions
-    &.mat-focused {
-      .mdc-notched-outline__leading,
-      .mdc-notched-outline__notch,
-      .mdc-notched-outline__trailing {
-        border-color: var(--border-secondary) !important;
-        border-width: var(--border-width-active) !important;
-      }
-    }
-        
-    // 3. FIX INTERNAL TEXT INPUT HEIGHT & CENTER ALIGNMENT
-    input.mat-mdc-form-field-input {
-      color: var(--auth-text-primary) !important;
-      -webkit-text-fill-color: var(--auth-text-primary) !important;
-      background: transparent !important; 
-      box-shadow: none !important;
-      font-size: var(--auth-font-size-body);
-      line-height: normal !important; 
-      height: auto !important;
-      width: 100%;
-        
-      &:focus {
-        color: var(--auth-text-primary) !important;
-        -webkit-text-fill-color: var(--auth-text-primary) !important;
-      }
-
-      // FIXES THE CHROMIUM / SAFARI BLACK BOX WHEN TYPING / AUTOFILLING
-      &:-webkit-autofill,
-      &:-webkit-autofill:hover, 
-      &:-webkit-autofill:focus,
-      &:-webkit-autofill:active {
-        color: var(--auth-text-primary) !important;
-        -webkit-text-fill-color: var(--auth-text-primary) !important;
-        -webkit-box-shadow: var(--space-0) var(--space-0) var(--radius-0) 1000px transparent inset !important;
-        box-shadow: var(--space-0) var(--space-0) var(--radius-0) 1000px transparent inset !important;
-        transition: background-color 5000s var(--auth-transition-easing) var(--motion-duration-0);
-
-        &::placeholder {
-          color: var(--auth-text-muted) !important;
-          opacity: var(--opacity-100) !important;
-          line-height: normal !important; 
-        }
-      }
-    }
-
-    // Muted frosted glass placeholder text configuration
-    input::placeholder {
-      color: var(--auth-text-muted) !important;
-      opacity: var(--opacity-100) !important;
-    }
-
-    // 4. PREVENT BROWSER AUTOFILL FROM BREAKING CORES
-    input:-webkit-autofill,
-    input:-webkit-autofill:hover, 
-    input:-webkit-autofill:focus {
-      -webkit-text-fill-color: var(--auth-text-primary) !important;
-      -webkit-box-shadow: var(--space-0) var(--space-0) var(--radius-0) 1000px var(--color-black-40) inset !important; 
-      transition: background-color 5000s var(--auth-transition-easing) var(--motion-duration-0);
-    }
-
-    // 5. FLOATING LABELS (Now correctly structured under mat-form-field context)
-    .mdc-floating-label {
-      color: var(--color-white-60) !important;
-      font-size: var(--font-body-size);
-    }
-
-    &.mat-focused .mdc-floating-label {
-      color: var(--auth-text-primary) !important;
-    }
-
-    &.mat-form-field-invalid .mdc-floating-label {
-      color: var(--auth-error-text) !important; 
-    }
-
-    // 6. SUFFIX BUTTON IMPLEMENTATION
-    button[mat-icon-button][matSuffix] {
-      color: var(--auth-text-muted);
-      margin-right: calc(var(--space-inline-xs) * -1);
-
-      &:hover {
-        color: var(--auth-text-primary);
-        background-color: var(--color-white-10);
-      }
-    }
-
-    // 7. ERROR STATE CLEANUP
-    mat-error {
-      color: var(--auth-error-text) !important;   
-      font-size: var(--auth-font-size-body);      
-      font-weight: var(--auth-font-weight-medium);
-      letter-spacing: var(--auth-line-spacing-wide);
-      margin-top: var(--space-inline-xs);      
-      padding-left: var(--space-inline-xs);     
-      display: flex;
-      align-items: center;
-      gap: var(--space-inline-xs);   
-    }
-  }
-
-  .auth-layout__form {
-    .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-text-field__input {
-      color: var(--auth-text-primary) !important;
-    }
-    .mat-mdc-form-field-label-wrapper .mdc-floating-label {
-      color: var(--color-white-60) !important;
-    }
-    .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__mdc-notch-filler {
-      border-color: var(--color-white-20) !important;
     }
   }
 }

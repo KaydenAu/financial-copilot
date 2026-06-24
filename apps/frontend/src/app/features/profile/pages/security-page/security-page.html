@@ -1,1 +1,208 @@
-<p>security-page works!</p>
+<div class="security-settings__container">
+    <div class="security-settings__header">
+        <span class="security-settings__title">
+            Security & Password Settings
+        </span>
+        <br>
+        <span class="security-settings__subtitle">
+            Manage your account authentication configurations and credential states.
+        </span>
+    </div>
+
+    <div class="security-settings__main-content">
+        <section class="security-settings__card">
+            <form 
+                class="security-settings__form" 
+                #passwordForm="ngForm" 
+                (ngSubmit)="handlePasswordUpdate()" 
+            >
+                <span class="security-settings__card-title">
+                    Update Password
+                </span>
+                
+                <mat-form-field appearance="outline" floatLabel="always">
+                    <mat-label>Current Password</mat-label>
+                    <input 
+                        matInput
+                        required  
+                        placeholder="Enter your current password"
+                        type="password"
+                        name="currentPassword" 
+                        id="currentPassword" 
+                        [ngModel]="currentPassword()" 
+                        (ngModelChange)="currentPassword.set($event)" 
+                    />
+                </mat-form-field>
+                
+                <mat-form-field appearance="outline" floatLabel="always">
+                    <mat-label>New Password</mat-label>
+                    <input 
+                        matInput
+                        required  
+                        placeholder="Enter your new password"
+                        type="password"
+                        name="newPassword" 
+                        id="newPassword" 
+                        [ngModel]="newPassword()" 
+                        (ngModelChange)="newPassword.set($event)" 
+                    />
+                </mat-form-field>
+                
+                <mat-form-field appearance="outline" floatLabel="always">
+                    <mat-label>Confirm New Password</mat-label>
+                    <input 
+                        matInput
+                        required  
+                        placeholder="Confirm your new password"
+                        type="password"
+                        name="confirmPassword" 
+                        id="confirmPassword" 
+                        [ngModel]="confirmPassword()" 
+                        (ngModelChange)="confirmPassword.set($event)" 
+                    />
+                </mat-form-field>
+                
+                <button 
+                    mat-flat-button 
+                    type="submit" 
+                    class="security-settings__save-changes-btn"
+                    [disabled]="!passwordForm.valid || isSubmitting()"
+                >
+                    Save Changes
+                </button>
+            </form>
+        </section>
+
+        <section class="security-settings__card">
+            <div class="security-settings__mfa-header">
+                <div class="security-settings__mfa-text">
+                    <span class="security-settings__card-title">
+                        Two-Factor Authentication
+                    </span>
+                </div>
+            </div>
+
+            @if (mfaSetupStep() === 'off') {
+                <div class="security-settings__mfa-step security-settings__mfa-step--center">
+                    <span class="security-settings__panel-text">
+                        Two-factor authentication is currently inactive on this profile.
+                    </span>
+                    <button 
+                        class="security-settings__set-up-btn"
+                        (click)="startMfaSetup()" 
+                    >
+                        Set Up 2FA
+                    </button>
+                </div>
+            }
+
+            @if (mfaSetupStep() === 'qr') {
+                <div class="security-settings__mfa-step">
+                    <span class="security-settings__wizard-subtitle">
+                        Step 1: Scan this QR Code
+                    </span>
+                    <span class="security-settings__panel-text">
+                        Open your authenticator application (Google Authenticator) and scan the barcode below:
+                    </span>
+                    <div class="security-settings__qr-wrapper">
+                        <img 
+                            class="security-settings__qr-image" 
+                            [src]="dummyQrCodeUrl" 
+                            alt="Dummy 2FA Setup QR Code" 
+                        />
+                    </div>
+                    <div class="security-settings__wizard-actions">
+                        <button 
+                            class="security-settings__cancel-btn" 
+                            (click)="disableMfa()"
+                        >
+                            Cancel
+                        </button>
+                        <button 
+                            class="security-settings__verify-btn"
+                            (click)="proceedToVerify()" 
+                        >
+                            Next: Verify Code
+                        </button>
+                    </div>
+                </div>
+            }
+
+            @if (mfaSetupStep() === 'verify') {
+                <div class="security-settings__mfa-step">
+                    <span class="security-settings__wizard-subtitle">
+                        Step 2: Enter Verification Token
+                    </span>
+                    <span class="security-settings__panel-text">
+                        Enter the 6-digit confirmation code generated by your mobile authenticator app:
+                    </span>
+                    
+                    <mat-form-field appearance="outline" floatLabel="always">
+                        <mat-label>Verification Token</mat-label>
+                        <input 
+                            matInput
+                            required  
+                            placeholder="Enter your verification token"
+                            type="text"
+                            name="verificationCode"
+                            id="verificationCode" 
+                            [ngModel]="verificationCode()" 
+                            (ngModelChange)="verificationCode.set($event)" 
+                        />
+                    </mat-form-field>
+                    
+                    <div class="security-settings__wizard-actions">
+                        <button 
+                            class="security-settings__back-btn" 
+                            (click)="startMfaSetup()" 
+                        >
+                            Back
+                        </button>
+                        <button  
+                            class="security-settings__setup-btn" 
+                            (click)="confirmDummyMfa()"
+                        >
+                            Complete Setup
+                        </button>
+                    </div>
+                </div>
+            }
+
+            @if (mfaSetupStep() === 'active') {
+                <div class="security-settings__mfa-step security-settings__mfa-step--success">
+                    <span class="security-settings__wizard-subtitle">
+                        ✔ 2FA Configuration Operational
+                    </span>
+                    <span class="security-settings__panel-text">
+                        Your workspace environment is locked down using hardware-based dynamic application tokens.
+                    </span>
+                    
+                    <div class="security-settings__backup-codes">
+                        <span class="security-settings__backup-title">
+                            Emergency Access Backup Codes
+                        </span>
+                        <span class="security-settings__backup-desc">
+                            Store these codes safely. They let you log in if you lose access to your device:
+                        </span>
+                        <ul class="security-settings__backup-list">
+                            @for (code of dummyBackupCodes; track code) {
+                                <li class="security-settings__backup-item">
+                                    <code class="security-settings__code">
+                                        {{ code }}
+                                    </code>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                    
+                    <button
+                        class="security-settings__disable-btn"
+                        (click)="disableMfa()"
+                    >
+                        Disable 2FA Protection
+                    </button>
+                </div>
+            }
+        </section>
+    </div>
+</div>
