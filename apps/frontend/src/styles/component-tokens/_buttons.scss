@@ -46,18 +46,13 @@
 }
 
 .btn-destructive {
-  // Base Interactive Surfaces
-  --_btn-bg: var(--feedback-error);                 // Maps to --color-red-600
-  --_btn-text: var(--neutral-inverse);              // Maps to --color-neutral-0 (white)
-  
-  // Interactive State Transitions
-  --_btn-hover-bg: var(--feedback-error-hover);     // Maps to --color-red-700
+  --_btn-bg: var(--feedback-error);   
+  --_btn-text: var(--neutral-inverse);
+  --_btn-hover-bg: var(--feedback-error-hover);   
   --_btn-hover-text: var(--neutral-inverse);
-  
-  --_btn-active-bg: var(--feedback-error-active);   // Maps to --color-red-800
-  
-  // System Geometry & Transitions
-  --_btn-radius: var(--radius-interactive-element); // Maps to --radius-6
+  --_btn-hover-shadow: var(--space-0) var(--space-0) var(--space-20) var(--focus-ring-color-error-hover);
+  --_btn-active-bg: var(--feedback-error-active);
+  --_btn-radius: var(--radius-container-element);
   --_btn-transition: var(--motion-hover-transition);
   
   // Custom focus ring using your design system parameters
