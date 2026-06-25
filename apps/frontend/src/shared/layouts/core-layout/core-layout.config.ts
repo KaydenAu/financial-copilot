@@ -80,7 +80,7 @@ export const PROFILE_NAVIGATION_CONFIG: NavigationItem[] = [
         label: 'Personal Info', 
         route: '/profile/personal-info', 
         icon: 'badge',
-        headerMessage: () => `Manage Your Personal Details`,
+        headerMessage: () => `Configure Your Details And Preferences`,
         exactOptions: { exact: true }
     },
     {
@@ -90,18 +90,18 @@ export const PROFILE_NAVIGATION_CONFIG: NavigationItem[] = [
         headerMessage: () => `Update Security Settings`,
         exactOptions: { exact: false }
     },
-    { 
-      label: 'Notification Center', 
-      route: '/profile/notification', 
-      icon: 'notifications',
-      headerMessage: () => `Manage Your Notifications`,
-      exactOptions: { exact: false }
-    },
+    // { 
+    //   label: 'Notification Center', 
+    //   route: '/profile/notification', 
+    //   icon: 'notifications',
+    //   headerMessage: () => `Manage Your Notifications`,
+    //   exactOptions: { exact: false }
+    // },
     { 
       label: 'Contact Support', 
-      route: '/auth/contact-support', 
+      route: '/profile/support/contact', 
       icon: 'contact_support',
-      headerMessage: () => ``,
+      headerMessage: () => `Contact Us`,
       exactOptions: { exact: false }
     },
     { 

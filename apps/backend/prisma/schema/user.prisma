@@ -16,6 +16,7 @@ model CustomUser {
   // 1:1 Relation Link to the Core Application Profile
   profile UserProfile?
   passwordReset PasswordReset?
+  supportTickets SupportTicket[]
 
   @@map("custom_users")
 }
@@ -23,8 +24,16 @@ model CustomUser {
 // UserProfile handles application data and user customizations
 model UserProfile {
   id                Int         @id @default(autoincrement())
-  userName          String      @map("user_name")
-  preferredCurrency String      @default("RM") @map("preferred_currency")
+
+  // Reporting Data (Optional fields allow for fallback to CustomUser.userName)
+  firstName         String?     @map("first_name")
+  lastName          String?     @map("last_name")
+
+  // Localization & Formatting Preferences
+  preferredCurrency String      @default("MYR") @map("preferred_currency")
+  timezone          String      @default("Asia/Kuala_Lumpur") @map("timezone")
+  dateFormat        String      @default("DD/MM/YYYY") @map("date_format")
+  numberFormat      String      @default("comma-dot") @map("number_format")
 
   createdAt         DateTime    @default(now()) @map("created_at")
   updatedAt         DateTime    @updatedAt @map("updated_at")
@@ -47,4 +56,19 @@ model PasswordReset {
   user      CustomUser  @relation(fields: [userId], references: [id], onDelete: Cascade)
   
   @@map("user_password_resets")
+}
+
+model SupportTicket {
+  id        Int      @id @default(autoincrement())
+  subject   String
+  message   String   @db.Text // Use Text type for longer customer messages
+  status    String   @default("OPEN") // Tracks status: OPEN, PENDING, RESOLVED
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  
+  // Foreign Key linking back to Identity Management
+  userId    Int      @map("user_id")
+  user      CustomUser @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("support_tickets")
 }

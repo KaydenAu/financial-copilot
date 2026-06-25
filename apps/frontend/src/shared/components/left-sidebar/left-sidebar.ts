@@ -1,8 +1,6 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { SharedModules } from '../../shared.module';
-import { APP_NAVIGATION_CONFIG } from '../../layouts/core-layout/core-layout.config';
-import { AuthApi } from '../../../app/core/auth/services/auth-api';
-import { UiLayoutService } from '../../services/ui-layout-service';
+import { CoreLayoutApi } from '../../services/core-layout-api';
 
 @Component({
   selector: 'app-left-sidebar',
@@ -11,19 +9,12 @@ import { UiLayoutService } from '../../services/ui-layout-service';
   styleUrl: './left-sidebar.scss',
 })
 export class LeftSidebar {
-  private authService = inject(AuthApi);
-  private uiLayoutService = inject(UiLayoutService);
+  private coreLayoutService = inject(CoreLayoutApi);
 
-  public isCollapsed = this.uiLayoutService.isSidebarCollapsed;
-  public navigationItems = this.uiLayoutService.navigationMenu;
-  public brandText = this.uiLayoutService.brandText; 
+  public isCollapsed = this.coreLayoutService.isSidebarCollapsed;
+  public navigationItems = this.coreLayoutService.navigationMenu;
+  public brandText = this.coreLayoutService.brandText; 
   
-  public toggleSidebar(): void {
-    this.uiLayoutService.toggleSidebar();
-  }
-  
-  public logout(): void {
-    this.authService.logout();
-  }
-
+  public toggleSidebar(): void { this.coreLayoutService.toggleSidebar(); }
+  public logout(): void { this.coreLayoutService.logout();}
 }

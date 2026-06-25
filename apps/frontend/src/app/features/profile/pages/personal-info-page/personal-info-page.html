@@ -1,1 +1,228 @@
-<p>personal-info-page works!</p>
+<div class="personal-info__container">
+    <form #profileForm="ngForm" (ngSubmit)="onSaveChanges()" class="personal-info__form">
+        <div class="personal-info__body-grid">
+            <section class="personal-info__section">
+                <span class="personal-info__section-title">Personal Details</span>      
+                <div class="personal-info__row personal-info__row--stacked">
+                    <div class="personal-info__form-group">
+                        <label class="personal-info__label" for="email">Email Address</label>
+                        <input 
+                            required 
+                            class="personal-info__control" 
+                            type="email" 
+                            id="email" 
+                            name="email"
+                            [ngModel]="email()" 
+                            (ngModelChange)="email.set($event)" 
+                        />
+                    </div>
+                    <div class="personal-info__form-group">
+                        <label class="personal-info__label" for="firstName">First Name</label>
+                        <input 
+                            class="personal-info__control"
+                            type="text" 
+                            id="firstName" 
+                            name="firstName"
+                            [ngModel]="firstName()" 
+                            (ngModelChange)="firstName.set($event)" 
+                        />
+                    </div>
+                    <div class="personal-info__form-group">
+                        <label class="personal-info__label" for="lastName">Last Name</label>
+                        <input 
+                            class="personal-info__control"
+                            type="text" 
+                            id="lastName" 
+                            name="lastName"
+                            [ngModel]="lastName()" 
+                            (ngModelChange)="lastName.set($event)" 
+                        />
+                    </div>
+                </div>
+            </section>
+            <section class="personal-info__section">
+                <span class="personal-info__section-title">Localization & Preferences</span>
+                <div class="personal-info__row personal-info__row--stacked">
+                    <div class="personal-info__form-group">
+                        <label class="personal-info__label" for="currency">Preferred Currency</label>
+                        <select 
+                            class="personal-info__control"
+                            id="currency" 
+                            name="currency"
+                            [ngModel]="preferredCurrency()" 
+                            (ngModelChange)="preferredCurrency.set($event)" 
+                        >
+                            @for (currency of currencies; track currency.code) {
+                                <option [value]="currency.code">{{ currency.name }}</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="personal-info__form-group">
+                        <label class="personal-info__label" for="timezone">System Timezone</label>
+                        <select 
+                            class="personal-info__control"
+                            id="timezone" 
+                            name="timezone"
+                            [ngModel]="timezone()" 
+                            (ngModelChange)="timezone.set($event)" 
+                        >
+                            @for (tz of timezones; track tz) {
+                                <option [value]="tz.value">{{ tz.label }}</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="personal-info__form-group">
+                    <label class="personal-info__label" for="dateFormat">Date Interface Layout</label>
+                    <select 
+                        class="personal-info__control"
+                        id="dateFormat" 
+                        name="dateFormat"
+                        [ngModel]="dateFormat()" 
+                        (ngModelChange)="dateFormat.set($event)" 
+                    >
+                        @for (format of dateFormats; track format) {
+                            <option [value]="format.value">{{ format.label }}</option>
+                        }
+                    </select>
+                </div>
+                <div class="personal-info__form-group">
+                    <label class="personal-info__label" for="numberFormat">Number System Convention</label>
+                    <select 
+                        class="personal-info__control"
+                        id="numberFormat" 
+                        name="numberFormat"
+                        [ngModel]="numberFormat()" 
+                        (ngModelChange)="numberFormat.set($event)" 
+                    >
+                        @for (numFmt of numberFormats; track numFmt.value) {
+                            <option [value]="numFmt.value">{{ numFmt.label }}</option>
+                        }
+                    </select>
+                </div>
+            </section>
+        </div>
+        <footer class="personal-info__actions">
+            <button 
+                type="submit" 
+                class="personal-info__save-btn"
+                [disabled]="!profileForm.valid"
+            >
+                Save Configurations
+            </button>
+        </footer>
+    </form>
+    @if (showSuccessBanner()) {
+        <div class="personal-info__success-banner">
+            <div class="personal-info__success-content">
+                <svg class="personal-info__success-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span class="personal-info__success-message">
+                    Configurations saved successfully! Your personal details and localization preferences have been updated.
+                </span>
+            </div>
+            <button type="button" class="personal-info__success-close" (click)="showSuccessBanner.set(false)">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+    }
+    <hr class="personal-info__divider" />
+    <section class="personal-info__danger-zone">
+        @if (deleteState() === 'idle') {
+            <div class="personal-info__danger-meta">
+                <span class="personal-info__danger-title">Danger Zone: Delete Account</span>
+                <p class="personal-info__danger-description">
+                    Proceeding will completely wipe your profile, security credentials and workspace configurations from our servers. This action is absolute and cannot be undone.
+                </p>
+            </div>
+            <button 
+                type="button" 
+                class="personal-info__delete-btn"
+                (click)="deleteState.set('confirm')" 
+            >
+                Delete All Personal Data
+            </button>
+        }
+
+        @if (deleteState() === 'confirm') {
+            <div class="personal-info__danger-meta">
+                <span class="personal-info__danger-title">Are You Absolutely Sure?</span>
+                <p class="personal-info__danger-description">
+                    This will permanently erase all dashboard configurations, analytical pipelines and metadata settings immediately. Please verify that you intend to proceed.
+                </p>
+            </div>
+            <div class="personal-info__danger-actions">
+                <button 
+                    type="button" 
+                    class="personal-info__delete-btn"
+                    (click)="deleteState.set('password')" 
+                >
+                    Yes, Proceed
+                </button>
+                <button 
+                    type="button" 
+                    class="personal-info__cancel-btn"
+                    (click)="onDeleteCancel()"
+                >
+                    Cancel
+                </button>
+            </div>
+        }
+
+        @if (deleteState() === 'password') {
+            <div class="personal-info__danger-meta personal-info__danger-meta--full">
+                <span class="personal-info__danger-title">Security Check: Confirm Credentials</span>
+                <p class="personal-info__danger-description">
+                    To completely clear your production instance workspace footprint, authorize this action by keying in your account password.
+                </p>
+                
+                <div class="personal-info__form-group personal-info__danger-input-group">
+                    <label class="personal-info__label personal-info__label--danger" for="confirmPassword">Account Password</label>
+                    <input 
+                        required 
+                        class="personal-info__control personal-info__control--danger" 
+                        type="password" 
+                        id="confirmPassword" 
+                        name="confirmPassword"
+                        placeholder="Enter your password"
+                        [ngModel]="deletePassword()" 
+                        (ngModelChange)="deletePassword.set($event)" 
+                    />
+                </div>
+                @if (deleteError()) {
+                    <div class="personal-info__danger-error">
+                        <svg class="personal-info__error-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                        </svg>
+                        <span class="personal-info__error-text">{{ deleteError() }}</span>
+                    </div>
+                }
+            </div>
+            <div class="personal-info__danger-actions">
+                <button 
+                    type="button" 
+                    class="personal-info__delete-btn"
+                    [disabled]="!deletePassword().trim() || isDeleting()"
+                    (click)="onDeleteAllUserData()" 
+                >
+                    @if (isDeleting()) {
+                        Wiping Records...
+                    } @else {
+                        Permanently Wipe Data
+                    }
+                </button>
+                <button 
+                    type="button" 
+                    class="personal-info__cancel-btn"
+                    [disabled]="isDeleting()"
+                    (click)="onDeleteCancel()"
+                >
+                    Cancel
+                </button>
+            </div>
+        }
+    </section>
+</div>

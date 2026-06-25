@@ -1,0 +1,76 @@
+<div class="not-found-page">
+    <mat-icon class="not-found-page__icon">error_outline</mat-icon>
+    <span class="not-found-page__title">404: Page Not Found</span>
+    <div class="not-found-page__body">
+        <span class="not-found-page__text">
+            We have hit a brief patch of turbulence. While your financial data is
+            perfectly safe, this link you are looking for has been relocated or no
+            longer exists.
+            Let’s adjust your path and get you back on track.
+        </span>
+    </div>
+    <button 
+        mat-raised-button 
+        class="not-found-page__button"
+        routerLink="/dashboard" 
+    >
+        Return to Dashboard
+    </button>
+    <div class="not-found-page__navigation">
+        <span class="not-found-page__navigation-title">Need an alternative path?</span>
+
+        <div class="not-found-page__link-group">
+            <a 
+                class="not-found-page__link"
+                routerLink="/support/contact" 
+            >
+                Contact Support
+            </a>
+            <span class="not-found-page__divider">|</span>
+            <a 
+                class="not-found-page__link"
+                routerLink="/auth/login" 
+            >
+                Log In
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- <div class="container">
+
+    <mat-icon class="error-icon">error_outline</mat-icon>
+
+    <h1 class="error-title">404: Page Not Found</h1>
+
+    <div class="message">
+        <p>
+            We have hit a brief patch of turbulence. While your financial data is
+            perfectly safe, this link you are looking for has been relocated or no
+            longer exists.
+        </p>
+
+        <p>Let’s adjust your path and get you back on track.</p>
+
+        <button mat-raised-button color="primary" routerLink="/dashboard">
+            Return to Dashboard
+        </button>
+    </div>
+
+    <div class="links">
+        <p>Need an alternative path?</p>
+
+        <div class="link-group">
+            <a mat-button color="primary" routerLink="/support/contact">
+                Contact Support
+            </a>
+
+            <span>|</span>
+
+            <a mat-button color="primary" routerLink="/auth/login">
+                Log In
+            </a>
+        </div>
+    </div>
+
+</div> -->

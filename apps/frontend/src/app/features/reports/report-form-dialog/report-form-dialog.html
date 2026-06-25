@@ -1,0 +1,100 @@
+<div class="dialog-container">
+    <div class="dialog-header">
+        <h2>{{ reportTitle }}</h2>
+        <p>Generate AI-powered financial insights from your transactions.</p>
+    </div>
+
+    @if (!reportResult) {
+    <form class="report-form">
+
+        <!-- CATEGORY -->
+        <section class="form-card">
+            <h3>Category</h3>
+            <mat-form-field appearance="outline">
+                <mat-label>Select Category</mat-label>
+                <mat-select [formControl]="selectedCategoryId">
+                    @for (cat of categories; track cat.value) {
+                    <mat-option [value]="cat.value">
+                        {{ cat.viewValue }}
+                    </mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
+        </section>
+
+        <!-- DATE RANGE -->
+        <section class="form-card">
+            <h3>Date Range</h3>
+            <mat-form-field appearance="outline">
+                <mat-label>Date Range</mat-label>
+                <mat-select [value]="selectedDateRange" (selectionChange)="onDateRangeChange($event.value)">
+                    @for (range of dateRanges; track range.value) {
+                    <mat-option [value]="range.value">
+                        {{ range.viewValue }}
+                    </mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
+
+            @if (selectedDateRange === 'custom') {
+            <div class="date-grid">
+                <mat-form-field appearance="outline">
+                    <mat-label>Start Date</mat-label>
+                    <input matInput [matDatepicker]="startPicker" [(ngModel)]="dateFrom">
+                    <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+                    <mat-datepicker #startPicker></mat-datepicker>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>End Date</mat-label>
+                    <input matInput [matDatepicker]="endPicker" [(ngModel)]="dateTo">
+                    <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+                    <mat-datepicker #endPicker></mat-datepicker>
+                </mat-form-field>
+            </div>
+            }
+        </section>
+
+        <!-- ACTIONS -->
+        <div class="actions">
+            <button type="button" matButton (click)="closeDialog()">
+                Cancel
+            </button>
+
+            <button type="button" matButton="filled" (click)="generateReport()"
+                [disabled]="loading || !selectedCategoryId.value">
+                {{ loading ? 'Generating...' : 'Generate Report' }}
+            </button>
+        </div>
+    </form>
+    }
+
+    <!-- RESULT -->
+    @if (reportResult) {
+    <div class="form-card">
+        <h3>AI Summary</h3>
+        <p>{{ reportResult.summary }}</p>
+        <h3>Insights</h3>
+        <ul>
+            @for (item of reportResult.insights; track item) {
+            <li>{{ item }}</li>
+            }
+        </ul>
+        <h3>Highlights</h3>
+        <ul>
+            @for (item of reportResult.highlights; track item) {
+            <li>{{ item }}</li>
+            }
+        </ul>
+        <div class="export-actions">
+            <button matButton="filled" (click)="downloadPDF()" [disabled]="loading">
+                {{ loading ? 'Generating PDF...' : 'Download PDF' }}
+            </button>
+
+            @if (loading) {
+            <mat-spinner diameter="24"></mat-spinner>
+            }
+        </div>
+    </div>
+    }
+</div>

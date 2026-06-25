@@ -21,16 +21,17 @@ export class AuthApi {
   );
   public token: Observable<string | null> = this.tokenSubject.asObservable();
   public currentUser = signal<any | null>(null);
+  public userProfile = signal<any | null>(null);
 
   // Cross-application state sync: Automatically adapts state if the token changes elsewhere
   constructor() {
     const savedToken = this.storageService.getItem<string>(this.tokenKey);
     if(savedToken){
-      this.currentUser.set(this.decodeTokenClaims(savedToken));
+      this.syncStateFromToken(savedToken);
     }
     this.storageService.observeKey<string>(this.tokenKey).subscribe(newToken => {
       this.tokenSubject.next(newToken);
-      this.currentUser.set(this.decodeTokenClaims(newToken));
+      this.syncStateFromToken(newToken);
     });
   }
   
@@ -84,18 +85,21 @@ export class AuthApi {
     this.storageService.removeItem(this.tokenKey);
     this.tokenSubject.next(null);
     this.currentUser.set(null);
+    this.userProfile.set(null);
     this.router.navigate(['/auth/login']);
   }
 
   // Unified Session State Persistence
   // Handles storage assignments and internal signal broadcasts on successful handshakes.
-  private handleAuthenticationSuccess(authPayload: any): void {
+  public handleAuthenticationSuccess(authPayload: any, isRedirect: boolean = true): void {
     if (authPayload?.token) {
       this.storageService.setItem(this.tokenKey, authPayload.token);
       this.tokenSubject.next(authPayload.token);
       const profile = this.decodeTokenClaims(authPayload.token);
       this.currentUser.set(profile);
-      this.router.navigate(['/', 'dashboard']);
+      if(isRedirect){
+        this.router.navigate(['/', 'dashboard']);
+      } 
     }
   }
 
@@ -116,10 +120,21 @@ export class AuthApi {
       const standardizedBase64 = payloadSegment.replace(/-/g, '+').replace(/_/g, '/');
       const decodedJsonString = atob(standardizedBase64);
       
-      return JSON.parse(decodedJsonString); // Resolves token keys like { id, username, email }
+      return JSON.parse(decodedJsonString);
     } catch (error) {
       console.error('Failed to translate secure authentication payload claims context:', error);
       return null;
+    }
+  }
+
+  private syncStateFromToken(token: string | null): void {
+    const claims = this.decodeTokenClaims(token);
+    if (claims) {
+      this.currentUser.set(claims.user || null);
+      this.userProfile.set(claims.profile || null);
+    } else {
+      this.currentUser.set(null);
+      this.userProfile.set(null);
     }
   }
 }

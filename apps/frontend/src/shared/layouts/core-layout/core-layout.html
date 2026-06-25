@@ -45,12 +45,19 @@
     <div class="panel-container">
       <div class="panel-container__header">
         <h3 class="panel-container__title">AI Assistant Workspace</h3>
-        <button mat-icon-button class="panel-container__close-btn" (click)="toggleRightPanel()" type="button">
+        <button 
+          mat-icon-button 
+          class="panel-container__close-btn" 
+          type="button"
+          (click)="toggleRightPanel()" 
+        >
           <mat-icon>close</mat-icon>
         </button>
       </div>
       <div class="panel-container__body">
-        <p>How can your financial copilot assist you with your ledger data details today?</p>
+        <p class="panel-container__message-bubble">
+          How can your financial copilot assist you with your ledger data details today?
+        </p>
       </div>
     </div>
   </aside>
