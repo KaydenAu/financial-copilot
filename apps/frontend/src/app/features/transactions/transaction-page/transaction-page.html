@@ -1,12 +1,18 @@
 <div class="transaction-page">
+
+    <!-- TOOLBAR -->
     <section class="toolbar-section">
+
         <mat-form-field appearance="outline" class="search-field">
             <mat-label>Search Transactions</mat-label>
-            <input matInput [(ngModel)]="searchKeyword" placeholder="Search..." />
+
+            <input matInput [(ngModel)]="searchKeyword" placeholder="Search..." (keyup)="refreshData()" />
+
             <mat-icon matSuffix>search</mat-icon>
         </mat-form-field>
 
         <div class="toolbar-actions">
+
             <button mat-raised-button type="button" (click)="refreshData()">
                 <mat-icon>refresh</mat-icon>
                 Refresh
@@ -27,35 +33,28 @@
             </button>
 
             <mat-menu #columnMenu="matMenu">
+
                 @for (column of displayedColumns; track column) {
                 <button mat-menu-item (click)="toggleColumn(column)">
                     <mat-icon>
-                        {{ visibleColumns[column] ? 'check_box' :
-                        'check_box_outline_blank' }}
+                        {{ visibleColumns[column] ? 'check_box' : 'check_box_outline_blank' }}
                     </mat-icon>
-                    <span>{{ column }}</span>
+                    <span>{{ column | titlecase }}</span>
                 </button>
                 }
+
             </mat-menu>
+
         </div>
     </section>
 
-    <section class="filter-section">
-        <mat-form-field appearance="outline" class="category-filter">
-            <mat-label>Filter Categories</mat-label>
-            <mat-select multiple [(value)]="selectedCategories">
-                <mat-option value="all">All Categories</mat-option>
-                @for (category of categories; track category) {
-                <mat-option [value]="category">
-                    {{ category }}
-                </mat-option>
-                }
-            </mat-select>
-        </mat-form-field>
+    <!-- TABLE -->
+    <section class="table-section">
+
+        <app-transaction-table [transactions]="transactions" [visibleColumns]="visibleColumns"
+            (edit)="editTransaction($event)" (delete)="deleteTransaction($event)">
+        </app-transaction-table>
+
     </section>
 
-    <section class="table-section">
-        <app-transaction-table [transactions]="transactions" [visibleColumns]="visibleColumns">
-        </app-transaction-table>
-    </section>
 </div>
