@@ -1,50 +1,49 @@
-<div class="page-container">
-
+<div class="category-page__container">
     <!-- ================= TOOLBAR ================= -->
-    <mat-card class="toolbar-card">
-        <div class="toolbar">
-            <mat-form-field appearance="outline" class="search-field">
+    <mat-card class="category-page__toolbar-card">
+        <div class="category-page__toolbar">
+            <mat-form-field appearance="outline" floatLabel="always" class="category-page__search">
                 <mat-label>Search Categories</mat-label>
                 <input matInput [(ngModel)]="searchText" placeholder="Search category..." />
             </mat-form-field>
+            <div class="category-page__toolbar-actions">
+                <button mat-raised-button class="category-page__button category-page__button--primary"  (click)="refresh()" [disabled]="isLoading">
+                    <mat-icon>refresh</mat-icon>
+                    Refresh
+                </button>
 
-            <button mat-raised-button (click)="refresh()" [disabled]="isLoading">
-                <mat-icon>refresh</mat-icon>
-                Refresh
-            </button>
+                <button mat-raised-button class="category-page__button category-page__button--primary" (click)="addCategory()" [disabled]="isLoading">
+                    <mat-icon>add</mat-icon>
+                    Add Category
+                </button>
 
-            <button mat-raised-button color="primary" (click)="addCategory()" [disabled]="isLoading">
-                <mat-icon>add</mat-icon>
-                Add Category
-            </button>
-
-            <button mat-raised-button color="warn" (click)="resetCategories()" [disabled]="isLoading">
-                <mat-icon>restart_alt</mat-icon>
-                Reset Default Categories
-            </button>
+                <button mat-raised-button class="category-page__button category-page__button--danger" (click)="resetCategories()" [disabled]="isLoading">
+                    <mat-icon>restart_alt</mat-icon>
+                    Reset Default Categories
+                </button>
+            </div> 
         </div>
     </mat-card>
 
     <!-- ================= CONTENT ================= -->
-    <div class="content-layout">
-
+    <div class="category-page__content">
         <!-- LEFT PANEL -->
-        <mat-card class="tree-panel">
-            <div class="panel-title">
+        <mat-card class="category-page__panel category-page__panel--tree">
+            <div class="category-page__panel-title">
                 Category Tree
             </div>
 
             <!-- LOADING -->
             @if (isLoading) {
-            <div class="loading-state">
-                <mat-icon>hourglass_empty</mat-icon>
-                <p>Loading categories...</p>
+            <div class="category-page__state-view category-page__state-view--loading">
+                <mat-icon class="category-page__state-icon">hourglass_empty</mat-icon>
+                <span class="category-page__state-text">Loading categories...</span>
             </div>
             }
 
             <!-- TREE -->
             @if (categories.length > 0) {
-            <ul class="tree-root">
+            <ul class="category-page__tree-root">
                 @for (category of categories; track category.id) {
                 <ng-container [ngTemplateOutlet]="treeNode" [ngTemplateOutletContext]="{ $implicit: category }">
                 </ng-container>
@@ -54,23 +53,23 @@
 
             <!-- EMPTY -->
             @if (!isLoading && (!categories || categories.length === 0)) {
-            <div class="empty-tree">
-                <mat-icon>category</mat-icon>
-                <p>No categories found</p>
+            <div class="category-page__state-view category-page__state-view--empty">
+                <mat-icon class="category-page__state-icon">category</mat-icon>
+                <span class="category-page__state-text">No categories found</span>
             </div>
             }
         </mat-card>
 
         <!-- ================= RIGHT PANEL ================= -->
-        <mat-card class="editor-panel">
+        <mat-card class="category-page__panel category-page__panel--editor">
             @if (!formMode) {
-            <div class="empty-state">
-                <mat-icon>category</mat-icon>
-                <h2>No Category Selected</h2>
-                <p>
+            <div class="category-page__empty-workspace">
+                <mat-icon class="category-page__workspace-icon">category</mat-icon>
+                <span class="category-page__workspace-title">No Category Selected</span>
+                <span class="category-page__workspace-text">
                     Select a category from the tree
                     or click <b>Add Category</b> to start.
-                </p>
+                </span>
             </div>
             } @else {
             <app-category-form [mode]="formMode" [category]="selectedCategory" [parentCategories]="allCategories"
@@ -83,20 +82,20 @@
 
 <!-- ================= RECURSIVE NODE ================= -->
 <ng-template #treeNode let-node>
-    <li>
-        <div class="tree-node" [class.selected]="selectedCategory?.id === node.id" (click)="viewCategory(node)">
-            <span class="node-name">
+    <li class="category-page__tree-item">
+        <div class="category-page__tree-node" [class.selected]="selectedCategory?.id === node.id" (click)="viewCategory(node)">
+            <span class="category-page__node-name">
                 {{ node.name }}
             </span>
 
-            <button mat-icon-button [matMenuTriggerFor]="nodeMenu"
+            <button mat-icon-button class="category-page__node-trigger" [matMenuTriggerFor]="nodeMenu"
                 (click)="setContextCategory(node); $event.stopPropagation()">
                 <mat-icon>more_vert</mat-icon>
             </button>
         </div>
 
         @if (node.children?.length) {
-        <ul class="tree-children">
+        <ul class="category-page__tree-children">
             @for (child of node.children; track child.id) {
             <ng-container [ngTemplateOutlet]="treeNode" [ngTemplateOutletContext]="{ $implicit: child }">
             </ng-container>
@@ -107,18 +106,18 @@
 </ng-template>
 
 <!-- ================= CONTEXT MENU ================= -->
-<mat-menu #nodeMenu="matMenu">
-    <button mat-menu-item (click)="addSubcategory(contextCategory)">
+<mat-menu #nodeMenu="matMenu" class="category-page__menu-panel">
+    <button mat-menu-item class="category-page__menu-item" (click)="addSubcategory(contextCategory)">
         <mat-icon>add</mat-icon>
         Add Subcategory
     </button>
 
-    <button mat-menu-item (click)="editCategory(contextCategory)">
+    <button mat-menu-item class="category-page__menu-item" (click)="editCategory(contextCategory)">
         <mat-icon>edit</mat-icon>
         Edit
     </button>
 
-    <button mat-menu-item (click)="confirmDelete(contextCategory)">
+    <button mat-menu-item class="category-page__menu-item category-page__menu-item--danger" (click)="confirmDelete(contextCategory)">
         <mat-icon>delete</mat-icon>
         Delete
     </button>

@@ -71,84 +71,79 @@
     </table>
 </div> -->
 
-<div class="reports-container">
-    <h2>Report Types</h2>
+<div class="reports-page__container">
+    <div class="reports-page__header">
+        <span class="reports-page__title">Report Types</span><br>
+        <span class="reports-page__subtitle">
+            Select a report type to continue.
+        </span>
+    </div>
 
-    <p class="subtitle">
-        Select a report type to continue.
-    </p>
-
-    <table class="reports-table">
-
+    <table class="reports-page__table">
         <tbody>
-
-            <tr class="report-row" (click)="openReportDialog('Financial Overview')">
-
-                <td>
-                    <div class="report-title">
+            <tr class="reports-page__row" (click)="openReportDialog('Financial Overview')">
+                <td class="reports-page__info-cell">
+                    <div class="reports-page__row-title">
                         Financial Overview
                     </div>
-
-                    <div class="report-description">
+                    <div class="reports-page__row-description">
                         Summary of income, expenses and balances.
                     </div>
                 </td>
-
-                <td class="action-cell">
+                <td class="reports-page__action-cell">
                     <mat-icon>chevron_right</mat-icon>
                 </td>
-
             </tr>
 
-            <tr class="report-row" (click)="openReportDialog('Spending Reports')">
+            <tr class="reports-page__row" (click)="openReportDialog('Spending Reports')">
 
-                <td>
-                    <div class="report-title">
+                <td class="reports-page__info-cell">
+                    <div class="reports-page__row-title">
                         Spending Reports
                     </div>
 
-                    <div class="report-description">
+                    <div class="reports-page__row-description">
                         Analyze spending patterns and categories.
                     </div>
                 </td>
 
-                <td class="action-cell">
+                <td class="reports-page__action-cell">
                     <mat-icon>chevron_right</mat-icon>
                 </td>
 
             </tr>
 
-            <tr class="report-row" (click)="openReportDialog('Account Reports')">
+            <tr class="reports-page__row" (click)="openReportDialog('Account Reports')">
 
-                <td>
-                    <div class="report-title">
+                <td class="reports-page__info-cell">
+                    <div class="reports-page__row-title">
                         Account Reports
                     </div>
 
-                    <div class="report-description">
+                    <div class="reports-page__row-description">
                         Account activity and balance reporting.
                     </div>
                 </td>
 
-                <td class="action-cell">
+                <td class="reports-page__action-cell">
                     <mat-icon>chevron_right</mat-icon>
                 </td>
 
             </tr>
 
-            <tr class="report-row" (click)="openReportDialog('Tax / Audit')">
+            <tr class="reports-page__row" (click)="openReportDialog('Tax / Audit')">
 
-                <td>
-                    <div class="report-title">
+                <td class="reports-page__info-cell">
+                    <div class="reports-page__row-title">
                         Tax / Audit
                     </div>
 
-                    <div class="report-description">
+                    <div class="reports-page__row-description">
                         Reports for compliance and auditing purposes.
                     </div>
                 </td>
 
-                <td class="action-cell">
+                <td class="reports-page__action-cell">
                     <mat-icon>chevron_right</mat-icon>
                 </td>
 
