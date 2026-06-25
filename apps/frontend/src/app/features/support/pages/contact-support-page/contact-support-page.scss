@@ -11,6 +11,7 @@
     display: flex;
     flex-direction: column;
     gap: var(--space-component-md);
+    background-color: var(--surface-muted);
 
     @media (max-width: var(--viewport-tablet)) {
       padding: var(--space-component-lg) var(--space-inline-sm);
@@ -232,6 +233,12 @@
     .mat-mdc-select-arrow-wrapper {
       transform: none !important;
       align-self: center !important;
+      margin-left: -40px !important;
+    }
+
+    .mat-mdc-icon-button, 
+    .mat-mdc-button-touch-target{
+      background-color: var(--_form-bg) !important;
     }
   }
 

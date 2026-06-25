@@ -1,104 +1,217 @@
-.form-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.25rem;
-    min-width: 700px;
-    padding: 0.5rem 0;
-}
+@use '../../../../styles/component-tokens/buttons' as *;
+@use '../../../../styles/component-tokens/forms' as *;
+@use '../../../../styles/component-styles/buttons' as *;
+@use '../../../../styles/component-styles/forms' as *;
 
-/* full width field (description) */
-.description-field {
-    grid-column: 1 / -1;
-}
-
-/* dialog content spacing */
-mat-dialog-content {
-    padding-top: 1rem;
-    max-height: 70vh;
-    overflow: auto;
-}
-
-/* make form fields consistent width */
-mat-form-field {
-    width: 100%;
-}
-
-/* dialog title spacing (optional polish) */
-h2[mat-dialog-title] {
-    margin-bottom: 0.5rem;
-    font-weight: 600;
-}
-
-.dialog-actions {
-    padding: 1rem 0 0;
-    gap: 0.75rem;
-}
-
-/* consistent button sizing */
-.dialog-actions button {
-    min-width: 120px;
-    border-radius: 8px;
-}
-
-/* optional: better hover feel */
-.dialog-actions button:hover {
-    transform: translateY(-1px);
-    transition: 0.15s ease;
-}
-
-
-/* dialog actions spacing */
-mat-dialog-actions {
-    padding: 1rem 0 0;
-    gap: 0.5rem;
-}
-
-/* buttons alignment improvement */
-mat-dialog-actions button {
-    min-width: 100px;
-}
-
-mat-dialog-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 0.75rem;
-    padding-top: 1.25rem;
-    border-top: 1px solid #eee;
-    margin-top: 1rem;
-}
-
-/* Cancel button - low emphasis */
-mat-dialog-actions button[mat-button] {
-    color: #666;
-    font-weight: 500;
-}
-
-/* Save button - stronger CTA */
-mat-dialog-actions button[color="primary"] {
-    padding: 0 1.5rem;
-    font-weight: 600;
-    border-radius: 8px;
-}
-
-/* Hover effects */
-mat-dialog-actions button[mat-button]:hover {
-    background: rgba(0, 0, 0, 0.04);
-}
-
-mat-dialog-actions button[color="primary"]:hover {
-    filter: brightness(1.05);
-}
-
-/* MOBILE RESPONSIVE */
-@media (max-width: 768px) {
-
-    .form-grid {
-        grid-template-columns: 1fr;
-        min-width: auto;
-        gap: 1rem;
+.transaction-form-dialog {
+    &__container {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        max-width: var(--viewport-desktop);
+        padding: var(--space-component-xs);
+        
     }
 
-    mat-dialog-content {
-        max-height: 65vh;
+    &__header {
+        border-bottom: var(--border-width-active) var(--border-style-default) var(--border-secondary);   
+        margin: var(--space-0) var(--space-20) var(--space-0) var(--space-20);   
+        width: auto; 
+    }
+    
+    &__title {
+        margin: 0 !important;
+        padding: 0 !important;
+        color: var(--text-primary);
+        font-size: var(--font-heading-4-size);
+        font-weight: var(--font-heading-3-weight);
+        line-height: var(--font-heading-4-line-height);
+
+        @media (max-width: var(--viewport-mobile)) {
+            font-size: var(--font-label-size, 1rem);
+        }
+    }
+
+    &__content-wrapper {
+        width: 100%;
+        margin: 0;
+        padding: 0; 
+        box-sizing: border-box;
+    }
+
+    &__form-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--space-component-sm) var(--space-component-xl);
+        padding: var(--space-20);
+        box-sizing: border-box;
+
+        @media (max-width: 600px) {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    &__description-field {
+        grid-column: span 2;
+
+        @media (max-width: 600px) {
+            grid-column: span 1;
+        }
+    }
+
+    &__actions {
+        display: flex;
+        flex-direction: row;
+        gap: var(--space-component-xl);
+    }
+
+
+    &__cancel-btn {
+        @extend %btn-core;
+        @extend .btn-primary; 
+        align-self: flex-start; 
+    }
+
+    &__save-btn {
+        @extend %btn-core;
+        @extend .btn-primary;
+        align-self: flex-start; 
+    }
+}
+
+// Global overrides for deep nesting components
+.transaction-form-dialog__container ::ng-deep {
+    mat-form-field {
+        @extend .form-control;
+        @extend %mat-form-field-engine-standard;
+
+        .mat-mdc-text-field-wrapper {
+            background-color: var(--_form-bg) !important;
+            box-shadow: none !important;
+            transition: var(--_form-transition);
+        }
+
+        &.mat-form-field-should-float:not(.mat-form-field-invalid) {
+            --_form-focus-ring: 0 0 0 var(--focus-ring-width) rgba(147, 83, 234, 0.15);
+        }
+
+        .mat-mdc-form-field-flex,
+        .mat-mdc-text-field-wrapper {
+            align-items: center !important;
+        }
+
+        .mat-mdc-select-arrow-wrapper {
+            transform: none !important;
+            align-self: center !important;
+            margin-left: calc(-1* var(--space-40)) !important;
+        }
+
+        .mat-mdc-icon-button {
+            background-color: var(--_form-bg) !important;
+        }
+    }
+
+    mat-datepicker-toggle {
+        color: var(--color-purple-500) !important; 
+        margin-right: calc(-1* var(--space-10)) !important; 
+        align-self: center !important;
+        .mat-mdc-icon-button {
+            color: inherit !important; 
+            svg {
+                fill: currentColor !important; 
+            }
+        }
+
+        button {
+            &:hover {
+                background-color: var(--color-purple-500) !important;
+                color: var(--color-neutral-0) !important; 
+            }
+        }
+    }
+
+    textarea.mat-mdc-input-element {
+        min-height: 7.5rem !important; 
+        resize: vertical;
+
+        @media (max-width: var(--viewport-mobile)) {
+            min-height: 6.25rem !important;
+        }
+    }
+
+    mat-dialog-actions {
+        padding: var(--space-8) var(--space-20) var(--space-12) var(--space-20) !important; // Top, Right, Bottom, Left padding
+        min-height: auto !important;          
+        width: 100%;
+        box-sizing: border-box;
+    }
+}
+
+::ng-deep{
+    .mat-datepicker-content, 
+    .mat-datepicker-content .mat-calendar{
+        background-color: var(--color-neutral-0) !important; 
+        border-radius: var(--space-12) !important;      
+        box-shadow: var(--space-0) var(--space-10) var(--space-24) calc(-1*var(--space-6)) var(--color-black-10), 
+                    var(--space-0) var(--space-8) var(--space-10) calc(-1*var(--space-6)) var(--color-black-5) !important;
+
+       .mat-calendar-period-button,
+       .mat-calendar-body-label  {
+            color: var(--color-purple-500) !important;
+            font-weight: var(--font-weight-600); 
+        }
+
+        .mat-calendar-arrow {
+            fill: var(--color-purple-500) !important;
+        }
+
+        .mat-calendar-body-selected {
+            background-color: var(--color-purple-500) !important;
+            color: var(--color-neutral-0) !important;
+        }
+
+        .mat-calendar-previous-button,
+        .mat-calendar-next-button {
+            color: var(--color-purple-500) !important;
+        }
+
+        .mat-calendar-table-header {
+            color: var(--color-purple-500) !important;
+            font-weight: var(--font-heading-3-weight); 
+        }
+
+        .mat-calendar-body-today:not(.mat-calendar-body-selected) {
+            border-color: var(--color-purple-500) !important;
+        }
+
+        .mat-calendar-body-cell-content:not(.mat-calendar-body-selected) {
+            color: var(--color-purple-500) !important; 
+            
+            &:hover {
+                background-color: var(--color-purple-50) !important; 
+            }
+        }
+    }
+
+    .mat-mdc-option.mdc-list-item--selected {
+        background-color: var(--color-purple-50) !important; 
+
+        // Turns the inner text of the selected item purple
+        .mdc-list-item__primary-text,
+        .mat-pseudo-checkbox-checked {
+        color: var(--color-purple-500) !important;
+        }
+    }
+
+    .mat-mdc-option:hover:not(.mdc-list-item--disabled),
+    .mat-mdc-option.mat-mdc-option-active {
+        background-color: var(--color-purple-100) !important;
+        opacity: 0.8;
+    }
+}
+
+::ng-deep .custom-transaction-dialog {
+    .mdc-dialog__surface {
+        border-radius: var(--radius-overlay-element) !important; 
     }
 }
