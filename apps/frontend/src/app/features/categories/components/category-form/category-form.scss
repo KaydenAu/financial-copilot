@@ -1,39 +1,98 @@
-.form-container {
-  display: flex;
-  flex-direction: column;
-}
+@use '../../../../../styles/component-tokens/buttons' as *;
+@use '../../../../../styles/component-tokens/forms' as *;
+@use '../../../../../styles/component-styles/buttons' as *;
+@use '../../../../../styles/component-styles/forms' as *;
 
-.form-header {
-  margin-bottom: 1.5rem;
-  h2 {
-    margin: 0;
-    font-size: 1.4rem;
-    font-weight: 500;
-  }
-}
-
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-mat-form-field {
-  width: 100%;
-}
-
-.action-buttons {
-  display: flex;
-  gap: 1rem;
-  margin-top: 1rem;
-}
-
-@media (max-width: 768px) {
-  .action-buttons {
-    flex-direction: column;
-  }
+.category-form {
+    &__container {
+      background-color: var(--color-neutral-0);
+    //   border-radius: var(--radius-12);
+    //   box-shadow: var(--space-0) var(--space-4) var(--space-20) rgba(24, 18, 36, 0.08);
+    //   padding: var(--space-32);
+      max-width: var(--viewport-desktop);
+      margin: var(--space-0) auto; 
+    }  
   
-  .action-buttons button {
-    width: 100%;
-  }
+    &__header {
+        border-bottom: var(--border-width-active) var(--border-style-default) var(--border-secondary);   
+        padding-bottom: var(--space-16);
+        margin-bottom: var(--space-32);
+    }
+
+    &__title {
+        color: var(--text-primary);
+        font-size: var(--font-size-24);
+        font-weight: var(--font-weight-700);
+        margin: 0;
+        letter-spacing: -0.5px;
+    }
+
+    &__form {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-24); 
+    }
+
+    &__actions {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: var(--space-16);
+        margin-top: var(--space-16);
+        padding-top: var(--space-24);
+    }
+
+    &__button {
+        @extend %btn-core;
+
+        // Modifiers
+        &--primary {
+          @extend .btn-primary;
+        }
+
+        &--danger {
+          @extend .btn-destructive;
+        }
+    }
+}
+
+.category-form__form ::ng-deep {
+    mat-form-field {
+        @extend .form-control;
+        @extend %mat-form-field-engine-standard;
+
+        .mat-mdc-text-field-wrapper {
+            background-color: var(--_form-bg) !important;
+            box-shadow: none !important;
+            transition: var(--_form-transition);
+        }
+
+        &.mat-form-field-should-float:not(.mat-form-field-invalid) {
+            --_form-focus-ring: 0 0 0 var(--focus-ring-width) rgba(147, 83, 234, 0.15);
+        }
+
+        .mat-mdc-form-field-flex,
+        .mat-mdc-text-field-wrapper {
+            align-items: center !important;
+        }
+
+        .mat-mdc-select-arrow-wrapper {
+            transform: none !important;
+            align-self: center !important;
+            margin-left: calc(-1* var(--space-40)) !important;
+        }
+
+        .mat-mdc-icon-button {
+            background-color: var(--_form-bg) !important;
+        }
+    }
+
+    textarea.mat-mdc-input-element {
+        min-height: 7.5rem !important; 
+        resize: vertical;
+
+        @media (max-width: var(--viewport-mobile)) {
+            min-height: 6.25rem !important;
+        }
+    }
 }
