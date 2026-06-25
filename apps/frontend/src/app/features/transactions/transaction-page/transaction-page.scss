@@ -1,82 +1,114 @@
+@use '../../../../styles/component-tokens/buttons' as *;
+@use '../../../../styles/component-tokens/forms' as *;
+@use '../../../../styles/component-styles/buttons' as *;
+@use '../../../../styles/component-styles/forms' as *;
+
 .transaction-page {
     display: flex;
     flex-direction: column;
+    padding: 2rem;
     gap: 1.5rem;
-    padding: 1rem;
-}
+    min-height: 100vh;
 
-.toolbar-section {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    align-items: center;
-}
-
-.search-field {
-    flex: 1;
-    min-width: 280px;
-}
-
-.toolbar-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-    align-items: center;
-}
-
-.filter-section {
-    display: flex;
-}
-
-.category-filter {
-    width: 100%;
-    max-width: 400px;
-}
-
-.table-section {
-    background: white;
-    border-radius: 12px;
-    padding: 1.5rem;
-    border: 1px solid #e0e0e0;
-}
-
-.table-placeholder {
-    text-align: center;
-}
-
-.table-placeholder h3 {
-    margin-bottom: 0.5rem;
-}
-
-.table-placeholder p {
-    margin: 0.5rem 0;
-}
-
-@media (max-width: 768px) {
-    .toolbar-section {
-        flex-direction: column;
-        align-items: stretch;
+    // Elements
+    &__toolbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-direction: row;
+        // flex-wrap: wrap; // Gracefully drops to new rows on tablet/mobile
+        gap: 1rem;
+        background: var(--color-neutral-0);
+        padding: 0 1.5rem;
+        border-radius: 0.5rem;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
     }
 
-    .search-field {
-        width: 100%;
+    &__search {
+        min-width: 280px;
+        flex-grow: 1;
+        max-width: 400px;
     }
 
-    .toolbar-actions {
-        width: 100%;
-        flex-direction: column;
+    &__actions {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 0.75rem;
     }
 
-    .toolbar-actions button {
-        width: 100%;
+    &__button {
+        @extend %btn-core;
+        @extend .btn-primary; 
+        align-self: flex-start;
+        min-width: 10rem;
     }
 
-    .toolbar-actions button[mat-icon-button] {
-        width: auto;
-        align-self: center;
+    &__menu-trigger {
+        color: var(--brand-primary);
+        background-color: var(--color-neutral-0) !important;
+        
+        &:hover {
+            background-color: var(--color-purple-50);
+        }
     }
 
-    .category-filter {
-        max-width: 100%;
+    &__table-section {
+        background: var(--color-neutral-0);
+        border-radius: 8px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        padding: 1rem;
+        overflow-x: auto; // Ensures table is scrollable if columns overflow
+    }
+}
+
+::ng-deep .transaction-page {
+    mat-form-field {
+        @extend .form-control;
+        @extend %mat-form-field-engine-standard;
+        margin-top: 15px;
+
+        .mat-mdc-text-field-wrapper {
+            background-color: var(--_form-bg) !important;
+            box-shadow: none !important;
+            transition: var(--_form-transition);
+        }
+
+        &.mat-form-field-should-float:not(.mat-form-field-invalid) {
+            --_form-focus-ring: 0 0 0 var(--focus-ring-width) rgba(147, 83, 234, 0.15);
+        }
+
+        .mat-mdc-form-field-flex,
+        .mat-mdc-text-field-wrapper {
+            align-items: center !important;
+        }
+
+        .mat-mdc-select-arrow-wrapper {
+            transform: none !important;
+            align-self: center !important;
+            margin-left: calc(-1* var(--space-40)) !important;
+        }
+
+        .mat-mdc-icon-button {
+            background-color: var(--_form-bg) !important;
+        }
+    }
+}
+
+::ng-deep .transaction-page__menu-panel {
+    background-color: var(--color-neutral-0) !important;
+    box-shadow: 0 5px 5px -3px rgba(0,0,0,.2), 
+                0 8px 10px 1px rgba(0,0,0,.14), 
+                0 3px 14px 2px rgba(0,0,0,.12) !important;
+
+    // Direct target for modern Angular Material MDC content layers
+    .mat-mdc-menu-content {
+        background-color: var(--color-neutral-0) !important;
+    }
+
+    .mat-mdc-menu-item, 
+    .mat-mdc-menu-item:visited, 
+    .mat-mdc-menu-item:link{
+        color: var(---text-primary);
     }
 }

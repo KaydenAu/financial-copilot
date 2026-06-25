@@ -72,6 +72,7 @@ export class TransactionPage implements OnInit {
   addTransaction(): void {
     const dialogRef = this.dialog.open(TransactionFormDialog, {
       width: '800px',
+      maxWidth: '95vw',
       data: { mode: 'add' },
       panelClass: 'custom-transaction-dialog'
     });
@@ -94,6 +95,7 @@ export class TransactionPage implements OnInit {
   editTransaction(row: any): void {
     const dialogRef = this.dialog.open(TransactionFormDialog, {
       width: '800px',
+      maxWidth: '95vw',
       data: {
         mode: 'edit',
         transaction: row,
