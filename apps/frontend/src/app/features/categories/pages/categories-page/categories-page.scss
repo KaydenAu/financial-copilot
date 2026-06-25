@@ -45,13 +45,17 @@
     }
 
     &__button {
-        @extend %btn-core;
-        @extend .btn-primary;
+        @extend %btn-core;  
         align-self: flex-start;
-        min-width: 12rem;
+      
+        &--primary{
+          @extend .btn-primary;
+          min-width: 9rem;
+        }
 
         &--danger {
           @extend .btn-destructive;
+          min-width: 15rem;
         }
     }
 

@@ -7,12 +7,12 @@
                 <input matInput [(ngModel)]="searchText" placeholder="Search category..." />
             </mat-form-field>
             <div class="category-page__toolbar-actions">
-                <button mat-raised-button class="category-page__button"  (click)="refresh()" [disabled]="isLoading">
+                <button mat-raised-button class="category-page__button category-page__button--primary"  (click)="refresh()" [disabled]="isLoading">
                     <mat-icon>refresh</mat-icon>
                     Refresh
                 </button>
 
-                <button mat-raised-button class="category-page__button" (click)="addCategory()" [disabled]="isLoading">
+                <button mat-raised-button class="category-page__button category-page__button--primary" (click)="addCategory()" [disabled]="isLoading">
                     <mat-icon>add</mat-icon>
                     Add Category
                 </button>
