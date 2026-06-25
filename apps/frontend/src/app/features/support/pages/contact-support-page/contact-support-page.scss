@@ -11,6 +11,7 @@
     display: flex;
     flex-direction: column;
     gap: var(--space-component-md);
+    background-color: var(--surface-muted);
 
     @media (max-width: var(--viewport-tablet)) {
       padding: var(--space-component-lg) var(--space-inline-sm);
