@@ -73,6 +73,7 @@ export class TransactionPage implements OnInit {
     const dialogRef = this.dialog.open(TransactionFormDialog, {
       width: '800px',
       data: { mode: 'add' },
+      panelClass: 'custom-transaction-dialog'
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -97,6 +98,7 @@ export class TransactionPage implements OnInit {
         mode: 'edit',
         transaction: row,
       },
+      panelClass: 'custom-transaction-dialog'
     });
 
     dialogRef.afterClosed().subscribe((result) => {

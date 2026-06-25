@@ -84,6 +84,7 @@ export class CoreLayoutApi {
         mode,
         ...initialData
       },
+      panelClass: 'custom-transaction-dialog'
     });
   }
 
