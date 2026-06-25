@@ -1,18 +1,6 @@
-// import { Component } from '@angular/core';
-// import { MatIconModule } from '@angular/material/icon';
-
-// @Component({
-//   selector: 'app-reports-page',
-//   imports: [MatIconModule],
-//   templateUrl: './reports-page.html',
-//   styleUrl: './reports-page.scss',
-// })
-// export class ReportsPage { }
-
 import { Component, inject } from '@angular/core';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
-
 import { ReportFormDialog } from '../report-form-dialog/report-form-dialog';
 
 @Component({
@@ -24,8 +12,8 @@ import { ReportFormDialog } from '../report-form-dialog/report-form-dialog';
   templateUrl: './report-page.html',
   styleUrl: './report-page.scss',
 })
-export class ReportPage {
 
+export class ReportPage {
   private dialog = inject(MatDialog);
 
   openReportDialog(reportType: string): void {
@@ -39,5 +27,4 @@ export class ReportPage {
       }
     });
   }
-
 }

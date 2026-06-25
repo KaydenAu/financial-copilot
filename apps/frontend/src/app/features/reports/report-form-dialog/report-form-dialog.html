@@ -1,195 +1,100 @@
 <div class="dialog-container">
-
     <div class="dialog-header">
         <h2>{{ reportTitle }}</h2>
-
-        <p>
-            Configure the report settings below and generate a downloadable report.
-        </p>
+        <p>Generate AI-powered financial insights from your transactions.</p>
     </div>
 
+    @if (!reportResult) {
     <form class="report-form">
 
+        <!-- CATEGORY -->
         <section class="form-card">
+            <h3>Category</h3>
+            <mat-form-field appearance="outline">
+                <mat-label>Select Category</mat-label>
+                <mat-select [formControl]="selectedCategoryId">
+                    @for (cat of categories; track cat.value) {
+                    <mat-option [value]="cat.value">
+                        {{ cat.viewValue }}
+                    </mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
+        </section>
 
-            <h3>Reporting Period</h3>
-
+        <!-- DATE RANGE -->
+        <section class="form-card">
+            <h3>Date Range</h3>
             <mat-form-field appearance="outline">
                 <mat-label>Date Range</mat-label>
-
-                <mat-select [(value)]="selectedDateRange">
-
+                <mat-select [value]="selectedDateRange" (selectionChange)="onDateRangeChange($event.value)">
                     @for (range of dateRanges; track range.value) {
                     <mat-option [value]="range.value">
                         {{ range.viewValue }}
                     </mat-option>
                     }
-
                 </mat-select>
-
             </mat-form-field>
 
             @if (selectedDateRange === 'custom') {
-
             <div class="date-grid">
-
                 <mat-form-field appearance="outline">
                     <mat-label>Start Date</mat-label>
-
-                    <input matInput [matDatepicker]="startPicker">
-
-                    <mat-datepicker-toggle matSuffix [for]="startPicker">
-                    </mat-datepicker-toggle>
-
+                    <input matInput [matDatepicker]="startPicker" [(ngModel)]="dateFrom">
+                    <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
                     <mat-datepicker #startPicker></mat-datepicker>
                 </mat-form-field>
 
                 <mat-form-field appearance="outline">
                     <mat-label>End Date</mat-label>
-
-                    <input matInput [matDatepicker]="endPicker">
-
-                    <mat-datepicker-toggle matSuffix [for]="endPicker">
-                    </mat-datepicker-toggle>
-
+                    <input matInput [matDatepicker]="endPicker" [(ngModel)]="dateTo">
+                    <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
                     <mat-datepicker #endPicker></mat-datepicker>
                 </mat-form-field>
-
             </div>
-
             }
-
         </section>
 
-        <section class="form-card">
-
-            <h3>Report Content</h3>
-
-            <div class="checkbox-grid" [formGroup]="reportSections">
-
-                <mat-checkbox formControlName="summary">
-                    Executive Summary
-                </mat-checkbox>
-
-                <mat-checkbox formControlName="charts">
-                    Financial Charts
-                </mat-checkbox>
-
-                <mat-checkbox formControlName="transactions">
-                    Transaction Details
-                </mat-checkbox>
-
-                <mat-checkbox formControlName="categoryBreakdown">
-                    Category Breakdown
-                </mat-checkbox>
-
-                <mat-checkbox formControlName="accountBalances">
-                    Account Balances
-                </mat-checkbox>
-
-                <mat-checkbox formControlName="notes">
-                    Notes & Remarks
-                </mat-checkbox>
-
-            </div>
-
-        </section>
-
-        <section class="form-card">
-
-            <h3>Filters</h3>
-
-            <div class="filters-grid">
-
-                <mat-form-field appearance="outline">
-                    <mat-label>Account</mat-label>
-
-                    <mat-select>
-
-                        @for (account of accounts; track account.value) {
-                        <mat-option [value]="account.value">
-                            {{ account.viewValue }}
-                        </mat-option>
-                        }
-
-                    </mat-select>
-
-                </mat-form-field>
-
-                <mat-form-field appearance="outline">
-                    <mat-label>Category</mat-label>
-
-                    <mat-select>
-
-                        @for (category of categories; track category.value) {
-                        <mat-option [value]="category.value">
-                            {{ category.viewValue }}
-                        </mat-option>
-                        }
-
-                    </mat-select>
-
-                </mat-form-field>
-
-                <mat-form-field appearance="outline">
-                    <mat-label>Group By</mat-label>
-
-                    <mat-select>
-
-                        @for (group of groupByOptions; track group.value) {
-                        <mat-option [value]="group.value">
-                            {{ group.viewValue }}
-                        </mat-option>
-                        }
-
-                    </mat-select>
-
-                </mat-form-field>
-
-            </div>
-
-        </section>
-
-        <section class="form-card">
-
-            <h3>Export Format</h3>
-
-            <div class="checkbox-grid" [formGroup]="exportFormat">
-
-                <mat-checkbox formControlName="pdf">
-                    PDF
-                </mat-checkbox>
-
-                <mat-checkbox formControlName="excel">
-                    Excel
-                </mat-checkbox>
-
-                <mat-checkbox formControlName="csv">
-                    CSV
-                </mat-checkbox>
-
-            </div>
-
-            @if (!hasSelectedExportFormat && formSubmitted) {
-            <p class="validation-error">
-                Please select at least one export format.
-            </p>
-            }
-
-        </section>
-
+        <!-- ACTIONS -->
         <div class="actions">
-
             <button type="button" matButton (click)="closeDialog()">
                 Cancel
             </button>
 
-            <button type="button" matButton="filled" (click)="generateReport()">
-                Generate Report
+            <button type="button" matButton="filled" (click)="generateReport()"
+                [disabled]="loading || !selectedCategoryId.value">
+                {{ loading ? 'Generating...' : 'Generate Report' }}
+            </button>
+        </div>
+    </form>
+    }
+
+    <!-- RESULT -->
+    @if (reportResult) {
+    <div class="form-card">
+        <h3>AI Summary</h3>
+        <p>{{ reportResult.summary }}</p>
+        <h3>Insights</h3>
+        <ul>
+            @for (item of reportResult.insights; track item) {
+            <li>{{ item }}</li>
+            }
+        </ul>
+        <h3>Highlights</h3>
+        <ul>
+            @for (item of reportResult.highlights; track item) {
+            <li>{{ item }}</li>
+            }
+        </ul>
+        <div class="export-actions">
+            <button matButton="filled" (click)="downloadPDF()" [disabled]="loading">
+                {{ loading ? 'Generating PDF...' : 'Download PDF' }}
             </button>
 
+            @if (loading) {
+            <mat-spinner diameter="24"></mat-spinner>
+            }
         </div>
-
-    </form>
-
+    </div>
+    }
 </div>

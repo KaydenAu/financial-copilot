@@ -6,7 +6,6 @@ const router = Router();
 
 function buildTree(categories: any[]) {
     const map = new Map();
-
     categories.forEach(category => {
         map.set(category.id, {
             ...category,
@@ -15,17 +14,14 @@ function buildTree(categories: any[]) {
     });
 
     const tree: any[] = [];
-
     categories.forEach(category => {
         const node = map.get(category.id);
-
         if (category.parentId) {
             map.get(category.parentId)?.children.push(node);
         } else {
             tree.push(node);
         }
     });
-
     return tree;
 }
 
@@ -37,7 +33,6 @@ router.get('/', async (_, res) => {
                 name: 'asc',
             },
         });
-
         res.json(buildTree(categories));
     } catch (error) {
         res.status(500).json({
@@ -46,13 +41,30 @@ router.get('/', async (_, res) => {
     }
 });
 
+// Get parent categories only
+router.get('/parents', async (_, res) => {
+    try {
+        const parents = await prisma.category.findMany({
+            where: {
+                parentId: null,
+            },
+            orderBy: {
+                name: 'asc',
+            },
+        });
+        res.json(parents);
+    } catch (error) {
+        res.status(500).json({
+            message: 'Failed to fetch parent categories',
+        });
+    }
+});
+
 // Add category
 router.post('/', async (req, res) => {
     try {
         const { name, description, parentId } = req.body;
-
         const trimmedName = name?.trim();
-
         if (!trimmedName) {
             return res.status(400).json({
                 message: 'Category name is required',
@@ -94,7 +106,6 @@ router.post('/', async (req, res) => {
                 parentId,
             },
         });
-
         res.status(201).json(category);
     } catch (error) {
         res.status(500).json({
@@ -107,7 +118,6 @@ router.post('/', async (req, res) => {
 router.patch('/:id', async (req, res) => {
     try {
         const id = Number(req.params.id);
-
         if (Number.isNaN(id)) {
             return res.status(400).json({
                 message: 'Invalid category id',
@@ -115,9 +125,7 @@ router.patch('/:id', async (req, res) => {
         }
 
         const { name, description, parentId } = req.body;
-
         const trimmedName = name?.trim();
-
         if (!trimmedName) {
             return res.status(400).json({
                 message: 'Category name is required',
@@ -127,7 +135,6 @@ router.patch('/:id', async (req, res) => {
         const existingCategory = await prisma.category.findUnique({
             where: { id },
         });
-
         if (!existingCategory) {
             return res.status(404).json({
                 message: 'Category not found',
@@ -179,7 +186,6 @@ router.patch('/:id', async (req, res) => {
                 parentId,
             },
         });
-
         res.json(category);
     } catch (error) {
         res.status(500).json({
@@ -192,7 +198,6 @@ router.patch('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
     try {
         const id = Number(req.params.id);
-
         if (Number.isNaN(id)) {
             return res.status(400).json({
                 message: 'Invalid category id',
@@ -202,7 +207,6 @@ router.delete('/:id', async (req, res) => {
         const category = await prisma.category.findUnique({
             where: { id },
         });
-
         if (!category) {
             return res.status(404).json({
                 message: 'Category not found',
@@ -212,7 +216,6 @@ router.delete('/:id', async (req, res) => {
         await prisma.category.delete({
             where: { id },
         });
-
         res.status(204).send();
     } catch (error) {
         res.status(500).json({
