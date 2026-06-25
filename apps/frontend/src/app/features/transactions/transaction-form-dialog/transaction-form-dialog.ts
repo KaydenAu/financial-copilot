@@ -1,55 +1,39 @@
-import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { MatDatepickerModule } from '@angular/material/datepicker';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
 import { provideNativeDateAdapter } from '@angular/material/core';
-import { SharedModules } from '../../../../shared/shared.module';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { TransactionsService } from '../transactions.service';
 
 @Component({
   selector: 'app-transaction-form-dialog',
   standalone: true,
   providers: [provideNativeDateAdapter()],
   imports: [
-    ...SharedModules,
-    MatDatepickerModule
+    CommonModule,
+    FormsModule,
+    MatDatepickerModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatDialogModule
   ],
   templateUrl: './transaction-form-dialog.html',
   styleUrl: './transaction-form-dialog.scss',
 })
+export class TransactionFormDialog implements OnInit {
 
-export class TransactionFormDialog {
-  categories = [
-    'Food',
-    'Transport',
-    'Shopping',
-    'Bills',
-    'Salary',
-  ];
-
-  subcategories = [
-    'Restaurant',
-    'Fuel',
-    'Electronics',
-    'Utilities',
-    'Monthly Income',
-  ];
-
-  accounts = [
-    'Cash',
-    'Maybank',
-    'CIMB',
-    'Credit Card',
-  ];
-
-  currencies = [
-    'MYR',
-    'USD',
-    'SGD',
-  ];
+  categories: any[] = [];
+  subcategories: any[] = [];
 
   form = {
-    category: '',
-    subcategory: '',
-    date: new Date(),
+    categoryId: null as number | null,
+    subcategoryId: null as number | null,
+    transactionDate: new Date(),
     account: '',
     currency: 'MYR',
     amount: null as number | null,
@@ -58,18 +42,42 @@ export class TransactionFormDialog {
 
   constructor(
     private dialogRef: MatDialogRef<TransactionFormDialog>,
-    @Inject(MAT_DIALOG_DATA)
-    public data: any
+    private transactionApi: TransactionsService,
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) {
-    if (
-      data?.mode === 'edit' &&
-      data?.transaction
-    ) {
+    if (data?.mode === 'edit' && data?.transaction) {
       this.form = {
-        ...data.transaction,
-        date: new Date(data.transaction.date),
+        categoryId: data.transaction.categoryId,
+        subcategoryId: data.transaction.subcategoryId,
+        transactionDate: new Date(data.transaction.transactionDate),
+        account: data.transaction.account,
+        currency: data.transaction.currency,
+        amount: data.transaction.amount,
+        description: data.transaction.description,
       };
     }
+  }
+
+  ngOnInit(): void {
+    this.loadCategories();
+  }
+
+  loadCategories(): void {
+    this.transactionApi.getCategories().subscribe({
+      next: (res) => {
+        this.categories = res;
+      },
+      error: (err) => console.error('Failed to load categories', err),
+    });
+  }
+
+  onCategoryChange(): void {
+    const selected = this.categories.find(
+      c => c.id === this.form.categoryId
+    );
+
+    this.subcategories = selected?.children || [];
+    this.form.subcategoryId = null;
   }
 
   get dialogTitle(): string {
@@ -79,8 +87,17 @@ export class TransactionFormDialog {
   }
 
   save(): void {
-    console.log(this.form);
-    this.dialogRef.close(this.form);
+    const payload = {
+      categoryId: this.form.categoryId,
+      subcategoryId: this.form.subcategoryId,
+      transactionDate: this.form.transactionDate,
+      account: this.form.account,
+      currency: this.form.currency,
+      amount: this.form.amount,
+      description: this.form.description,
+    };
+
+    this.dialogRef.close(payload);
   }
 
   cancel(): void {

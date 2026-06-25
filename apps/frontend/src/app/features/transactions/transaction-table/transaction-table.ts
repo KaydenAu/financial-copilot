@@ -1,45 +1,60 @@
-import { Component, Input, ViewChild, AfterViewInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  ViewChild,
+  AfterViewInit,
+  OnChanges
+} from '@angular/core';
+
+import { CommonModule } from '@angular/common';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
-import { SharedModules } from '../../../../shared/shared.module';
-import { MatDialog } from '@angular/material/dialog';
-import { TransactionFormDialog } from '../transaction-form-dialog/transaction-form-dialog';
+import { MatTableModule } from '@angular/material/table';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-transaction-table',
   standalone: true,
   imports: [
-    ...SharedModules,
+    CommonModule,
+    MatTableModule,
     MatPaginatorModule,
-    MatSortModule
+    MatSortModule,
+    MatIconModule
   ],
   templateUrl: './transaction-table.html',
   styleUrl: './transaction-table.scss',
 })
+export class TransactionTable implements AfterViewInit, OnChanges {
 
-export class TransactionTable implements AfterViewInit {
   @Input() transactions: any[] = [];
-  @Input() visibleColumns: Record<string, boolean> = {};
+
+  @Input() visibleColumns: Record<string, boolean> = {
+    category: true,
+    subcategory: true,
+    transactionDate: true,
+    account: true,
+    currency: true,
+    amount: true,
+    description: true,
+    action: true,
+  };
+
+  @Output() edit = new EventEmitter<any>();
+  @Output() delete = new EventEmitter<any>();
 
   dataSource = new MatTableDataSource<any>();
-
-  columnFilters: Record<string, string> = {
-    category: '',
-    subcategory: '',
-    date: '',
-    account: '',
-    currency: '',
-    amount: '',
-    description: '',
-  };
 
   displayedColumns = [
     'category',
     'subcategory',
-    'date',
+    'transactionDate',
     'account',
     'currency',
     'amount',
@@ -47,15 +62,8 @@ export class TransactionTable implements AfterViewInit {
     'action',
   ];
 
-  constructor(
-    private dialog: MatDialog
-  ) { }
-
-  @ViewChild(MatPaginator)
-  paginator!: MatPaginator;
-
-  @ViewChild(MatSort)
-  sort!: MatSort;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
 
   ngOnChanges(): void {
     this.dataSource.data = this.transactions;
@@ -64,47 +72,19 @@ export class TransactionTable implements AfterViewInit {
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-
-    this.dataSource.filterPredicate = (data, filter) => {
-      const filters = JSON.parse(filter);
-
-      return Object.keys(filters).every(key => {
-        const value = String(data[key] ?? '')
-          .toLowerCase();
-        return value.includes(
-          filters[key].toLowerCase()
-        );
-      });
-    };
-  }
-
-  applyColumnFilter(): void {
-    this.dataSource.filter = JSON.stringify(
-      this.columnFilters
-    );
   }
 
   getDisplayedColumns(): string[] {
     return this.displayedColumns.filter(
-      column => this.visibleColumns[column]
+      c => this.visibleColumns[c]
     );
   }
 
-  editTransaction(row: any): void {
-    this.dialog.open(
-      TransactionFormDialog,
-      {
-        width: '800px',
-        maxWidth: '95vw',
-        data: {
-          mode: 'edit',
-          transaction: row,
-        },
-      }
-    );
+  onEdit(row: any): void {
+    this.edit.emit(row);
   }
 
-  deleteTransaction(row: any): void {
-    console.log('Delete', row);
+  onDelete(row: any): void {
+    this.delete.emit(row);
   }
 }
