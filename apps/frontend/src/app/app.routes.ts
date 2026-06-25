@@ -8,7 +8,7 @@ import { ForgotPasswordPage } from './features/auth/pages/forgot-password-page/f
 import { ResetPasswordPage } from './features/auth/pages/reset-password-page/reset-password-page';
 import { TermsOfServicesPage } from './features/auth/pages/terms-of-services-page/terms-of-services-page';
 import { PrivacyPolicyPage } from './features/auth/pages/privacy-policy-page/privacy-policy-page';
-import { ContactSupportPage } from './features/support/contact-support-page/contact-support-page';
+import { ContactSupportPage } from './features/support/pages/contact-support-page/contact-support-page';
 import { NotFoundPage } from './features/error/not-found-page/not-found-page';
 import { DashboardPage } from './features/dashboard/pages/dashboard-page/dashboard-page';
 import { OauthCallbackPage } from './features/auth/pages/oauth-callback-page/oauth-callback-page';
@@ -45,25 +45,14 @@ export const routes: Routes = [
                 children: [
                     { path: '', redirectTo: 'personal-info', pathMatch: 'full' },
                     { path: 'personal-info', component: PersonalInfoPage },
-                    { path: 'security', component: SecurityPage }
+                    { path: 'security', component: SecurityPage },
+                    { path: 'support/contact', component: ContactSupportPage}
                 ]
-            }
+            },
+            { path: 'reports', component: ReportPage},
+            { path: 'categories', component: CategoriesPage},
+            { path: 'transactions', component: TransactionPage},
         ]
-    },
-    {
-        path: 'categories',
-        // canActivate: [authGuard],
-        component: CategoriesPage,
-    },
-    {
-        path: 'transactions',
-        // canActivate: [authGuard],
-        component: TransactionPage,
-    },
-    {
-        path: 'reports',
-        // canActivate: [authGuard],
-        component: ReportPage,
     },
     // Support routes
     {

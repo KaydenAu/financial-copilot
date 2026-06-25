@@ -1,41 +1,57 @@
+import { NextFunction, Request, Response, Router } from 'express';
 import { PrismaClient } from '@prisma/client';
-import { Router, Request, Response, NextFunction } from 'express';
+import { authenticateToken } from '../../utils/auth.utils';
 
 const prisma = new PrismaClient();
 const router = Router();
 
-/**
- * POST /api/v1/support
- * Create support ticket (public endpoint)
- */
-router.post(
-    '/',
-    async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-        try {
-            const { name, email, category, message } = req.body;
+router.use(authenticateToken);
 
-            // Basic validation (important even for MVP)
-            if (!name || !email || !category || !message) {
+// POST /api/v1/support/ticket
+router.post(
+    '/ticket',
+    async (
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ): Promise<void> => {
+        try {
+            const userId = req.user?.id;
+
+            if (!userId) {
+                res.status(401).json({
+                    success: false,
+                    message: 'Unauthorized.'
+                });
+                return;
+            }
+
+            const { subject, message } = req.body;
+
+            if (!subject?.trim() || !message?.trim()) {
                 res.status(400).json({
                     success: false,
-                    message: 'All fields are required'
+                    message: 'Subject and message are required.'
                 });
                 return;
             }
 
             const ticket = await prisma.supportTicket.create({
                 data: {
-                    name,
-                    email,
-                    category,
-                    message
+                    subject: subject.trim(),
+                    message: message.trim(),
+                    userId
                 }
             });
 
             res.status(201).json({
                 success: true,
-                message: 'Support ticket submitted successfully',
-                data: ticket
+                message: 'Support ticket created successfully.',
+                data: {
+                    id: ticket.id,
+                    status: ticket.status,
+                    createdAt: ticket.createdAt
+                }
             });
         } catch (error) {
             next(error);

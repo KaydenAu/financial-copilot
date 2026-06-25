@@ -1,13 +1,120 @@
-<div class="dashboard-page">
-  <header class="dashboard-page__header">
-    <h1 class="dashboard-page__title">This is Dashboard Page</h1>
-    <p class="dashboard-page__subtitle">Welcome back! Your core workspace shell is fully configured.</p>
-  </header>
-
-  <!-- Placeholder for future dashboard widgets/cards -->
-  <div class="dashboard-page__content">
-    <div class="dashboard-page__dummy-card">
-      <p>Workspace metrics, data tables, and analytics modules will mount here.</p>
+<div class="dashboard__container">
+    <div class="dashboard__header">
+        <div class="dashboard__headline-group">
+            <span class="dashboard__title">Financial Operations Control Center</span><br>
+            <span class="dashboard__subtitle">Personalize your telemetry, tracking matrices, visual analytics and layout targets.</span>
+        </div>
     </div>
-  </div>
+    <div>
+        <div class="dashboard__actions-toolbar">
+            @if (hiddenWidgets().length > 0) {
+                <button mat-stroked-button [matMenuTriggerFor]="hiddenMenu" class="dashboard__toolbar-btn">
+                    <mat-icon>visibility_off</mat-icon> Hidden Panels ({{ hiddenWidgets().length }})
+                </button>
+                <mat-menu #hiddenMenu="matMenu">
+                    @for (hidden of hiddenWidgets(); track hidden.id) {
+                        <button mat-menu-item (click)="toggleWidgetVisibility(hidden.id, true)">
+                            <mat-icon>add</mat-icon> Restore {{ hidden.title }}
+                        </button>
+                    }
+                </mat-menu>
+            }
+
+            <button mat-stroked-button class="dashboard__toolbar-btn" (click)="resetLayoutToDefaultState()">
+                <mat-icon>restart_alt</mat-icon> Reset Defaults
+            </button>
+            <button 
+            mat-flat-button color="primary" class="dashboard__save-btn" (click)="saveCurrentLayoutState()">
+                <mat-icon>save</mat-icon> Save Layout Configurations
+            </button>
+        </div>
+    </div>
+
+    <hr class="dashboard__divider" />
+
+    <main 
+        class="dashboard__grid" 
+        cdkDropList 
+        cdkDropListOrientation="mixed"
+        (cdkDropListDropped)="handleWidgetReorder($event)"
+    >
+        @for (widget of activeWidgets(); track widget.id) {
+            <section 
+                class="dashboard__widget"
+                cdkDrag
+                [style.--widget-cols]="getGridDimensions(widget.size).cols"
+                [style.--widget-rows]="getGridDimensions(widget.size).rows"
+            >
+                <div class="dashboard__widget-header" cdkDragHandle>
+                    <div class="dashboard__widget-title-group">
+                        <mat-icon class="dashboard__drag-icon">drag_indicator</mat-icon>
+                        <span class="dashboard__widget-title">{{ widget.title }}</span>
+                    </div>
+                    
+                    <div class="dashboard__widget-actions" (click)="$event.stopPropagation()">
+                        <button mat-icon-button [matMenuTriggerFor]="widgetMenu" aria-label="Widget customizer context menu">
+                            <mat-icon>more_vert</mat-icon>
+                        </button>
+
+                        <a 
+                            mat-icon-button 
+                            [routerLink]="widget.url" 
+                            class="dashboard__navigate-btn"
+                            title="Navigate to full analytic screen profile"
+                            aria-label="Navigate to full view page"
+                        >
+                            <mat-icon>arrow_forward</mat-icon>
+                        </a>
+                        
+                        <mat-menu #widgetMenu="matMenu">
+                            <div class="dashboard__menu-label">Display Scale Dimensions</div>
+                            <button mat-menu-item [disabled]="widget.size === 'small'" (click)="updateWidgetSize(widget.id, 'small')">
+                                <mat-icon>view_headline</mat-icon> Small (KPI Summary Matrix)
+                            </button>
+                            <button mat-menu-item [disabled]="widget.size === 'medium'" (click)="updateWidgetSize(widget.id, 'medium')">
+                                <mat-icon>dashboard</mat-icon> Medium (Visual Analytics Chart)
+                            </button>
+                            <button mat-menu-item [disabled]="widget.size === 'large'" (click)="updateWidgetSize(widget.id, 'large')">
+                                <mat-icon>fullscreen</mat-icon> Large (Full Analytical Ledger)
+                            </button>
+                            <mat-divider></mat-divider>
+                            <button mat-menu-item (click)="toggleWidgetVisibility(widget.id, false)">
+                                <mat-icon>visibility_off</mat-icon> Hide Widget Panel
+                            </button>
+                        </mat-menu>
+                    </div>
+                </div>
+
+                <div class="dashboard__widget-body">
+                    @switch (widget.size) {
+                        @case ('small') {
+                            <div class="dashboard__view-state dashboard__view-state--kpi">
+                                <span class="dashboard__view-label">⚡ CORE KPI METRIC SPECIFICATION</span>
+                                <div class="dashboard__mock-value">$142,384.00</div>
+                            </div>
+                        }
+                        @case ('medium') {
+                            <div class="dashboard__view-state dashboard__view-state--chart">
+                                <span class="dashboard__view-label">📊 VISUAL ANALYTICS CHART CONTEXT</span>
+                                <div class="dashboard__mock-chart-graphic"></div>
+                            </div>
+                        }
+                        @case ('large') {
+                            <div class="dashboard__view-state dashboard__view-state--full">
+                                <span class="dashboard__view-label">🏛 COMPREHENSIVE LEDGER ANALYTICS PROFILE DATA MATRIX</span>
+                                <div class="dashboard__mock-table-stream">
+                                    <div class="dashboard__mock-row"></div>
+                                    <div class="dashboard__mock-row"></div>
+                                    <div class="dashboard__mock-row"></div>
+                                    <div class="dashboard__mock-row"></div>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+
+                <div class="dashboard__widget-placeholder" *cdkDragPlaceholder></div>
+            </section>
+        }
+    </main>
 </div>

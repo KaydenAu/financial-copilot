@@ -95,8 +95,8 @@
   // 2. TEXT COLOR TOKENS
   // Format: --text-[variant]
   // ------------------------------------------------------------------------
-  --text-primary:                   var(--color-neutral-900);  // Titles, main body text
-  --text-secondary:                 var(--color-neutral-700);  // Subtitles, descriptions
+  --text-primary: var(--color-purple-900); // Titles, main body text
+  --text-secondary:                 var(--color-purple-800);  // Subtitles, descriptions
   --text-muted:                     var(--color-neutral-500);  // Captions, placeholders
   --text-subtle:                    var(--color-neutral-300);  // Metadata, de-emphasized info
   --text-inverse:                   var(--color-neutral-0);    // Light text on dark elements
@@ -116,8 +116,8 @@
   --border-subtle:                  var(--color-neutral-50);   // Ultra-thin section splits
   --border-inverse:                 var(--color-neutral-900);  // Dark mode element boundaries
   --border-disabled:                var(--color-neutral-200);  // Outlines on disabled components
-  --border-interactive:             var(--color-blue-500);     // Hover states on components
-  --border-focus:                   var(--color-blue-600);     // Active text fields/selects
+  --border-interactive:             var(--color-purple-500);     // Hover states on components
+  --border-focus:                   var(--color-purple-600);     // Active text fields/selects
 
   // --------------------------------------------------------------------------
   // 4. AI & COPILOT DOMAIN TOKENS (Added for Premium Assistant Layout Alignment)
@@ -184,6 +184,7 @@
   --focus-outline-color:            var(--color-purple-600);
   --focus-outline-width:            var(--border-width-2);
   --focus-offset:                   var(--space-4);
+  --focus-ring-color-error-hover:           var(--color-red-400);
 
   // --------------------------------------------------------------------------
   // 7. INTERACTIVE STATES TOKENS
@@ -221,7 +222,7 @@
   // 9. SPACING TOKENS
   // --------------------------------------------------------------------------
   // Page layout
-  --space-layout-page:              var(--space-24);
+  --space-layout-page:              var(--space-32);
   --space-layout-section:           var(--space-64);
   --space-layout-content:           var(--space-40);
 
