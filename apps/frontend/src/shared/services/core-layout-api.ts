@@ -30,6 +30,8 @@ export class CoreLayoutApi {
   public dateFormat = computed(() => this.authService.userProfile().dateFormat || 'DD/MM/YYYY');
   public numberFormat = computed(() => this.authService.userProfile().numberFormat || 'comma-dot');
 
+  public aiPanelWidth = signal<number>(23.75);
+  public isResizing = signal<boolean>(false);
   public currentPath = signal('');
   public isSidebarCollapsed = signal(false);
   public isAiPanelOpen = signal(false);
