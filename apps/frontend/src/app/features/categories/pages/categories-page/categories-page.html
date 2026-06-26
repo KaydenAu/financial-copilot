@@ -7,21 +7,24 @@
                 <input matInput [(ngModel)]="searchText" placeholder="Search category..." />
             </mat-form-field>
             <div class="category-page__toolbar-actions">
-                <button mat-raised-button class="category-page__button category-page__button--primary"  (click)="refresh()" [disabled]="isLoading">
+                <button mat-raised-button class="category-page__button category-page__button--primary"
+                    (click)="refresh()" [disabled]="isLoading">
                     <mat-icon>refresh</mat-icon>
                     Refresh
                 </button>
 
-                <button mat-raised-button class="category-page__button category-page__button--primary" (click)="addCategory()" [disabled]="isLoading">
+                <button mat-raised-button class="category-page__button category-page__button--primary"
+                    (click)="addCategory()" [disabled]="isLoading">
                     <mat-icon>add</mat-icon>
                     Add Category
                 </button>
 
-                <button mat-raised-button class="category-page__button category-page__button--danger" (click)="resetCategories()" [disabled]="isLoading">
+                <button mat-raised-button class="category-page__button category-page__button--danger"
+                    (click)="resetCategories()" [disabled]="isLoading">
                     <mat-icon>restart_alt</mat-icon>
                     Reset Default Categories
                 </button>
-            </div> 
+            </div>
         </div>
     </mat-card>
 
@@ -83,7 +86,8 @@
 <!-- ================= RECURSIVE NODE ================= -->
 <ng-template #treeNode let-node>
     <li class="category-page__tree-item">
-        <div class="category-page__tree-node" [class.selected]="selectedCategory?.id === node.id" (click)="viewCategory(node)">
+        <div class="category-page__tree-node" [class.selected]="selectedCategory?.id === node.id"
+            (click)="viewCategory(node)">
             <span class="category-page__node-name">
                 {{ node.name }}
             </span>
@@ -107,17 +111,22 @@
 
 <!-- ================= CONTEXT MENU ================= -->
 <mat-menu #nodeMenu="matMenu" class="category-page__menu-panel">
+
+    <!-- ONLY SHOW FOR TOP LEVEL CATEGORIES -->
+    @if (!contextCategory?.parentId) {
     <button mat-menu-item class="category-page__menu-item" (click)="addSubcategory(contextCategory)">
         <mat-icon>add</mat-icon>
         Add Subcategory
     </button>
+    }
 
     <button mat-menu-item class="category-page__menu-item" (click)="editCategory(contextCategory)">
         <mat-icon>edit</mat-icon>
         Edit
     </button>
 
-    <button mat-menu-item class="category-page__menu-item category-page__menu-item--danger" (click)="confirmDelete(contextCategory)">
+    <button mat-menu-item class="category-page__menu-item category-page__menu-item--danger"
+        (click)="confirmDelete(contextCategory)">
         <mat-icon>delete</mat-icon>
         Delete
     </button>
