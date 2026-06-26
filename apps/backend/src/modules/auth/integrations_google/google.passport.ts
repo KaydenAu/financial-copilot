@@ -44,7 +44,6 @@ passport.use(
             await tx.userProfile.create({
               data: {
                 userId: newUser.id,
-                userName: newUser.userName,
                 preferredCurrency: 'MYR',
               },
             });
