@@ -17,6 +17,8 @@ model CustomUser {
   profile UserProfile?
   passwordReset PasswordReset?
   supportTickets SupportTicket[]
+  categories      Category[]
+  transactions    Transaction[]
 
   @@map("custom_users")
 }

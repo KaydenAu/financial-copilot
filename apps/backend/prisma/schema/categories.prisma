@@ -4,16 +4,22 @@ model Category {
   description String?    @db.Text
   parentId    Int?
 
+  // User relationship
+  userId      Int
+  user        CustomUser       @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   parent      Category?  @relation("CategoryHierarchy", fields: [parentId], references: [id], onDelete: Cascade)
   children    Category[] @relation("CategoryHierarchy")
 
-  transactions           Transaction[] @relation("TransactionCategory")
+  transactions            Transaction[] @relation("TransactionCategory")
   subcategoryTransactions Transaction[] @relation("TransactionSubcategory")
 
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
 
   @@index([parentId])
-  @@unique([name, parentId])
+  @@index([userId])
+  @@unique([userId, name, parentId])
+
   @@map("categories")
 }

@@ -4,12 +4,15 @@ import Groq from 'groq-sdk';
 import path from 'path';
 import ejs from 'ejs';
 import puppeteer from 'puppeteer';
+import { authenticateToken } from '../../utils/auth.utils';
 
 const prisma = new PrismaClient();
 const router = Router();
 const groq = new Groq({
     apiKey: process.env.GROQ_API_KEY,
 });
+
+router.use(authenticateToken);
 
 router.post('/generate', async (req, res) => {
     try {

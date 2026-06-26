@@ -1,5 +1,7 @@
 model Transaction {
   id               Int      @id @default(autoincrement())
+  userId           Int
+  user             CustomUser     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   categoryId       Int
   subcategoryId    Int?
@@ -13,12 +15,13 @@ model Transaction {
 
   description      String?   @db.Text
 
-  category         Category  @relation("TransactionCategory", fields: [categoryId], references: [id])
-  subcategory      Category?  @relation("TransactionSubcategory", fields: [subcategoryId], references: [id])
+  category          Category  @relation("TransactionCategory", fields: [categoryId], references: [id])
+  subcategory       Category? @relation("TransactionSubcategory", fields: [subcategoryId], references: [id])
 
   createdAt        DateTime  @default(now())
   updatedAt        DateTime  @updatedAt
 
+  @@index([userId])
   @@index([categoryId])
   @@index([subcategoryId])
   @@index([transactionDate])
