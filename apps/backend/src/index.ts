@@ -26,8 +26,8 @@ const corsOptions = {
   credentials: true,
   allowedHeaders: ['Content-Type', 'Authorization']
 }
-app.use(cors(corsOptions));
-
+// app.use(cors(corsOptions));
+app.use(cors());
 // Mounts the module.
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/profile/personal-info', profileRouter);
