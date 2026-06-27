@@ -4,6 +4,7 @@ import express, { Request, Response, NextFunction } from "express";
 
 import passport from "./modules/auth/integrations_google/google.passport"
 import authRouter from "./modules/auth/auth.api"
+import aiPanelRouter from "./modules/ai-panel/ai-panel.api"
 import profileRouter from "./modules/profile/profile.api"
 import supportRouter from "./modules/support/support.api"
 import categoriesRouter from './modules/categories/categories.api';
@@ -36,6 +37,7 @@ app.use('/api/v1/support', supportRouter);
 app.use('/api/v1/categories', categoriesRouter);
 app.use('/api/v1/transactions', transactionRouter);
 app.use('/api/v1/reports', reportsRouter);
+app.use('/api/v1/ai', aiPanelRouter)
 
 // Intercepts errors passed via next(error) from your async route handlers
 app.use((error: any, req: Request, res: Response, next: NextFunction) => {

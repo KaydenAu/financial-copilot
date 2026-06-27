@@ -140,7 +140,7 @@
     grid-area: panel;
     overflow: hidden;
     background-color: var(--core-layout-bg-right-panel);
-    border-left: var(--core-layout-border-width) var(--core-layout-border-style) var(--core-layout-border-color-panel);
+    border-left: var(--core-layout-border-width) var(--core-layout-border-style) var(--core-layout-border-color-right-panel);
     box-shadow: var(--core-layout-panel-shadow);
     z-index: var(--layer-sticky-nav);
   }
@@ -155,6 +155,11 @@
     @extend %btn-core;     // Injects structural layouts & Angular Material overrides
     @extend .btn-ai;       // Injects AI gradient token definitions
     --_btn-width: auto;  
+  }
+
+  &--resizing {
+    // Crucial: Prevents the grid layout from lagging behind the mouse movement
+    transition: none !important; 
   }
 }
 

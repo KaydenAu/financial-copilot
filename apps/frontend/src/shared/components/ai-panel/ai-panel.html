@@ -1,0 +1,104 @@
+<div class="panel-container">
+  <div class="panel-container__resizer" (pointerdown)="onResizeStart($event)"></div>
+
+  <div class="panel-container__header">
+    <span class="panel-container__title">AI Assistant Workspace</span>
+    <div class="panel-container__header-actions">
+      <button 
+        mat-icon-button 
+        class="panel-container__menu-btn"
+        type="button"
+        [matMenuTriggerFor]="sessionMenu"
+      >
+        <mat-icon>more_vert</mat-icon>
+      </button>
+
+      <button 
+        mat-icon-button 
+        class="panel-container__close-btn" 
+        type="button"
+        (click)="closePanel()" 
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </div>
+  
+  <div class="panel-container__body">
+    @for (message of chatHistory(); track message.id) {
+      <div 
+        class="panel-container__message-bubble"
+        [class.panel-container__message-bubble--user]="message.role === 'user'"
+        [class.panel-container__message-bubble--assistant]="message.role === 'assistant'"
+      >
+        <div [innerHTML]="message.content | markdown"></div>
+      </div>
+    }
+
+    @if (isWaitingForResponse()) {
+      <div class="panel-container__message-bubble panel-container__message-bubble--assistant panel-container__message-bubble--typing">
+        <span>Thinking...</span>
+      </div>
+    }
+  </div>
+
+  <div class="panel-container__footer">
+    <div class="panel-container__suggestions">
+      <button 
+        type="button" 
+        class="panel-container__suggestion-chip" 
+        [disabled]="isWaitingForResponse()"
+        (click)="useExamplePrompt('Generate a comprehensive financial insight breakdown for this month.')"
+      >
+        <mat-icon>analytics</mat-icon>
+        <span>Generate Insights</span>
+      </button>
+
+      <button 
+        type="button" 
+        class="panel-container__suggestion-chip" 
+        [disabled]="isWaitingForResponse()"
+        (click)="useExamplePrompt('Add transaction: RM 45.00 for Dinner under Food & Drink category today, use CIMB to pay.')"
+      >
+        <mat-icon>add_shopping_cart</mat-icon>
+        <span>Add Transaction</span>
+      </button>
+    </div>
+    <div class="panel-container__input-wrapper">
+      <textarea 
+        class="panel-container__prompt-textarea"
+        placeholder="Type a message"
+        rows="1"
+        [value]="currentPrompt()"
+        (input)="onInputChange($event)"
+        (keydown)="onKeyDown($event)"
+      ></textarea>
+      
+      <button 
+        mat-icon-button 
+        class="panel-container__send-btn"
+        type="button"
+        [disabled]="isPromptEmpty()"
+        (click)="sendPrompt()"
+      >
+        <mat-icon>send</mat-icon>
+      </button>
+    </div>
+</div>
+
+<mat-menu #sessionMenu="matMenu" xPosition="before" class="panel-container__session-menu">
+  <button mat-menu-item class="panel-container__menu-item"  (click)="onNewChat()">
+    <mat-icon>add_comment</mat-icon>
+    <span>New Chat Session</span>
+  </button>
+  
+  <button mat-menu-item class="panel-container__menu-item" (click)="onSearchChat()">
+    <mat-icon>search</mat-icon>
+    <span>Search Sessions</span>
+  </button>
+  
+  <button mat-menu-item class="panel-container__menu-item" (click)="onDeleteChat()">
+    <mat-icon>delete_forever</mat-icon>
+    <span>Delete Session</span>
+  </button>
+</mat-menu>

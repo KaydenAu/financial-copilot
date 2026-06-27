@@ -8,9 +8,6 @@ export const jwtInterceptor: HttpInterceptorFn = (req, next) => {
   const storageService = inject(StorageApi);
   const token = storageService.getItem('auth_token');
 
-  console.log(`[Auth Interceptor] Inspecting request to: ${req.url}`);
-  console.log(`[Auth Interceptor] Token lookup result:`, token);
-
   if (token) {
     const authReq = req.clone({
       setHeaders: {
