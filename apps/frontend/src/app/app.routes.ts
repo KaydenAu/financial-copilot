@@ -30,7 +30,6 @@ import { GoalCreatePage } from './features/savings-goals/pages/goal-create-page/
 import { GoalDetailsPage } from './features/savings-goals/pages/goal-details-page/goal-details-page';
 import { GoalEditPage } from './features/savings-goals/pages/goal-edit-page/goal-edit-page';
 
-
 export const routes: Routes = [
     { path: '', redirectTo: 'auth/login', pathMatch: 'full' },
     {
@@ -58,7 +57,10 @@ export const routes: Routes = [
                     { path: '', redirectTo: 'personal-info', pathMatch: 'full' },
                     { path: 'personal-info', component: PersonalInfoPage },
                     { path: 'security', component: SecurityPage },
-                    { path: 'support/contact', component: ContactSupportPage }
+                    {
+                        path: 'support',
+                        children: [{ path: 'contact', component: ContactSupportPage }],
+                    },
                 ]
             },
             { path: 'reports', component: ReportPage },
@@ -78,17 +80,6 @@ export const routes: Routes = [
             { path: 'savings-goals/:id/edit', component: GoalEditPage },
         ]
     },
-    // Support routes
-    {
-        path: 'support',
-        children: [
-            {
-                path: 'contact',
-                component: ContactSupportPage,
-            }
-        ],
-    },
-    // Error routes
     {
         path: 'error',
         children: [

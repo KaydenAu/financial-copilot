@@ -1,13 +1,20 @@
 import { PrismaClient } from '@prisma/client';
 import { Router } from 'express';
+import { authenticateToken } from '../../utils/auth.utils';
 
 const prisma = new PrismaClient();
 const router = Router();
 
-// Get all transactions
-router.get('/', async (_, res) => {
+router.use(authenticateToken);
+
+// Get all transactions for logged-in user
+router.get('/', async (req: any, res) => {
     try {
+        const userId = req.user.id;
         const transactions = await prisma.transaction.findMany({
+            where: {
+                userId,
+            },
             include: {
                 category: {
                     select: {
@@ -26,7 +33,6 @@ router.get('/', async (_, res) => {
                 transactionDate: 'desc',
             },
         });
-
         res.json(transactions);
     } catch (error) {
         res.status(500).json({
@@ -36,8 +42,9 @@ router.get('/', async (_, res) => {
 });
 
 // Create transaction
-router.post('/', async (req, res) => {
+router.post('/', async (req: any, res) => {
     try {
+        const userId = req.user.id;
         const {
             categoryId,
             subcategoryId,
@@ -47,7 +54,6 @@ router.post('/', async (req, res) => {
             amount,
             description,
         } = req.body;
-
         if (
             !categoryId ||
             !transactionDate ||
@@ -60,18 +66,17 @@ router.post('/', async (req, res) => {
             });
         }
 
-        const category = await prisma.category.findUnique({
+        const category = await prisma.category.findFirst({
             where: {
                 id: Number(categoryId),
+                userId,
             },
         });
-
         if (!category) {
             return res.status(404).json({
                 message: 'Category not found',
             });
         }
-
         if (category.parentId) {
             return res.status(400).json({
                 message: 'Category must be a parent category',
@@ -79,20 +84,18 @@ router.post('/', async (req, res) => {
         }
 
         let subcategory = null;
-
         if (subcategoryId) {
-            subcategory = await prisma.category.findUnique({
+            subcategory = await prisma.category.findFirst({
                 where: {
                     id: Number(subcategoryId),
+                    userId,
                 },
             });
-
             if (!subcategory) {
                 return res.status(404).json({
                     message: 'Subcategory not found',
                 });
             }
-
             if (subcategory.parentId !== Number(categoryId)) {
                 return res.status(400).json({
                     message:
@@ -103,10 +106,9 @@ router.post('/', async (req, res) => {
 
         const transaction = await prisma.transaction.create({
             data: {
+                userId,
                 categoryId: Number(categoryId),
-                subcategoryId: subcategoryId
-                    ? Number(subcategoryId)
-                    : null,
+                subcategoryId: subcategoryId ? Number(subcategoryId) : null,
                 transactionDate: new Date(transactionDate),
                 account,
                 currency,
@@ -118,7 +120,6 @@ router.post('/', async (req, res) => {
                 subcategory: true,
             },
         });
-
         res.status(201).json(transaction);
     } catch (error) {
         res.status(500).json({
@@ -128,20 +129,22 @@ router.post('/', async (req, res) => {
 });
 
 // Update transaction
-router.patch('/:id', async (req, res) => {
+router.patch('/:id', async (req: any, res) => {
     try {
+        const userId = req.user.id;
         const id = Number(req.params.id);
-
         if (Number.isNaN(id)) {
             return res.status(400).json({
                 message: 'Invalid transaction id',
             });
         }
 
-        const existingTransaction = await prisma.transaction.findUnique({
-            where: { id },
+        const existingTransaction = await prisma.transaction.findFirst({
+            where: {
+                id,
+                userId,
+            },
         });
-
         if (!existingTransaction) {
             return res.status(404).json({
                 message: 'Transaction not found',
@@ -158,18 +161,17 @@ router.patch('/:id', async (req, res) => {
             description,
         } = req.body;
 
-        const category = await prisma.category.findUnique({
+        const category = await prisma.category.findFirst({
             where: {
                 id: Number(categoryId),
+                userId,
             },
         });
-
         if (!category) {
             return res.status(404).json({
                 message: 'Category not found',
             });
         }
-
         if (category.parentId) {
             return res.status(400).json({
                 message: 'Category must be a parent category',
@@ -177,20 +179,18 @@ router.patch('/:id', async (req, res) => {
         }
 
         let subcategory = null;
-
         if (subcategoryId) {
-            subcategory = await prisma.category.findUnique({
+            subcategory = await prisma.category.findFirst({
                 where: {
                     id: Number(subcategoryId),
+                    userId,
                 },
             });
-
             if (!subcategory) {
                 return res.status(404).json({
                     message: 'Subcategory not found',
                 });
             }
-
             if (subcategory.parentId !== Number(categoryId)) {
                 return res.status(400).json({
                     message:
@@ -205,9 +205,7 @@ router.patch('/:id', async (req, res) => {
             },
             data: {
                 categoryId: Number(categoryId),
-                subcategoryId: subcategoryId
-                    ? Number(subcategoryId)
-                    : null,
+                subcategoryId: subcategoryId ? Number(subcategoryId) : null,
                 transactionDate: new Date(transactionDate),
                 account,
                 currency,
@@ -219,7 +217,6 @@ router.patch('/:id', async (req, res) => {
                 subcategory: true,
             },
         });
-
         res.json(transaction);
     } catch (error) {
         res.status(500).json({
@@ -229,21 +226,22 @@ router.patch('/:id', async (req, res) => {
 });
 
 // Delete transaction
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', async (req: any, res) => {
     try {
+        const userId = req.user.id;
         const id = Number(req.params.id);
-
         if (Number.isNaN(id)) {
             return res.status(400).json({
                 message: 'Invalid transaction id',
             });
         }
 
-        const transaction =
-            await prisma.transaction.findUnique({
-                where: { id },
-            });
-
+        const transaction = await prisma.transaction.findFirst({
+            where: {
+                id,
+                userId,
+            },
+        });
         if (!transaction) {
             return res.status(404).json({
                 message: 'Transaction not found',
@@ -251,9 +249,10 @@ router.delete('/:id', async (req, res) => {
         }
 
         await prisma.transaction.delete({
-            where: { id },
+            where: {
+                id,
+            },
         });
-
         res.status(204).send();
     } catch (error) {
         res.status(500).json({
