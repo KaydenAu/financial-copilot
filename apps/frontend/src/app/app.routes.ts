@@ -17,6 +17,18 @@ import { SecurityPage } from './features/profile/pages/security-page/security-pa
 import { ReportPage } from './features/reports/report-page/report-page';
 import { CategoriesPage } from './features/categories/pages/categories-page/categories-page';
 import { TransactionPage } from './features/transactions/transaction-page/transaction-page';
+import { AccountListPage } from './features/accounts/pages/account-list-page/account-list-page';
+import { AccountCreatePage } from './features/accounts/pages/account-create-page/account-create-page';
+import { AccountDetailsPage } from './features/accounts/pages/account-details-page/account-details-page';
+import { AccountEditPage } from './features/accounts/pages/account-edit-page/account-edit-page';
+import { BudgetListPage } from './features/budgets/pages/budget-list-page/budget-list-page';
+import { BudgetCreatePage } from './features/budgets/pages/budget-create-page/budget-create-page';
+import { BudgetDetailsPage } from './features/budgets/pages/budget-details-page/budget-details-page';
+import { BudgetEditPage } from './features/budgets/pages/budget-edit-page/budget-edit-page';
+import { GoalListPage } from './features/savings-goals/pages/goal-list-page/goal-list-page';
+import { GoalCreatePage } from './features/savings-goals/pages/goal-create-page/goal-create-page';
+import { GoalDetailsPage } from './features/savings-goals/pages/goal-details-page/goal-details-page';
+import { GoalEditPage } from './features/savings-goals/pages/goal-edit-page/goal-edit-page';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'auth/login', pathMatch: 'full' },
@@ -54,6 +66,18 @@ export const routes: Routes = [
             { path: 'reports', component: ReportPage },
             { path: 'categories', component: CategoriesPage },
             { path: 'transactions', component: TransactionPage },
+            { path: 'accounts', component: AccountListPage },
+            { path: 'accounts/create', component: AccountCreatePage },
+            { path: 'accounts/:id', component: AccountDetailsPage },
+            { path: 'accounts/:id/edit', component: AccountEditPage },
+            { path: 'budgets', component: BudgetListPage },
+            { path: 'budgets/create', component: BudgetCreatePage },
+            { path: 'budgets/:id', component: BudgetDetailsPage },
+            { path: 'budgets/:id/edit', component: BudgetEditPage },
+            { path: 'savings-goals', component: GoalListPage },
+            { path: 'savings-goals/create', component: GoalCreatePage },
+            { path: 'savings-goals/:id', component: GoalDetailsPage },
+            { path: 'savings-goals/:id/edit', component: GoalEditPage },
         ]
     },
     {
