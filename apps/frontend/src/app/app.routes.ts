@@ -18,7 +18,6 @@ import { ReportPage } from './features/reports/report-page/report-page';
 import { CategoriesPage } from './features/categories/pages/categories-page/categories-page';
 import { TransactionPage } from './features/transactions/transaction-page/transaction-page';
 
-
 export const routes: Routes = [
     { path: '', redirectTo: 'auth/login', pathMatch: 'full' },
     {
@@ -46,25 +45,17 @@ export const routes: Routes = [
                     { path: '', redirectTo: 'personal-info', pathMatch: 'full' },
                     { path: 'personal-info', component: PersonalInfoPage },
                     { path: 'security', component: SecurityPage },
-                    { path: 'support/contact', component: ContactSupportPage}
+                    {
+                        path: 'support',
+                        children: [{ path: 'contact', component: ContactSupportPage }],
+                    },
                 ]
             },
-            { path: 'reports', component: ReportPage},
-            { path: 'categories', component: CategoriesPage},
-            { path: 'transactions', component: TransactionPage},
+            { path: 'reports', component: ReportPage },
+            { path: 'categories', component: CategoriesPage },
+            { path: 'transactions', component: TransactionPage },
         ]
     },
-    // Support routes
-    {
-        path: 'support',
-        children: [
-            {
-                path: 'contact',
-                component: ContactSupportPage,
-            }
-        ],
-    },
-    // Error routes
     {
         path: 'error',
         children: [

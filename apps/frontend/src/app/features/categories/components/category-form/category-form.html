@@ -18,9 +18,11 @@
                 <mat-option value="category">
                     Category
                 </mat-option>
+                @if (hasParentCategories) {
                 <mat-option value="subcategory">
                     Subcategory
                 </mat-option>
+                }
             </mat-select>
         </mat-form-field>
 
@@ -45,18 +47,20 @@
 
         <div class="category-form__actions">
             @if (showDeleteButton) {
-                <button mat-raised-button type="button" (click)="onDelete()" class="category-form__button category-form__button--danger">
-                    <mat-icon>delete</mat-icon>
-                    Delete
-                </button>
+            <button mat-raised-button type="button" (click)="onDelete()"
+                class="category-form__button category-form__button--danger">
+                <mat-icon>delete</mat-icon>
+                Delete
+            </button>
             }
             @if (!isViewMode) {
-                <button mat-raised-button type="button" (click)="onSave()" class="category-form__button category-form__button--primary">
-                    <mat-icon>
-                        {{ isCreateMode ? 'add' : 'save' }}
-                    </mat-icon>
-                    {{ isCreateMode ? 'Add' : 'Save' }}
-                </button>
+            <button mat-raised-button type="button" (click)="onSave()"
+                class="category-form__button category-form__button--primary">
+                <mat-icon>
+                    {{ isCreateMode ? 'add' : 'save' }}
+                </mat-icon>
+                {{ isCreateMode ? 'Add' : 'Save' }}
+            </button>
             }
         </div>
     </form>

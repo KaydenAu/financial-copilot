@@ -69,22 +69,23 @@ export class CategoriesPage implements OnInit {
     return result;
   }
 
-  private showSuccess(message: string): void {
+  private showSnack(message: string, type: 'success' | 'error' | 'info' = 'info'): void {
     this.snackBar.open(message, 'Close', {
-      duration: 2000,
-      horizontalPosition: 'right',
-      verticalPosition: 'top',
+      duration: type === 'error' ? 3000 : 2000,
+      panelClass:
+        type === 'error'
+          ? ['error-snackbar']
+          : type === 'success'
+            ? ['success-snackbar']
+            : []
     });
   }
 
-  private handleError(error: any): void {
+  private handleApiError(error: any): void {
     const message =
       error?.error?.message ?? 'An unexpected error occurred';
     console.error(error);
-    this.snackBar.open(message, 'Close', {
-      duration: 3000,
-      panelClass: ['error-snackbar'],
-    });
+    this.showSnack(message, 'error');
     this.isLoading = false;
     this.isSubmitting = false;
   }
@@ -104,7 +105,7 @@ export class CategoriesPage implements OnInit {
           this.allCategories = this.flattenCategories(this.categories);
           this.cdr.detectChanges();
         },
-        error: (error) => this.handleError(error),
+        error: (err) => this.handleApiError(err)
       });
   }
 
@@ -132,7 +133,7 @@ export class CategoriesPage implements OnInit {
   }
 
   addSubcategory(parent: Category | null): void {
-    if (!parent) return;
+    if (!parent || parent.parentId) return;
     this.selectedCategory = parent;
     this.formMode = 'add-subcategory';
   }
@@ -161,11 +162,11 @@ export class CategoriesPage implements OnInit {
         .pipe(finalize(() => (this.isSubmitting = false)))
         .subscribe({
           next: () => {
-            this.showSuccess('Category created');
+            this.showSnack('Category created', 'success');
             this.resetEditor();
-            this.loadCategories(); // 🔥 source of truth
+            this.loadCategories();
           },
-          error: (err) => this.handleError(err),
+          error: (err) => this.handleApiError(err),
         });
       return;
     }
@@ -181,29 +182,21 @@ export class CategoriesPage implements OnInit {
         .pipe(finalize(() => (this.isSubmitting = false)))
         .subscribe({
           next: () => {
-            this.showSuccess('Category updated');
+            this.showSnack('Category updated', 'success');
             this.resetEditor();
-            this.loadCategories(); // 🔥 always reload
+            this.loadCategories();
           },
-          error: (err) => this.handleError(err),
+          error: (err) => this.handleApiError(err),
         });
     }
   }
 
   confirmDelete(category: Category | null): void {
     if (!category?.id) return;
-    const snackBarRef = this.snackBar.open(
-      `Delete "${category.name}"?`,
-      'CONFIRM',
-      {
-        duration: 5000,
-        horizontalPosition: 'right',
-        verticalPosition: 'top',
-      }
-    );
-    snackBarRef.onAction().subscribe(() => {
-      this.deleteCategory(category);
-    });
+
+    if (!confirm(`Delete "${category.name}"?`)) return;
+
+    this.deleteCategory(category);
   }
 
   deleteCategory(category: Category | null): void {
@@ -214,21 +207,17 @@ export class CategoriesPage implements OnInit {
       .pipe(finalize(() => (this.isSubmitting = false)))
       .subscribe({
         next: () => {
-          this.showSuccess('Category deleted');
+          this.showSnack('Category deleted', 'success');
           this.resetEditor();
           this.contextCategory = null;
           this.loadCategories(); // consistent refresh
         },
-        error: (err) => this.handleError(err),
+        error: (err) => this.handleApiError(err),
       });
   }
 
   // ================= RESET =================
   resetCategories(): void {
-    this.snackBar.open(
-      'Reset feature not implemented yet',
-      'Close',
-      { duration: 2000 }
-    );
+    this.showSnack('Reset feature not implemented yet', 'info');
   }
 }

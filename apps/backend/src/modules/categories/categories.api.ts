@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import { Router } from 'express';
+import { authenticateToken } from '../../utils/auth.utils';
 
 const prisma = new PrismaClient();
 const router = Router();
@@ -25,10 +26,16 @@ function buildTree(categories: any[]) {
     return tree;
 }
 
+router.use(authenticateToken);
+
 // Get all categories
-router.get('/', async (_, res) => {
+router.get('/', async (req, res) => {
     try {
+        const userId = Number(req.user!.id);
         const categories = await prisma.category.findMany({
+            where: {
+                userId,
+            },
             orderBy: {
                 name: 'asc',
             },
@@ -42,10 +49,12 @@ router.get('/', async (_, res) => {
 });
 
 // Get parent categories only
-router.get('/parents', async (_, res) => {
+router.get('/parents', async (req, res) => {
     try {
+        const userId = Number(req.user!.id);
         const parents = await prisma.category.findMany({
             where: {
+                userId,
                 parentId: null,
             },
             orderBy: {
@@ -63,6 +72,7 @@ router.get('/parents', async (_, res) => {
 // Add category
 router.post('/', async (req, res) => {
     try {
+        const userId = Number(req.user!.id);
         const { name, description, parentId } = req.body;
         const trimmedName = name?.trim();
         if (!trimmedName) {
@@ -72,12 +82,12 @@ router.post('/', async (req, res) => {
         }
 
         if (parentId) {
-            const parentCategory = await prisma.category.findUnique({
+            const parentCategory = await prisma.category.findFirst({
                 where: {
                     id: Number(parentId),
+                    userId,
                 },
             });
-
             if (!parentCategory) {
                 return res.status(404).json({
                     message: 'Parent category not found',
@@ -87,11 +97,11 @@ router.post('/', async (req, res) => {
 
         const existingCategory = await prisma.category.findFirst({
             where: {
+                userId,
                 name: trimmedName,
                 parentId: parentId ?? null,
             },
         });
-
         if (existingCategory) {
             return res.status(409).json({
                 message:
@@ -104,8 +114,10 @@ router.post('/', async (req, res) => {
                 name: trimmedName,
                 description,
                 parentId,
+                userId,
             },
         });
+
         res.status(201).json(category);
     } catch (error) {
         res.status(500).json({
@@ -117,6 +129,7 @@ router.post('/', async (req, res) => {
 // Update category
 router.patch('/:id', async (req, res) => {
     try {
+        const userId = Number(req.user!.id);
         const id = Number(req.params.id);
         if (Number.isNaN(id)) {
             return res.status(400).json({
@@ -132,8 +145,11 @@ router.patch('/:id', async (req, res) => {
             });
         }
 
-        const existingCategory = await prisma.category.findUnique({
-            where: { id },
+        const existingCategory = await prisma.category.findFirst({
+            where: {
+                id,
+                userId,
+            },
         });
         if (!existingCategory) {
             return res.status(404).json({
@@ -148,12 +164,12 @@ router.patch('/:id', async (req, res) => {
         }
 
         if (parentId) {
-            const parentCategory = await prisma.category.findUnique({
+            const parentCategory = await prisma.category.findFirst({
                 where: {
                     id: Number(parentId),
+                    userId,
                 },
             });
-
             if (!parentCategory) {
                 return res.status(404).json({
                     message: 'Parent category not found',
@@ -163,6 +179,7 @@ router.patch('/:id', async (req, res) => {
 
         const duplicateCategory = await prisma.category.findFirst({
             where: {
+                userId,
                 id: {
                     not: id,
                 },
@@ -179,7 +196,9 @@ router.patch('/:id', async (req, res) => {
         }
 
         const category = await prisma.category.update({
-            where: { id },
+            where: {
+                id,
+            },
             data: {
                 name: trimmedName,
                 description,
@@ -197,6 +216,7 @@ router.patch('/:id', async (req, res) => {
 // Delete category
 router.delete('/:id', async (req, res) => {
     try {
+        const userId = Number(req.user!.id);
         const id = Number(req.params.id);
         if (Number.isNaN(id)) {
             return res.status(400).json({
@@ -204,8 +224,11 @@ router.delete('/:id', async (req, res) => {
             });
         }
 
-        const category = await prisma.category.findUnique({
-            where: { id },
+        const category = await prisma.category.findFirst({
+            where: {
+                id,
+                userId,
+            },
         });
         if (!category) {
             return res.status(404).json({
@@ -214,7 +237,9 @@ router.delete('/:id', async (req, res) => {
         }
 
         await prisma.category.delete({
-            where: { id },
+            where: {
+                id,
+            },
         });
         res.status(204).send();
     } catch (error) {
