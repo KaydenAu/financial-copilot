@@ -134,6 +134,7 @@ router.post('/prompt', async (req: Request, res: Response): Promise<void>=> {
                 // 6. Execute the secure database insertion write block
                 await prisma.transaction.create({
                     data: {
+                        userId: currentUserId,
                         categoryId: categoryId,
                         subcategoryId: subcategoryId,
                         transactionDate: txPayload.date ? new Date(txPayload.date) : new Date(),
