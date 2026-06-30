@@ -53,7 +53,7 @@ export class AccountForm implements OnChanges {
         name: ['', Validators.required],
         type: ['Checking', Validators.required],
         balance: [0, Validators.required],
-        currency: ['USD', Validators.required],
+        currency: ['RM', Validators.required],
         description: [''],
     });
 
@@ -63,7 +63,7 @@ export class AccountForm implements OnChanges {
                 name: this.account?.name ?? '',
                 type: this.account?.type ?? 'Checking',
                 balance: this.account?.balance ?? 0,
-                currency: this.account?.currency ?? 'USD',
+                currency: this.account?.currency ?? 'RM',
                 description: this.account?.description ?? '',
             });
         }
@@ -80,7 +80,7 @@ export class AccountForm implements OnChanges {
             name: value.name ?? '',
             type: value.type ?? 'Checking',
             balance: Number(value.balance ?? 0),
-            currency: value.currency ?? 'USD',
+            currency: value.currency ?? 'RM',
             description: value.description ?? undefined,
         });
     }

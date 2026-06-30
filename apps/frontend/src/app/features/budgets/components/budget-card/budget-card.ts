@@ -12,7 +12,7 @@ import { Budget } from '../../budget.model';
         <p class="eyebrow">{{ budget.period }}</p>
         <h3>{{ budget.category }}</h3>
       </div>
-      <p>{{ budget.spent | currency:'USD':'symbol':'1.2-2' }} of {{ budget.limit | currency:'USD':'symbol':'1.2-2' }}</p>
+      <p>{{ budget.spent | currency:'RM':'symbol':'1.2-2' }} of {{ budget.limit | currency:'RM':'symbol':'1.2-2' }}</p>
       <div class="actions">
         <button type="button" (click)="view.emit(budget)">View</button>
         <button type="button" (click)="edit.emit(budget)">Edit</button>

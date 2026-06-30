@@ -12,36 +12,67 @@ import { BalanceWidget } from '../../components/balance-widget/balance-widget';
     selector: 'app-account-list-page',
     standalone: true,
     imports: [CommonModule, AccountCard, AccountSummary, BalanceWidget],
-    template: `
+//     template: `
+//     <section class="page-shell">
+//       <header class="hero">
+//         <div>
+//           <p class="eyebrow">Accounts</p>
+//           <h1>Fintech-style account management</h1>
+//           <p>Search, filter, and monitor balances across your account portfolio.</p>
+//         </div>
+//         <button type="button" (click)="createAccount()">New account</button>
+//       </header>
+
+//       <app-account-summary [accounts]="filteredAccounts"></app-account-summary>
+//       <app-balance-widget [accounts]="filteredAccounts"></app-balance-widget>
+
+//       <label class="search">
+//         <span>Search accounts</span>
+//         <input type="search" [value]="searchText" (input)="onSearch($event)" />
+//       </label>
+
+//       <div class="grid">
+//         <app-account-card
+//           *ngFor="let account of filteredAccounts"
+//           [account]="account"
+//           (view)="viewAccount($event)"
+//           (edit)="editAccount($event)"
+//           (remove)="removeAccount($event)"
+//         ></app-account-card>
+//       </div>
+//     </section>
+//   `,
+    template:`
     <section class="page-shell">
-      <header class="hero">
-        <div>
-          <p class="eyebrow">Accounts</p>
-          <h1>Fintech-style account management</h1>
-          <p>Search, filter, and monitor balances across your account portfolio.</p>
+    <header class="page-shell__hero hero">
+        <div class="hero__content">
+        <p class="hero__eyebrow">Accounts</p>
+        <h1 class="hero__heading">Fintech-style account management</h1>
+        <p class="hero__description">Search, filter, and monitor balances across your account portfolio.</p>
         </div>
-        <button type="button" (click)="createAccount()">New account</button>
-      </header>
+        <button class="hero__button" type="button" (click)="createAccount()">New account</button>
+        <hr class="hero__divider"/>
+    </header>
+    
+    <app-account-summary [accounts]="filteredAccounts"></app-account-summary>
+    <app-balance-widget [accounts]="filteredAccounts"></app-balance-widget>
+    <hr class="hero__divider"/>
+    <label class="page-shell__search search-box">
+        <span class="search-box__label">Search accounts</span>
+        <input class="search-box__input" type="search" [value]="searchText" (input)="onSearch($event)" />
+    </label>
 
-      <app-account-summary [accounts]="filteredAccounts"></app-account-summary>
-      <app-balance-widget [accounts]="filteredAccounts"></app-balance-widget>
-
-      <label class="search">
-        <span>Search accounts</span>
-        <input type="search" [value]="searchText" (input)="onSearch($event)" />
-      </label>
-
-      <div class="grid">
+    <div class="page-shell__grid">
         <app-account-card
-          *ngFor="let account of filteredAccounts"
-          [account]="account"
-          (view)="viewAccount($event)"
-          (edit)="editAccount($event)"
-          (remove)="removeAccount($event)"
+        *ngFor="let account of filteredAccounts"
+        [account]="account"
+        (view)="viewAccount($event)"
+        (edit)="editAccount($event)"
+        (remove)="removeAccount($event)"
         ></app-account-card>
-      </div>
+    </div>
     </section>
-  `,
+    `,
     styleUrl: './account-list-page.scss',
 })
 export class AccountListPage implements OnInit {

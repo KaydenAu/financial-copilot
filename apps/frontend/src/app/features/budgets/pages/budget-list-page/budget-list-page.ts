@@ -20,8 +20,9 @@ import { BudgetProgress } from '../../components/budget-progress/budget-progress
           <h1>Budget dashboard</h1>
           <p>Track spend by category and surface overspending early.</p>
         </div>
-        <button type="button" (click)="createBudget()">New budget</button>
+        <button type="button" class="buttons" (click)="createBudget()">New budget</button>
       </header>
+      
 
       <label class="search">
         <span>Search budgets</span>

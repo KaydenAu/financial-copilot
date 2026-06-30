@@ -10,11 +10,11 @@ import { SavingsGoal } from '../../savings-goal.model';
     <section class="summary-grid">
       <article class="summary-card">
         <p>Total target</p>
-        <h2>{{ totalTarget | currency:'USD':'symbol':'1.2-2' }}</h2>
+        <h2>{{ totalTarget | currency:'RM':'symbol':'1.2-2' }}</h2>
       </article>
       <article class="summary-card">
         <p>Current saved</p>
-        <h2>{{ totalCurrent | currency:'USD':'symbol':'1.2-2' }}</h2>
+        <h2>{{ totalCurrent | currency:'RM':'symbol':'1.2-2' }}</h2>
       </article>
       <article class="summary-card">
         <p>Completion</p>

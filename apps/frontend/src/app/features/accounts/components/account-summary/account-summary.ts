@@ -30,7 +30,7 @@ import { Account } from '../../account.model';
 })
 export class AccountSummary {
     @Input() accounts: Account[] = [];
-    @Input() currency = 'USD';
+    @Input() currency = 'RM';
 
     get totalBalance(): number {
         return this.accounts.reduce((sum, account) => sum + account.balance, 0);

@@ -21,7 +21,7 @@ import { ContributionForm } from '../../components/contribution-form/contributio
           <h1>Savings goal dashboard</h1>
           <p>Track progress, deadlines, and contributions in one place.</p>
         </div>
-        <button type="button" (click)="createGoal()">New goal</button>
+        <button type="button" class="buttons"(click)="createGoal()">New goal</button>
       </header>
 
       <app-statistics-widget [goals]="filteredGoals"></app-statistics-widget>

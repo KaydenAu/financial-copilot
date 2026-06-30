@@ -13,7 +13,7 @@ import { SavingsGoal } from '../../savings-goal.model';
         <h3>{{ goal.title }}</h3>
         <p *ngIf="goal.description">{{ goal.description }}</p>
       </div>
-      <p>{{ goal.currentAmount | currency:'USD':'symbol':'1.2-2' }} of {{ goal.targetAmount | currency:'USD':'symbol':'1.2-2' }}</p>
+      <p>{{ goal.currentAmount | currency:'RM':'symbol':'1.2-2' }} of {{ goal.targetAmount | currency:'RM':'symbol':'1.2-2' }}</p>
       <div class="actions">
         <button type="button" (click)="view.emit(goal)">View</button>
         <button type="button" (click)="edit.emit(goal)">Edit</button>
