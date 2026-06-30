@@ -7,8 +7,9 @@
 .summary-card {
     padding: 1rem 1.25rem;
     border-radius: 18px;
-    background: linear-gradient(135deg, #0f172a, #7c3aed);
-    color: #fff;
+    // background: linear-gradient(135deg, #0f172a, #7c3aed);
+    background: #ffff;
+    color: var(--text-primary);
 }
 
 .summary-card p,

@@ -1,9 +1,15 @@
+@use '../../../../../styles/component-tokens/buttons' as *;
+@use '../../../../../styles/component-tokens/forms' as *;
+@use '../../../../../styles/component-styles/buttons' as *;
+@use '../../../../../styles/component-styles/forms' as *;
+
 .card {
     display: grid;
     gap: .75rem;
     padding: 1.25rem;
     border-radius: 20px;
-    background: linear-gradient(180deg, #0f172a, #111827);
+    // background: linear-gradient(180deg, #0f172a, #111827);
+    background: var(--color-neutral-0);
     color: #e2e8f0;
 }
 
@@ -11,12 +17,25 @@
     margin: 0;
     text-transform: uppercase;
     letter-spacing: .12em;
-    color: #60a5fa;
+    color: var(--text-secondary);
     font-size: .75rem;
+}
+
+.name,
+.balance{
+    color: var(--text-primary);
+}
+
+.description{
+    color: var(--text-secondary);
 }
 
 .actions {
     display: flex;
     gap: .5rem;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+}
+.buttons{
+    @extend %btn-core;
+    @extend .btn-primary;
 }

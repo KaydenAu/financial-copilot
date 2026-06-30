@@ -1,3 +1,8 @@
+@use '../../../../../styles/component-tokens/buttons' as *;
+@use '../../../../../styles/component-tokens/forms' as *;
+@use '../../../../../styles/component-styles/buttons' as *;
+@use '../../../../../styles/component-styles/forms' as *;
+
 .summary-grid {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -7,13 +12,14 @@
 .summary-card {
     padding: 1rem 1.25rem;
     border-radius: 18px;
-    background: linear-gradient(135deg, #0f172a, #1d4ed8);
-    color: #fff;
+    background: var(--color-neutral-0);
+    color: var(--text-primary);
 }
 
 .summary-card p,
 .summary-card h2 {
     margin: 0;
+    text-align: center;
 }
 
 @media (max-width: 900px) {

@@ -1,6 +1,16 @@
+@use '../../../../../styles/component-tokens/buttons' as *;
+@use '../../../../../styles/component-tokens/forms' as *;
+@use '../../../../../styles/component-styles/buttons' as *;
+@use '../../../../../styles/component-styles/forms' as *;
+
 .page-shell {
-    display: grid;
-    gap: 1.25rem;
+  display: flex;
+  flex-direction: column;  
+  min-height: 100vh;
+  padding: var(--space-layout-page);
+  gap: 1.5rem;
+  max-width: var(--viewport-desktop);
+  background-color: var(--color-neutral-100);
 }
 
 .hero {
@@ -10,16 +20,40 @@
     align-items: end;
     padding: 1.5rem;
     border-radius: 28px;
-    background: linear-gradient(135deg, #111827, #f97316);
-    color: #fff;
+    // background: #ffff;
+    color: var(--text-primary);
+}
+
+.buttons{
+    @extend %btn-core;
+    @extend .btn-primary;
 }
 
 .eyebrow {
-    margin: 0 0 .35rem;
+    font-size: 0.875rem;
+    font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: .1em;
-    color: #fed7aa;
-}
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+  }
+
+.heading {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 0.5rem 0;
+  }
+
+.description {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    margin: 0;
+  }
+
+.button {
+    @extend %btn-core;
+    @extend .btn-primary;
+  }
 
 .search {
     display: grid;

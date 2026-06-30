@@ -1,0 +1,14 @@
+@use '../../../../../styles/component-tokens/buttons' as *;
+@use '../../../../../styles/component-tokens/forms' as *;
+@use '../../../../../styles/component-styles/buttons' as *;
+@use '../../../../../styles/component-styles/forms' as *;
+
+.page-shell {
+  display: flex;
+  flex-direction: column;  
+  min-height: 100vh;
+  padding: var(--space-layout-page);
+  gap: 1.5rem;
+  max-width: var(--viewport-desktop);
+  background-color: var(--color-neutral-100);
+}

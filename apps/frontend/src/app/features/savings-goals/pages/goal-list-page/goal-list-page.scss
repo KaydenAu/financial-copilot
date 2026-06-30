@@ -1,6 +1,16 @@
+@use '../../../../../styles/component-tokens/buttons' as *;
+@use '../../../../../styles/component-tokens/forms' as *;
+@use '../../../../../styles/component-styles/buttons' as *;
+@use '../../../../../styles/component-styles/forms' as *;
+
 .page-shell {
-    display: grid;
-    gap: 1.25rem;
+  display: flex;
+  flex-direction: column;  
+  min-height: 100vh;
+  padding: var(--space-layout-page);
+  gap: 1.5rem;
+  max-width: var(--viewport-desktop);
+  background-color: var(--color-neutral-100);
 }
 
 .hero {
@@ -10,15 +20,16 @@
     align-items: end;
     padding: 1.5rem;
     border-radius: 28px;
-    background: linear-gradient(135deg, #111827, #7c3aed);
-    color: #fff;
+    background: var(--color-neutral-100);
+    // background: linear-gradient(135deg, #111827, #7c3aed);
+    color: var(--text-primary);
 }
 
 .eyebrow {
     margin: 0 0 .35rem;
     text-transform: uppercase;
     letter-spacing: .1em;
-    color: #ddd6fe;
+    color: var(--text-primary);
 }
 
 .search {
@@ -28,7 +39,10 @@
     border-radius: 20px;
     background: #fff;
 }
-
+.buttons{
+    @extend %btn-core;
+    @extend .btn-primary;
+}
 .grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
