@@ -1,10 +1,10 @@
-<div class="form-container">
-    <div class="form-header">
-        <h2>{{ title }}</h2>
+<div class="category-form__container">
+    <div class="category-form__header">
+        <span class="category-form__title">{{ title }}</span>
     </div>
 
-    <form [formGroup]="form">
-        <mat-form-field appearance="outline">
+    <form [formGroup]="form" class="category-form__form">
+        <mat-form-field appearance="outline" floatLabel="always">
             <mat-label>Category Name</mat-label>
             <input matInput formControlName="name" />
             <mat-error>
@@ -12,20 +12,22 @@
             </mat-error>
         </mat-form-field>
 
-        <mat-form-field appearance="outline">
+        <mat-form-field appearance="outline" floatLabel="always">
             <mat-label>Category Type</mat-label>
             <mat-select formControlName="type">
                 <mat-option value="category">
                     Category
                 </mat-option>
+                @if (hasParentCategories) {
                 <mat-option value="subcategory">
                     Subcategory
                 </mat-option>
+                }
             </mat-select>
         </mat-form-field>
 
         @if (showParentField) {
-        <mat-form-field appearance="outline">
+        <mat-form-field appearance="outline" floatLabel="always">
             <mat-label>Parent Category</mat-label>
             <mat-select formControlName="parentId">
                 @for (parent of parentCategories; track parent.id) {
@@ -37,26 +39,27 @@
         </mat-form-field>
         }
 
-        <mat-form-field appearance="outline">
+        <mat-form-field appearance="outline" floatLabel="always">
             <mat-label>Description</mat-label>
             <textarea matInput rows="5" formControlName="description">
       </textarea>
         </mat-form-field>
 
-        <div class="action-buttons">
+        <div class="category-form__actions">
+            @if (showDeleteButton) {
+            <button mat-raised-button type="button" (click)="onDelete()"
+                class="category-form__button category-form__button--danger">
+                <mat-icon>delete</mat-icon>
+                Delete
+            </button>
+            }
             @if (!isViewMode) {
-            <button mat-raised-button color="primary" type="button" (click)="onSave()">
+            <button mat-raised-button type="button" (click)="onSave()"
+                class="category-form__button category-form__button--primary">
                 <mat-icon>
                     {{ isCreateMode ? 'add' : 'save' }}
                 </mat-icon>
                 {{ isCreateMode ? 'Add' : 'Save' }}
-            </button>
-            }
-
-            @if (showDeleteButton) {
-            <button mat-raised-button color="warn" type="button" (click)="onDelete()">
-                <mat-icon>delete</mat-icon>
-                Delete
             </button>
             }
         </div>

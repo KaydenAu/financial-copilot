@@ -1,0 +1,35 @@
+@use '../../../../../styles/component-tokens/buttons' as *;
+@use '../../../../../styles/component-tokens/forms' as *;
+@use '../../../../../styles/component-styles/buttons' as *;
+@use '../../../../../styles/component-styles/forms' as *;
+
+.summary-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.summary-card {
+    padding: 1rem 1.25rem;
+    border-radius: 18px;
+    background: var(--color-neutral-0);
+    color: var(--text-primary);
+}
+
+.summary-card p,
+.summary-card h2 {
+    margin: 0;
+    text-align: center;
+}
+
+@media (max-width: 900px) {
+    .summary-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 560px) {
+    .summary-grid {
+        grid-template-columns: 1fr;
+    }
+}

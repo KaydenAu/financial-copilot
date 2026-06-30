@@ -1,0 +1,23 @@
+.form {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+    padding: 1.25rem;
+    border-radius: 20px;
+    background: #fff;
+}
+
+.full {
+    grid-column: 1 / -1;
+}
+
+.actions {
+    display: flex;
+    justify-content: end;
+    gap: .75rem;
+}
+
+label {
+    display: grid;
+    gap: .35rem;
+}

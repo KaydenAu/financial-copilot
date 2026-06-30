@@ -65,23 +65,25 @@
                         >
                             <mat-icon>arrow_forward</mat-icon>
                         </a>
+                        <div class="dashboard__menu">
+                            <mat-menu #widgetMenu="matMenu">
+                                <div class="dashboard__menu-label">Display Scale Dimensions</div>
+                                <button mat-menu-item [disabled]="widget.size === 'small'" (click)="updateWidgetSize(widget.id, 'small')">
+                                    <mat-icon>view_headline</mat-icon> Small (KPI Summary Matrix)
+                                </button>
+                                <button mat-menu-item [disabled]="widget.size === 'medium'" (click)="updateWidgetSize(widget.id, 'medium')">
+                                    <mat-icon>dashboard</mat-icon> Medium (Visual Analytics Chart)
+                                </button>
+                                <button mat-menu-item [disabled]="widget.size === 'large'" (click)="updateWidgetSize(widget.id, 'large')">
+                                    <mat-icon>fullscreen</mat-icon> Large (Full Analytical Ledger)
+                                </button>
+                                <mat-divider></mat-divider>
+                                <button mat-menu-item (click)="toggleWidgetVisibility(widget.id, false)">
+                                    <mat-icon>visibility_off</mat-icon> Hide Widget Panel
+                                </button>
+                            </mat-menu>
+                        </div>
                         
-                        <mat-menu #widgetMenu="matMenu">
-                            <div class="dashboard__menu-label">Display Scale Dimensions</div>
-                            <button mat-menu-item [disabled]="widget.size === 'small'" (click)="updateWidgetSize(widget.id, 'small')">
-                                <mat-icon>view_headline</mat-icon> Small (KPI Summary Matrix)
-                            </button>
-                            <button mat-menu-item [disabled]="widget.size === 'medium'" (click)="updateWidgetSize(widget.id, 'medium')">
-                                <mat-icon>dashboard</mat-icon> Medium (Visual Analytics Chart)
-                            </button>
-                            <button mat-menu-item [disabled]="widget.size === 'large'" (click)="updateWidgetSize(widget.id, 'large')">
-                                <mat-icon>fullscreen</mat-icon> Large (Full Analytical Ledger)
-                            </button>
-                            <mat-divider></mat-divider>
-                            <button mat-menu-item (click)="toggleWidgetVisibility(widget.id, false)">
-                                <mat-icon>visibility_off</mat-icon> Hide Widget Panel
-                            </button>
-                        </mat-menu>
                     </div>
                 </div>
 
@@ -90,7 +92,7 @@
                         @case ('small') {
                             <div class="dashboard__view-state dashboard__view-state--kpi">
                                 <span class="dashboard__view-label">⚡ CORE KPI METRIC SPECIFICATION</span>
-                                <div class="dashboard__mock-value">$142,384.00</div>
+                                <div class="dashboard__mock-value">RM 142,384.00</div>
                             </div>
                         }
                         @case ('medium') {

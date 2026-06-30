@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-   "private": true,
+  "private": true,
   "scripts": {
     "dev:frontend": "npm run start --prefix frontend",
     "dev:backend": "npm run dev --prefix backend",
@@ -13,5 +13,8 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs"
+  "type": "commonjs",
+  "dependencies": {
+    "chart.js": "^4.5.1"
+  }
 }

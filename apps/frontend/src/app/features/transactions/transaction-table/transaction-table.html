@@ -1,117 +1,125 @@
-<div class="table-container">
-    <table mat-table [dataSource]="dataSource" matSort>
-
+<div class="transaction-table__container">
+    <table mat-table [dataSource]="dataSource" matSort class="transaction-table__table">
         <!-- CATEGORY -->
         <ng-container matColumnDef="category">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="transaction-table__header-cell">
                 Category
             </th>
-            <td mat-cell *matCellDef="let row">
-                {{ row.category }}
+            <td mat-cell *matCellDef="let row" class="transaction-table__cell">
+                {{ row.category?.name || row.category }}
             </td>
         </ng-container>
 
         <!-- SUBCATEGORY -->
         <ng-container matColumnDef="subcategory">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="transaction-table__header-cell">
                 Subcategory
             </th>
-            <td mat-cell *matCellDef="let row">
-                {{ row.subcategory }}
+            <td mat-cell *matCellDef="let row" class="transaction-table__cell">
+                {{ row.subcategory?.name || '-' }}
             </td>
         </ng-container>
 
         <!-- DATE -->
-        <ng-container matColumnDef="date">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        <ng-container matColumnDef="transactionDate">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="transaction-table__header-cell">
                 Date
             </th>
-            <td mat-cell *matCellDef="let row">
-                {{ row.date }}
+            <td mat-cell *matCellDef="let row" class="transaction-table__cell">
+                {{ row.transactionDate | date:'mediumDate' }}
             </td>
         </ng-container>
 
         <!-- ACCOUNT -->
         <ng-container matColumnDef="account">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="transaction-table__header-cell">
                 Account
             </th>
-            <td mat-cell *matCellDef="let row">
+            <td mat-cell *matCellDef="let row" class="transaction-table__cell">
                 {{ row.account }}
             </td>
         </ng-container>
 
         <!-- CURRENCY -->
         <ng-container matColumnDef="currency">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="transaction-table__header-cell">
                 Currency
             </th>
-            <td mat-cell *matCellDef="let row">
+            <td mat-cell *matCellDef="let row" class="transaction-table__cell">
                 {{ row.currency }}
             </td>
         </ng-container>
 
         <!-- AMOUNT -->
         <ng-container matColumnDef="amount">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="transaction-table__header-cell">
                 Amount
             </th>
-            <td mat-cell *matCellDef="let row">
+            <td mat-cell *matCellDef="let row" class="transaction-table__cell">
                 {{ row.amount }}
             </td>
         </ng-container>
 
         <!-- DESCRIPTION -->
         <ng-container matColumnDef="description">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="transaction-table__header-cell">
                 Description
             </th>
-            <td mat-cell *matCellDef="let row">
-                {{ row.description }}
+            <td mat-cell *matCellDef="let row" class="transaction-table__cell">
+                {{ row.description || '-' }}
             </td>
         </ng-container>
 
         <!-- ACTION -->
         <ng-container matColumnDef="action">
-            <th mat-header-cell *matHeaderCellDef>
+            <th mat-header-cell *matHeaderCellDef class="transaction-table__header-cell transaction-table__header-cell--actions">
                 Action
             </th>
-            <td mat-cell *matCellDef="let row">
-                <div class="action-buttons">
-                    <button mat-icon-button (click)="editTransaction(row)">
+
+            <td mat-cell *matCellDef="let row" class="transaction-table__cell">
+                <div class="transaction-table__actions">
+
+                    <button 
+                        mat-icon-button 
+                        class="transaction-table__action-button transaction-table__action-button--edit"
+                        (click)="onEdit(row)">
                         <mat-icon>edit</mat-icon>
                     </button>
-                    <button mat-icon-button (click)="deleteTransaction(row)">
+
+                    <button 
+                        mat-icon-button
+                        class="transaction-table__action-button transaction-table__action-button--delete" 
+                        (click)="onDelete(row)"
+                    >
                         <mat-icon>delete</mat-icon>
                     </button>
+
                 </div>
             </td>
         </ng-container>
 
-        <!-- HEADER -->
-        <tr mat-header-row *matHeaderRowDef="getDisplayedColumns(); sticky: true"></tr>
-
-        <!-- FILTER ROW -->
-        <tr class="filter-row">
-            @for (column of getDisplayedColumns(); track column) {
-            <td>
-                @if (column !== 'action') {
-                <mat-form-field appearance="outline" class="filter-field">
-                    <input matInput [(ngModel)]="columnFilters[column]" (keyup)="applyColumnFilter()"
-                        placeholder="Search" />
-                </mat-form-field>
-                }
-            </td>
-            }
-        </tr>
+        <!-- HEADER ROW -->
+        <tr 
+            mat-header-row 
+            class="transaction-table__header-row"
+            *matHeaderRowDef="getDisplayedColumns(); sticky: true"
+        ></tr>
 
         <!-- DATA ROWS -->
-        <tr mat-row *matRowDef="
-                let row;
-                columns: getDisplayedColumns()
-            "></tr>
+        <tr 
+            mat-row 
+            class="transaction-table__row"
+            *matRowDef="let row; columns: getDisplayedColumns()"
+        ></tr>
     </table>
 
-    <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons>
+    <!-- PAGINATOR -->
+    <mat-paginator 
+        showFirstLastButtons
+        class="transaction-table__paginator"
+        [pageSize]="10" 
+        [pageSizeOptions]="[5, 10, 20]" 
+    >
     </mat-paginator>
+
 </div>

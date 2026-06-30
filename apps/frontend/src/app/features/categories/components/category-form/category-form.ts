@@ -15,7 +15,6 @@ export type CategoryFormMode =
   templateUrl: './category-form.html',
   styleUrl: './category-form.scss',
 })
-
 export class CategoryForm implements OnChanges {
   private fb = inject(FormBuilder);
 
@@ -38,7 +37,7 @@ export class CategoryForm implements OnChanges {
 
   // ================= LIFECYCLE =================
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['mode'] || changes['category']) {
+    if (changes['mode'] || changes['category'] || changes['parentCategories']) {
       this.configureForm();
     }
   }
@@ -49,25 +48,34 @@ export class CategoryForm implements OnChanges {
     const isSub = this.mode === 'add-subcategory';
     const isEdit = this.mode === 'edit';
     const isView = this.mode === 'view';
+    const hasParents = this.hasParentCategories;
 
     if (isCreate) {
       this.form.reset({
         name: '',
-        type: 'category',
+        type: hasParents ? 'category' : 'category',
         parentId: null,
         description: '',
       });
       this.form.enable();
+      if (!hasParents) {
+        this.form.get('type')?.setValue('category');
+        this.form.get('type')?.disable({ emitEvent: false });
+      }
     }
 
     if (isSub) {
       this.form.reset({
         name: '',
-        type: 'subcategory',
+        type: hasParents ? 'subcategory' : 'category',
         parentId: this.category?.id ?? null,
         description: '',
       });
       this.form.enable();
+      if (!hasParents) {
+        this.form.get('type')?.setValue('category');
+        this.form.get('parentId')?.setValue(null);
+      }
     }
 
     if (isEdit || isView) {
@@ -89,7 +97,6 @@ export class CategoryForm implements OnChanges {
       this.form.markAllAsTouched();
       return;
     }
-
     this.saveCategory.emit({
       ...this.category,
       ...this.form.getRawValue(),
@@ -111,6 +118,10 @@ export class CategoryForm implements OnChanges {
 
   get isViewMode(): boolean {
     return this.mode === 'view';
+  }
+
+  get hasParentCategories(): boolean {
+    return this.parentCategories && this.parentCategories.length > 0;
   }
 
   get title(): string {

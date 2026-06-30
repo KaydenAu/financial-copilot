@@ -1,78 +1,123 @@
-<h2 mat-dialog-title>
-    {{ dialogTitle }}
-</h2>
+<div class="transaction-form-dialog__container">
+    <div class="transaction-form-dialog__header">
+        <span mat-dialog-title class="transaction-form-dialog__title">
+            {{ dialogTitle }}
+        </span>
+    </div>     
+    <mat-dialog-content class="transaction-form-dialog__content-wrapper">
+        <div class="transaction-form-dialog__form-grid">
+            <!-- CATEGORY -->
+            <mat-form-field appearance="outline" floatLabel="always">
+                <mat-label>Category</mat-label>
+                <mat-select
+                    placeholder="Select your category" 
+                    [(ngModel)]="form.categoryId" 
+                    (selectionChange)="onCategoryChange()"
+                >
+                    @for (category of categories; track category.id) {
+                    <mat-option [value]="category.id">
+                        {{ category.name }}
+                    </mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
 
-<mat-dialog-content>
-    <div class="form-grid">
-        <mat-form-field appearance="outline">
-            <mat-label>Category</mat-label>
-            <mat-select [(ngModel)]="form.category">
-                @for(category of categories; track category) {
-                <mat-option [value]="category">
-                    {{ category }}
-                </mat-option>
-                }
-            </mat-select>
-        </mat-form-field>
+            <!-- SUBCATEGORY -->
+            <mat-form-field appearance="outline" floatLabel="always">
+                <mat-label>Subcategory</mat-label>
+                <mat-select
+                    placeholder="Select your subcategory (if any)"  
+                    [(ngModel)]="form.subcategoryId"
+                >
+                    @for (subcategory of subcategories; track subcategory.id) {
+                    <mat-option [value]="subcategory.id">
+                        {{ subcategory.name }}
+                    </mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
 
-        <mat-form-field appearance="outline">
-            <mat-label>Subcategory</mat-label>
-            <mat-select [(ngModel)]="form.subcategory">
-                @for(subcategory of subcategories; track subcategory) {
-                <mat-option [value]="subcategory">
-                    {{ subcategory }}
-                </mat-option>
-                }
-            </mat-select>
-        </mat-form-field>
+            <!-- DATE -->
+            <mat-form-field appearance="outline" floatLabel="always">
+                <mat-label>Date</mat-label>
+                <input 
+                    matInput
+                    [matDatepicker]="picker" 
+                    [(ngModel)]="form.transactionDate" 
+                />
+                <mat-datepicker-toggle matSuffix [for]="picker" />
+                <mat-datepicker #picker />
+            </mat-form-field>
 
-        <mat-form-field appearance="outline">
-            <mat-label>Date</mat-label>
-            <input matInput [matDatepicker]="picker" [(ngModel)]="form.date">
-            <mat-datepicker-toggle matSuffix [for]="picker" />
-            <mat-datepicker #picker />
-        </mat-form-field>
+            <!-- ACCOUNT -->
+            <mat-form-field appearance="outline" floatLabel="always">
+                <mat-label>Account</mat-label>
+                <mat-select
+                    placeholder="Select your account"  
+                    [(ngModel)]="form.account"
+                >
+                    @for (account of ['Cash','Maybank','CIMB','Credit Card']; track account) {
+                    <mat-option [value]="account">
+                        {{ account }}
+                    </mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
 
-        <mat-form-field appearance="outline">
-            <mat-label>Account</mat-label>
-            <mat-select [(ngModel)]="form.account">
-                @for(account of accounts; track account) {
-                <mat-option [value]="account">
-                    {{ account }}
-                </mat-option>
-                }
-            </mat-select>
-        </mat-form-field>
+            <!-- CURRENCY -->
+            <mat-form-field appearance="outline" floatLabel="always">
+                <mat-label>Currency</mat-label>
+                <mat-select [(ngModel)]="form.currency">
+                    @for (currency of ['MYR','USD','SGD']; track currency) {
+                    <mat-option [value]="currency">
+                        {{ currency }}
+                    </mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
 
-        <mat-form-field appearance="outline">
-            <mat-label>Currency</mat-label>
-            <mat-select [(ngModel)]="form.currency">
-                @for(currency of currencies; track currency) {
-                <mat-option [value]="currency">
-                    {{ currency }}
-                </mat-option>
-                }
-            </mat-select>
-        </mat-form-field>
+            <!-- AMOUNT -->
+            <mat-form-field appearance="outline" floatLabel="always" class="transaction-form-dialog__number-field">
+                <mat-label>Amount</mat-label>
+                <input 
+                    matInput 
+                    placeholder="Key in your amount" 
+                    type="number" 
+                    [(ngModel)]="form.amount" 
+                />
+            </mat-form-field>
 
-        <mat-form-field appearance="outline">
-            <mat-label>Amount</mat-label>
-            <input matInput type="number" [(ngModel)]="form.amount">
-        </mat-form-field>
-
-        <mat-form-field appearance="outline" class="description-field">
-            <mat-label>Description</mat-label>
-            <textarea matInput rows="4" [(ngModel)]="form.description"></textarea>
-        </mat-form-field>
-    </div>
-</mat-dialog-content>
-
-<mat-dialog-actions align="end">
-    <button mat-button (click)="cancel()">
-        Cancel
-    </button>
-
-    <button mat-raised-button color="primary" (click)="save()">
-        Save
-    </button>
-</mat-dialog-actions>
+            <!-- DESCRIPTION -->
+            <mat-form-field appearance="outline" floatLabel="always" class="transaction-form-dialog__description-field">
+                <mat-label>Description</mat-label>
+                <textarea 
+                    matInput 
+                    placeholder="Describe your transaction here.." 
+                    rows="4" 
+                    [(ngModel)]="form.description"
+                ></textarea>
+            </mat-form-field>
+        </div>
+    </mat-dialog-content>
+          
+    <mat-dialog-actions align="end" >
+        <div class="transaction-form-dialog__actions">
+            <button 
+                mat-button 
+                type="button" 
+                class="transaction-form-dialog__cancel-btn"
+                (click)="cancel()"
+            >
+                Cancel
+            </button>
+            <button 
+                mat-raised-button 
+                type="button" 
+                class="transaction-form-dialog__save-btn"
+                (click)="save()"
+            >
+                Save
+            </button>
+        </div>
+    </mat-dialog-actions>
+</div>

@@ -54,7 +54,7 @@ export const APP_NAVIGATION_CONFIG: NavigationItem[] = [
   },
   { 
     label: 'Saving Goals', 
-    route: '/goals', 
+    route: '/savings-goals', 
     icon: 'track_changes', 
     headerMessage: () => `All Savings Goals.`,
     exactOptions: { exact: false }
